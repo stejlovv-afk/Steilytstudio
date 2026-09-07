@@ -1,0 +1,8 @@
+{
+  "name": "Steilyt Studio",
+  "description": "Разработка Telegram Mini Apps и высококонверсионных веб-сайтов под ключ для бизнеса",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
