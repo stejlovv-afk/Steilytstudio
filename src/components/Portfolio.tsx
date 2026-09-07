@@ -86,9 +86,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
           </div>
         </ScrollReveal>
 
-        {/* Projects Gallery with Smooth Animated Layout (2x2 Grid) */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
-          <AnimatePresence mode="popLayout">
+        {/* Projects Gallery (2x2 Grid) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+          <AnimatePresence>
             {filteredProjects.map((project, idx) => {
               const isTma = project.type === 'tma';
               const isGlobalTrade = project.id === 'global-trade';
@@ -99,12 +99,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
               return (
                 <motion.div
                   key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                  transition={{ duration: 0.45, delay: idx * 0.1 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.35, delay: idx * 0.06 }}
                   id={`project-card-${project.id}`}
                   className="group rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-slate-900/90 p-4 sm:p-7 flex flex-col justify-between hover:border-blue-500 transition-all duration-300 shadow-xs hover:shadow-xl hover:shadow-blue-500/5"
                 >
@@ -431,7 +429,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
               );
             })}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* Portfolio CTA */}
         <ScrollReveal direction="up" delay={0.2} className="mt-10 sm:mt-14 text-center">
