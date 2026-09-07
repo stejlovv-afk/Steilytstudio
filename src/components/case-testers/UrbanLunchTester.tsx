@@ -378,41 +378,41 @@ export const UrbanLunchTester: React.FC = () => {
       <div className="w-full max-w-[310px] xs:max-w-[340px] sm:max-w-[365px] shrink-0 rounded-[34px] sm:rounded-[44px] border-[4px] sm:border-[6px] border-[#22222a] bg-[#0E0E12] p-2 sm:p-3.5 shadow-[0_25px_60px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
         
         {/* Dynamic Island / Speaker bar with camera lens reflection */}
-        <div className="mx-auto w-24 sm:w-28 h-3.5 sm:h-4 rounded-full bg-[#181820] flex items-center justify-between px-2.5 sm:px-3 mb-2 border border-white/5">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#2a2a35]" />
-          <span className="h-1 w-8 sm:w-9 rounded-full bg-[#242430]" />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#00E5FF]/70 animate-pulse" />
+        <div className="mx-auto w-24 sm:w-28 h-3.5 sm:h-4 rounded-full bg-[#1A1410] flex items-center justify-between px-2.5 sm:px-3 mb-2 border border-amber-500/10">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#2E2218]" />
+          <span className="h-1 w-8 sm:w-9 rounded-full bg-[#261B12]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-amber-400/80 animate-pulse" />
         </div>
 
         {/* TMA Top Navigation Header with Native Telegram UI */}
-        <div className="rounded-xl sm:rounded-2xl bg-[#181820] border border-white/5 p-2 sm:p-2.5 mb-2 sm:mb-2.5 flex items-center justify-between text-xs shadow-sm">
+        <div className="rounded-xl sm:rounded-2xl bg-[#1A1410] border border-amber-500/15 p-2 sm:p-2.5 mb-2 sm:mb-2.5 flex items-center justify-between text-xs shadow-sm">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button 
               onClick={handleResetDemo}
-              className="text-[#00E5FF] font-semibold text-[11px] hover:underline flex items-center gap-0.5"
+              className="text-amber-400 font-semibold text-[11px] hover:underline flex items-center gap-0.5"
             >
               <span>Закрыть</span>
             </button>
             <div className="h-3 w-px bg-white/15" />
             <div className="flex flex-col">
               <span className="font-bold text-white text-[11px] sm:text-xs leading-tight flex items-center gap-1">
-                Urban Lunch
+                🍔 Urban Lunch
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
               </span>
-              <span className="text-[8px] sm:text-[9px] text-gray-400 font-mono">TMA Bot v2.4</span>
+              <span className="text-[8px] sm:text-[9px] text-amber-300/70 font-mono">TMA Bot v2.4</span>
             </div>
           </div>
           
           <div className="flex items-center gap-1.5">
             {hapticFeedbackTriggered && (
-              <span className="text-[8px] sm:text-[9px] font-mono font-bold text-[#00E5FF] px-1.5 py-0.5 rounded bg-[#00E5FF]/10 animate-pulse">
+              <span className="text-[8px] sm:text-[9px] font-mono font-bold text-amber-400 px-1.5 py-0.5 rounded bg-amber-500/15 animate-pulse">
                 Haptic
               </span>
             )}
             <button 
               onClick={handleResetDemo}
               title="Сбросить состояние демо"
-              className="p-1 sm:p-1.5 rounded-lg bg-[#242430] text-gray-300 hover:text-white hover:bg-[#2e2e3c] transition-colors"
+              className="p-1 sm:p-1.5 rounded-lg bg-[#281E16] text-amber-200/80 hover:text-white hover:bg-amber-600/30 transition-colors"
             >
               <RefreshCw className="h-3 w-3" />
             </button>
@@ -420,7 +420,7 @@ export const UrbanLunchTester: React.FC = () => {
         </div>
 
         {/* TMA Screen Body */}
-        <div className="h-[400px] sm:h-[460px] overflow-y-auto rounded-xl sm:rounded-2xl bg-[#121217] p-2 sm:p-3 text-white relative flex flex-col justify-between scrollbar-none">
+        <div className="h-[400px] sm:h-[460px] overflow-y-auto rounded-xl sm:rounded-2xl bg-[#120E0B] p-2 sm:p-3 text-white relative flex flex-col justify-between scrollbar-none border border-amber-950/40">
           
           <AnimatePresence mode="wait">
             
@@ -434,19 +434,19 @@ export const UrbanLunchTester: React.FC = () => {
                 className="space-y-3"
               >
                 {/* Banner Promo & Loyalty Header */}
-                <div className="rounded-xl bg-gradient-to-r from-[#00E5FF]/20 via-[#38BDF8]/15 to-transparent border border-[#00E5FF]/30 p-2.5 flex items-center justify-between">
+                <div className="rounded-xl bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-transparent border border-amber-500/30 p-2.5 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-lg bg-[#00E5FF]/20 border border-[#00E5FF]/40 flex items-center justify-center text-[#00E5FF]">
+                    <div className="h-8 w-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
                       <Flame className="h-4 w-4 fill-current" />
                     </div>
                     <div>
                       <div className="text-[11px] font-black text-white flex items-center gap-1">
-                        Промокод TMA2026
-                        <span className="rounded bg-[#00E5FF] px-1.5 py-0.2 text-[8px] font-black text-black">
+                        Промокод BURGER15
+                        <span className="rounded bg-gradient-to-r from-amber-500 to-orange-500 px-1.5 py-0.2 text-[8px] font-black text-black">
                           -15%
                         </span>
                       </div>
-                      <div className="text-[9px] text-gray-300">Ваш кэшбэк: <span className="text-[#00E5FF] font-bold">240 баллов</span></div>
+                      <div className="text-[9px] text-gray-300">Ваш кэшбэк: <span className="text-amber-400 font-bold">240 баллов</span></div>
                     </div>
                   </div>
                   <div className="text-right">
@@ -470,13 +470,13 @@ export const UrbanLunchTester: React.FC = () => {
                         className={`relative rounded-xl px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap transition-all ${
                           isActive 
                             ? 'text-black font-bold' 
-                            : 'text-gray-400 bg-[#1e1e26] hover:text-white'
+                            : 'text-gray-400 bg-[#1E1712] hover:text-white'
                         }`}
                       >
                         {isActive && (
                           <motion.div
                             layoutId="activeUrbanCat"
-                            className="absolute inset-0 bg-[#00E5FF] rounded-xl shadow-[0_2px_10px_rgba(0,229,255,0.4)]"
+                            className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-[0_2px_10px_rgba(245,158,11,0.4)]"
                             transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                           />
                         )}
@@ -502,27 +502,27 @@ export const UrbanLunchTester: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.96 }}
                           onClick={() => handleOpenCustomizer(item)}
-                          className="group cursor-pointer rounded-2xl border border-white/5 bg-[#181820] p-2.5 flex items-center justify-between hover:border-blue-500/40 hover:bg-[#1e1e28] transition-all"
+                          className="group cursor-pointer rounded-2xl border border-amber-500/10 bg-[#1A1410] p-2.5 flex items-center justify-between hover:border-amber-500/40 hover:bg-[#221B15] transition-all"
                         >
                           <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                            <div className="relative h-12 w-12 rounded-xl bg-[#242430] border border-white/5 overflow-hidden shrink-0 group-hover:scale-105 transition-transform shadow-inner">
+                            <div className="relative h-12 w-12 rounded-xl bg-[#261E18] border border-amber-500/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform shadow-inner">
                               <img
                                 src={item.image}
                                 alt={item.name}
                                 referrerPolicy="no-referrer"
                                 className="h-full w-full object-cover"
                               />
-                              <span className="absolute bottom-0 right-0 text-[9px] bg-black/60 rounded-tl px-1">
+                              <span className="absolute bottom-0 right-0 text-[9px] bg-black/70 rounded-tl px-1">
                                 {item.emoji}
                               </span>
                             </div>
                             <div className="min-w-0 flex-1 pr-1">
                               <div className="flex items-center gap-1.5">
-                                <h4 className="text-xs font-bold text-white truncate group-hover:text-blue-400 transition-colors">
+                                <h4 className="text-xs font-bold text-white truncate group-hover:text-amber-400 transition-colors">
                                   {item.name}
                                 </h4>
                                 {item.popular && (
-                                  <span className="rounded bg-blue-600/20 text-blue-400 text-[8px] font-bold px-1 py-0.2">Хит</span>
+                                  <span className="rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 text-[8px] font-bold px-1 py-0.2">Хит</span>
                                 )}
                                 {item.isNew && (
                                   <span className="rounded bg-emerald-500/20 text-emerald-400 text-[8px] font-bold px-1 py-0.2">New</span>
@@ -531,11 +531,11 @@ export const UrbanLunchTester: React.FC = () => {
                               <p className="text-[9px] text-gray-400 line-clamp-1 mt-0.5">{item.description}</p>
                               
                               <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-xs font-black text-blue-400 font-mono">{item.price} ₽</span>
+                                <span className="text-xs font-black text-amber-400 font-mono">{item.price} ₽</span>
                                 <span className="text-[9px] text-gray-500 font-mono">{item.calories}</span>
                                 {item.donenessOptions && (
-                                  <span className="text-[8px] text-gray-400 border border-white/10 px-1 rounded flex items-center gap-0.5">
-                                    <SlidersHorizontal className="h-2 w-2 text-blue-400" /> Настроить
+                                  <span className="text-[8px] text-amber-300/80 border border-amber-500/20 px-1 rounded flex items-center gap-0.5">
+                                    <SlidersHorizontal className="h-2 w-2 text-amber-400" /> Настроить
                                   </span>
                                 )}
                               </div>
@@ -545,8 +545,8 @@ export const UrbanLunchTester: React.FC = () => {
                           {/* Quick Action Button */}
                           <div className="shrink-0 ml-1.5">
                             {inCartCount > 0 ? (
-                              <div className="flex items-center gap-1 rounded-lg bg-blue-600/20 border border-blue-500/40 px-2 py-1 text-blue-400 text-[10px] font-bold">
-                                <span>{inCartCount} в корзине</span>
+                              <div className="flex items-center gap-1 rounded-lg bg-amber-500/20 border border-amber-500/40 px-2 py-1 text-amber-400 text-[10px] font-bold">
+                                <span>{inCartCount} в заказе</span>
                               </div>
                             ) : (
                               <button
@@ -557,7 +557,7 @@ export const UrbanLunchTester: React.FC = () => {
                                     handleQuickAdd(item, e);
                                   }
                                 }}
-                                className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#242430] text-gray-300 group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                                className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#281E16] text-amber-200 group-hover:bg-gradient-to-r group-hover:from-amber-500 group-hover:to-orange-500 group-hover:text-black transition-all"
                               >
                                 <Plus className="h-4 w-4" />
                               </button>
@@ -583,7 +583,7 @@ export const UrbanLunchTester: React.FC = () => {
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <button 
                     onClick={() => setOrderStage('menu')}
-                    className="text-[10px] text-blue-400 font-semibold flex items-center gap-1 hover:underline"
+                    className="text-[10px] text-amber-400 font-semibold flex items-center gap-1 hover:underline"
                   >
                     ← Назад
                   </button>
@@ -592,8 +592,8 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
 
                 {/* Dish Presentation Header */}
-                <div className="rounded-2xl bg-[#181820] p-3 border border-white/5 flex items-center gap-3">
-                  <div className="h-14 w-14 rounded-xl bg-[#242430] overflow-hidden shrink-0 border border-white/10">
+                <div className="rounded-2xl bg-[#1A1410] p-3 border border-amber-500/15 flex items-center gap-3">
+                  <div className="h-14 w-14 rounded-xl bg-[#261E18] overflow-hidden shrink-0 border border-amber-500/20">
                     <img
                       src={customizingItem.image}
                       alt={customizingItem.name}
@@ -604,7 +604,7 @@ export const UrbanLunchTester: React.FC = () => {
                   <div>
                     <h3 className="text-xs font-bold text-white">{customizingItem.name}</h3>
                     <p className="text-[9px] text-gray-400 mt-0.5">{customizingItem.description}</p>
-                    <div className="text-xs font-mono font-black text-blue-400 mt-1">Базовая цена: {customizingItem.price} ₽</div>
+                    <div className="text-xs font-mono font-black text-amber-400 mt-1">Базовая цена: {customizingItem.price} ₽</div>
                   </div>
                 </div>
 
@@ -624,8 +624,8 @@ export const UrbanLunchTester: React.FC = () => {
                           }}
                           className={`py-1.5 px-1 rounded-xl text-[9px] font-bold border transition-all ${
                             customDoneness === opt
-                              ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
-                              : 'bg-[#1e1e26] text-gray-400 border-white/5 hover:text-white'
+                              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-black border-amber-400 shadow-sm'
+                              : 'bg-[#201812] text-gray-400 border-white/5 hover:text-white'
                           }`}
                         >
                           {opt}
@@ -639,7 +639,7 @@ export const UrbanLunchTester: React.FC = () => {
                 {customizingItem.availableModifiers && customizingItem.availableModifiers.length > 0 && (
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-mono text-gray-400 uppercase flex items-center gap-1">
-                      <Plus className="h-3 w-3 text-[#00E5FF]" /> Добавить топпинги:
+                      <Plus className="h-3 w-3 text-amber-400" /> Добавить топпинги:
                     </label>
                     <div className="space-y-1">
                       {customizingItem.availableModifiers.map((mod) => {
@@ -657,12 +657,12 @@ export const UrbanLunchTester: React.FC = () => {
                             }}
                             className={`p-2 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                               isSelected
-                                ? 'bg-[#00E5FF]/15 border-[#00E5FF] text-white'
-                                : 'bg-[#181820] border-white/5 text-gray-400 hover:border-white/20'
+                                ? 'bg-amber-500/15 border-amber-500 text-white'
+                                : 'bg-[#1A1410] border-white/5 text-gray-400 hover:border-amber-500/20'
                             }`}
                           >
                             <span className="text-[10px] font-semibold">{mod.name}</span>
-                            <span className="text-[10px] font-mono font-bold text-[#00E5FF]">+{mod.price} ₽</span>
+                            <span className="text-[10px] font-mono font-bold text-amber-400">+{mod.price} ₽</span>
                           </div>
                         );
                       })}
@@ -681,8 +681,8 @@ export const UrbanLunchTester: React.FC = () => {
                       }}
                       className={`p-1.5 rounded-xl border text-[9px] font-semibold text-center transition-all ${
                         customNoOnions 
-                          ? 'border-red-400/60 bg-red-500/20 text-red-300' 
-                          : 'border-white/5 bg-[#181820] text-gray-400'
+                          ? 'border-orange-500/60 bg-orange-500/20 text-orange-300' 
+                          : 'border-white/5 bg-[#1A1410] text-gray-400'
                       }`}
                     >
                       {customNoOnions ? '✕ Без лука' : '+ Без лука'}
@@ -694,8 +694,8 @@ export const UrbanLunchTester: React.FC = () => {
                       }}
                       className={`p-1.5 rounded-xl border text-[9px] font-semibold text-center transition-all ${
                         customNoSauce 
-                          ? 'border-red-400/60 bg-red-500/20 text-red-300' 
-                          : 'border-white/5 bg-[#181820] text-gray-400'
+                          ? 'border-orange-500/60 bg-orange-500/20 text-orange-300' 
+                          : 'border-white/5 bg-[#1A1410] text-gray-400'
                       }`}
                     >
                       {customNoSauce ? '✕ Без соуса' : '+ Соус отдельно'}
@@ -706,7 +706,7 @@ export const UrbanLunchTester: React.FC = () => {
                 {/* Add to Cart CTA */}
                 <button
                   onClick={handleSaveCustomizedItem}
-                  className="w-full mt-2 py-2.5 rounded-xl bg-[#00E5FF] text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all flex items-center justify-between px-3 shadow-[0_4px_15px_rgba(0,229,255,0.3)]"
+                  className="w-full mt-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all flex items-center justify-between px-3 shadow-[0_4px_15px_rgba(245,158,11,0.35)]"
                 >
                   <span>Добавить в заказ</span>
                   <span className="font-mono">
@@ -728,7 +728,7 @@ export const UrbanLunchTester: React.FC = () => {
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <button 
                     onClick={() => setOrderStage('menu')}
-                    className="text-[10px] text-[#00E5FF] font-semibold flex items-center gap-1 hover:underline"
+                    className="text-[10px] text-amber-400 font-semibold flex items-center gap-1 hover:underline"
                   >
                     ← В меню
                   </button>
@@ -737,22 +737,22 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
 
                 {/* Telegram Profile & Geolocation Card */}
-                <div className="rounded-2xl bg-[#181820] p-2.5 border border-white/5 space-y-2">
+                <div className="rounded-2xl bg-[#1A1410] p-2.5 border border-amber-500/15 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 text-gray-300 text-[10px]">
-                      <MapPin className="h-3 w-3 text-[#00E5FF]" />
+                      <MapPin className="h-3 w-3 text-amber-400" />
                       <span className="font-bold">Адрес доставки:</span>
                     </div>
                     <button
                       onClick={handleAutoDetectLocation}
                       disabled={isDetectingGeo}
-                      className="text-[9px] text-[#00E5FF] hover:underline flex items-center gap-0.5 font-mono"
+                      className="text-[9px] text-amber-400 hover:underline flex items-center gap-0.5 font-mono"
                     >
                       <Compass className={`h-2.5 w-2.5 ${isDetectingGeo ? 'animate-spin' : ''}`} />
                       <span>{isDetectingGeo ? 'Определяем...' : 'Из Telegram'}</span>
                     </button>
                   </div>
-                  <div className="text-xs font-semibold text-white bg-[#121217] p-2 rounded-xl border border-white/5">
+                  <div className="text-xs font-semibold text-white bg-[#120E0B] p-2 rounded-xl border border-amber-500/10">
                     {deliveryAddress}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-400">
@@ -762,7 +762,7 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
 
                 {/* Cart Items List in Checkout */}
-                <div className="rounded-2xl bg-[#181820] p-2.5 border border-white/5 space-y-1.5 max-h-28 overflow-y-auto scrollbar-none">
+                <div className="rounded-2xl bg-[#1A1410] p-2.5 border border-amber-500/15 space-y-1.5 max-h-28 overflow-y-auto scrollbar-none">
                   {cart.map((c) => (
                     <div key={c.itemKey} className="flex items-center justify-between text-[10px] py-1 border-b border-white/5 last:border-0">
                       <div className="min-w-0 flex-1 pr-2">
@@ -773,7 +773,7 @@ export const UrbanLunchTester: React.FC = () => {
                           )}
                         </div>
                         {c.selectedModifiers.length > 0 && (
-                          <div className="text-[8px] text-[#00E5FF] truncate">
+                          <div className="text-[8px] text-amber-400 truncate">
                             +{c.selectedModifiers.map(m => m.name).join(', ')}
                           </div>
                         )}
@@ -782,14 +782,14 @@ export const UrbanLunchTester: React.FC = () => {
                       <div className="flex items-center gap-1.5 shrink-0">
                         <button
                           onClick={() => handleDecrementCartItem(c.itemKey)}
-                          className="h-4 w-4 rounded bg-[#242430] flex items-center justify-center text-gray-300 hover:text-white"
+                          className="h-4 w-4 rounded bg-[#281E16] flex items-center justify-center text-gray-300 hover:text-white"
                         >
                           -
                         </button>
                         <span className="font-mono text-xs font-bold text-white w-3 text-center">{c.quantity}</span>
                         <button
                           onClick={() => handleIncrementCartItem(c.itemKey)}
-                          className="h-4 w-4 rounded bg-[#242430] flex items-center justify-center text-[#00E5FF] hover:text-white"
+                          className="h-4 w-4 rounded bg-[#281E16] flex items-center justify-center text-amber-400 hover:text-white"
                         >
                           +
                         </button>
@@ -807,7 +807,7 @@ export const UrbanLunchTester: React.FC = () => {
                   className={`rounded-2xl p-2.5 border flex items-center justify-between cursor-pointer transition-all ${
                     useLoyaltyPoints 
                       ? 'bg-amber-500/15 border-amber-500/40 text-white' 
-                      : 'bg-[#181820] border-white/5 text-gray-400'
+                      : 'bg-[#1A1410] border-amber-500/10 text-gray-400'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -821,7 +821,7 @@ export const UrbanLunchTester: React.FC = () => {
                     type="checkbox"
                     checked={useLoyaltyPoints}
                     onChange={() => {}}
-                    className="h-4 w-4 accent-[#00E5FF] rounded"
+                    className="h-4 w-4 accent-amber-500 rounded"
                   />
                 </div>
 
@@ -842,8 +842,8 @@ export const UrbanLunchTester: React.FC = () => {
                         }}
                         className={`p-1.5 rounded-xl border text-center transition-all ${
                           paymentMethod === p.id 
-                            ? 'border-[#00E5FF] bg-[#00E5FF]/20 text-white font-bold' 
-                            : 'border-white/5 bg-[#181820] text-gray-400'
+                            ? 'border-amber-400 bg-amber-500/20 text-white font-bold shadow-sm' 
+                            : 'border-white/5 bg-[#1A1410] text-gray-400'
                         }`}
                       >
                         <div className="text-[9px] font-bold">{p.label}</div>
@@ -854,7 +854,7 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
 
                 {/* Total breakdown */}
-                <div className="rounded-2xl bg-[#181820] p-2.5 border border-white/5 space-y-1 text-[10px]">
+                <div className="rounded-2xl bg-[#1A1410] p-2.5 border border-amber-500/15 space-y-1 text-[10px]">
                   <div className="flex justify-between text-gray-400">
                     <span>Сумма заказа:</span>
                     <span className="font-mono">{rawSum} ₽</span>
@@ -871,11 +871,11 @@ export const UrbanLunchTester: React.FC = () => {
                   )}
                   <div className="flex justify-between text-gray-400">
                     <span>Доставка:</span>
-                    <span className="text-[#00E5FF] font-bold">0 ₽ (Бесплатно)</span>
+                    <span className="text-emerald-400 font-bold">0 ₽ (Бесплатно)</span>
                   </div>
                   <div className="pt-1.5 border-t border-white/10 flex justify-between font-bold text-white text-xs">
                     <span>К оплате:</span>
-                    <span className="text-[#00E5FF] font-mono text-sm">{finalPayable} ₽</span>
+                    <span className="text-amber-400 font-mono text-sm">{finalPayable} ₽</span>
                   </div>
                 </div>
 
@@ -883,7 +883,7 @@ export const UrbanLunchTester: React.FC = () => {
                 <button
                   onClick={handlePlaceOrder}
                   disabled={totalItemsCount === 0}
-                  className="w-full py-2.5 rounded-xl bg-[#00E5FF] text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all shadow-[0_5px_20px_rgba(0,229,255,0.35)] flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all shadow-[0_5px_20px_rgba(245,158,11,0.35)] flex items-center justify-center gap-1.5"
                 >
                   <Sparkles className="h-3.5 w-3.5 fill-current" />
                   <span>Оплатить {finalPayable} ₽ через {paymentMethod === 'sbp' ? 'СБП' : paymentMethod === 'card' ? 'Карту' : 'Курьера'}</span>
@@ -909,13 +909,13 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
 
                 {/* Interactive Live Kitchen & Courier Timeline */}
-                <div className="rounded-2xl bg-[#181820] p-3 border border-white/5 text-left text-xs space-y-2.5">
+                <div className="rounded-2xl bg-[#1A1410] p-3 border border-amber-500/15 text-left text-xs space-y-2.5">
                   <div className="flex items-center justify-between text-[9px] text-gray-400 font-mono">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 text-amber-300">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
                       LIVE СТАТУС ЗАКАЗА
                     </span>
-                    <span className="text-[#00E5FF]">⏱ 24 мин</span>
+                    <span className="text-amber-400 font-bold">⏱ 24 мин</span>
                   </div>
 
                   {/* Step indicators */}
@@ -929,7 +929,7 @@ export const UrbanLunchTester: React.FC = () => {
                       {deliveryStatusStep >= 2 ? (
                         <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                       ) : (
-                        <UtensilsCrossed className="h-3.5 w-3.5 text-[#00E5FF] animate-spin shrink-0" />
+                        <UtensilsCrossed className="h-3.5 w-3.5 text-amber-400 animate-spin shrink-0" />
                       )}
                       <span className={deliveryStatusStep >= 2 ? 'text-white font-bold' : 'text-gray-400'}>
                         Шеф готовит бургеры на гриле
@@ -938,11 +938,11 @@ export const UrbanLunchTester: React.FC = () => {
 
                     <div className="flex items-center gap-2">
                       {deliveryStatusStep >= 3 ? (
-                        <Bike className="h-3.5 w-3.5 text-[#00E5FF] animate-bounce shrink-0" />
+                        <Bike className="h-3.5 w-3.5 text-amber-400 animate-bounce shrink-0" />
                       ) : (
                         <span className="h-3.5 w-3.5 rounded-full border border-white/20 flex items-center justify-center text-[8px] text-gray-500 shrink-0">3</span>
                       )}
-                      <span className={deliveryStatusStep >= 3 ? 'text-[#00E5FF] font-bold' : 'text-gray-500'}>
+                      <span className={deliveryStatusStep >= 3 ? 'text-amber-400 font-bold' : 'text-gray-500'}>
                         Курьер Артем в пути к вам (11 мин)
                       </span>
                     </div>
@@ -974,14 +974,14 @@ export const UrbanLunchTester: React.FC = () => {
                   <div className="flex items-center gap-1">
                     <button 
                       onClick={() => setCourierChatOpen(!courierChatOpen)}
-                      className="p-1.5 rounded-lg bg-[#242430] text-[#00E5FF] hover:bg-[#00E5FF] hover:text-black transition-colors"
+                      className="p-1.5 rounded-lg bg-[#281E16] text-amber-400 hover:bg-amber-500 hover:text-black transition-colors"
                       title="Написать в чат Telegram"
                     >
                       <MessageSquare className="h-3 w-3" />
                     </button>
                     <button 
                       onClick={() => triggerHaptic()}
-                      className="p-1.5 rounded-lg bg-[#242430] text-emerald-400 hover:bg-emerald-400 hover:text-black transition-colors"
+                      className="p-1.5 rounded-lg bg-[#281E16] text-emerald-400 hover:bg-emerald-400 hover:text-black transition-colors"
                       title="Позвонить курьеру"
                     >
                       <Phone className="h-3 w-3" />
@@ -993,7 +993,7 @@ export const UrbanLunchTester: React.FC = () => {
                   <motion.div 
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="p-2 rounded-xl bg-[#242430] text-[9px] text-gray-300 text-left border border-[#00E5FF]/20"
+                    className="p-2 rounded-xl bg-[#281E16] text-[9px] text-amber-200/90 text-left border border-amber-500/20"
                   >
                     💬 <strong>Курьер:</strong> «Уже забрал ваш заказ из ресторана! Буду через 10 минут, домофон работает?»
                   </motion.div>
@@ -1002,7 +1002,7 @@ export const UrbanLunchTester: React.FC = () => {
                 {/* Reset button */}
                 <button
                   onClick={handleResetDemo}
-                  className="w-full py-2 rounded-xl border border-white/10 bg-[#181820] text-[10px] font-semibold text-gray-300 hover:text-white hover:border-[#00E5FF] transition-all"
+                  className="w-full py-2 rounded-xl border border-amber-500/20 bg-[#1A1410] text-[10px] font-semibold text-gray-300 hover:text-white hover:border-amber-500 transition-all"
                 >
                   Сделать новый заказ
                 </button>
@@ -1024,8 +1024,8 @@ export const UrbanLunchTester: React.FC = () => {
               disabled={totalItemsCount === 0}
               className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-between transition-all ${
                 totalItemsCount > 0
-                  ? 'bg-[#00E5FF] text-black hover:brightness-110 shadow-[0_5px_20px_rgba(0,229,255,0.3)] active:scale-98'
-                  : 'bg-[#181820] text-gray-500 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-black hover:brightness-110 shadow-[0_5px_20px_rgba(245,158,11,0.35)] active:scale-98'
+                  : 'bg-[#1A1410] text-gray-500 cursor-not-allowed border border-white/5'
               }`}
             >
               <div className="flex items-center gap-1.5">
@@ -1040,10 +1040,10 @@ export const UrbanLunchTester: React.FC = () => {
       </div>
 
       {/* Feature highlight commentary & tech architecture sidebar */}
-      <div className="w-full xl:w-96 rounded-3xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#181820]/90 p-5 sm:p-6 space-y-4 text-xs shadow-lg backdrop-blur-md">
+      <div className="w-full xl:w-96 rounded-3xl border border-amber-900/30 dark:border-amber-500/20 bg-white/95 dark:bg-[#16110D]/95 p-5 sm:p-6 space-y-4 text-xs shadow-xl backdrop-blur-md">
         
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10">
-          <div className="flex items-center gap-2 text-black dark:text-[#00E5FF] font-mono text-[11px] font-bold">
+        <div className="flex items-center justify-between pb-3 border-b border-amber-500/15">
+          <div className="flex items-center gap-2 text-amber-500 font-mono text-[11px] font-bold">
             <Sparkles className="h-4 w-4" />
             <span>АРХИТЕКТУРА КЕЙСА URBAN LUNCH</span>
           </div>
@@ -1057,13 +1057,13 @@ export const UrbanLunchTester: React.FC = () => {
         </p>
 
         <div className="space-y-2.5">
-          <div className="text-[10px] font-mono uppercase text-slate-400 dark:text-gray-400 font-bold">
+          <div className="text-[10px] font-mono uppercase text-amber-500/80 font-bold">
             Что реализовано в этом решении:
           </div>
 
           <ul className="space-y-2 text-slate-700 dark:text-gray-300">
             <li className="flex items-start gap-2.5">
-              <div className="h-5 w-5 rounded-lg bg-[#00E5FF]/15 text-[#00B4D8] dark:text-[#00E5FF] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="h-5 w-5 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 <SlidersHorizontal className="h-3 w-3" />
               </div>
               <div>
@@ -1072,7 +1072,7 @@ export const UrbanLunchTester: React.FC = () => {
             </li>
 
             <li className="flex items-start gap-2.5">
-              <div className="h-5 w-5 rounded-lg bg-[#00E5FF]/15 text-[#00B4D8] dark:text-[#00E5FF] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="h-5 w-5 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 <MapPin className="h-3 w-3" />
               </div>
               <div>
@@ -1081,7 +1081,7 @@ export const UrbanLunchTester: React.FC = () => {
             </li>
 
             <li className="flex items-start gap-2.5">
-              <div className="h-5 w-5 rounded-lg bg-[#00E5FF]/15 text-[#00B4D8] dark:text-[#00E5FF] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="h-5 w-5 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 <Gift className="h-3 w-3" />
               </div>
               <div>
@@ -1090,7 +1090,7 @@ export const UrbanLunchTester: React.FC = () => {
             </li>
 
             <li className="flex items-start gap-2.5">
-              <div className="h-5 w-5 rounded-lg bg-[#00E5FF]/15 text-[#00B4D8] dark:text-[#00E5FF] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="h-5 w-5 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 <Bike className="h-3 w-3" />
               </div>
               <div>
@@ -1101,17 +1101,17 @@ export const UrbanLunchTester: React.FC = () => {
         </div>
 
         {/* Business Impact Card */}
-        <div className="rounded-2xl bg-slate-100 dark:bg-[#121217] p-4 border border-slate-200 dark:border-white/5 space-y-2">
-          <span className="text-[10px] text-slate-500 dark:text-gray-400 block font-mono">РЕЗУЛЬТАТ ДЛЯ БИЗНЕСА:</span>
+        <div className="rounded-2xl bg-amber-500/10 dark:bg-[#201812] p-4 border border-amber-500/20 space-y-2">
+          <span className="text-[10px] text-amber-400 block font-mono">РЕЗУЛЬТАТ ДЛЯ БИЗНЕСА:</span>
           
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <div className="text-lg font-black text-black dark:text-[#00E5FF] font-mono">+30.4%</div>
+              <div className="text-lg font-black text-amber-400 font-mono">+30.4%</div>
               <div className="text-[10px] text-slate-600 dark:text-gray-400">Повторные заказы</div>
             </div>
             <div>
               <div className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">1.2 млн ₽</div>
-              <div className="text-[10px] text-slate-600 dark:text-gray-400">Экономия на App Store</div>
+              <div className="text-[10px] text-slate-600 dark:text-gray-400">Экономия на комиссиях агрегаторов</div>
             </div>
           </div>
         </div>
