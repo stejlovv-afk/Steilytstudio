@@ -19,13 +19,13 @@
   }
 
   body {
-    background-color: #FFFFFF;
+    background-color: #F8FAFC;
     color: #0F172A;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body.dark {
-    background-color: #080C14;
+    background-color: #0A0F1D;
     color: #F1F5F9;
   }
 
@@ -50,48 +50,24 @@
   padding-top: max(0px, env(safe-area-inset-top, 0px));
 }
 
-/* Crisp Light & Black Tech Grid */
-.tech-grid {
-  background-size: 36px 36px;
-  background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+/* Soft ambient lighting */
+.ambient-glow {
+  background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 65%);
 }
 
-.dark .tech-grid {
-  background-size: 36px 36px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+.dark .ambient-glow {
+  background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.14) 0%, transparent 65%);
 }
 
-.tech-grid-dark {
-  background-size: 36px 36px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-}
-
-.tech-dots {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+/* Soft clean dots */
+.soft-dots {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.2) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-.dark .tech-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+.dark .soft-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 24px 24px;
-}
-
-.glow-cyan {
-  box-shadow: 0 0 35px -5px rgba(0, 184, 217, 0.25);
-}
-
-.dark .glow-cyan {
-  box-shadow: 0 0 45px -5px rgba(0, 229, 255, 0.35);
-}
-
-.glow-cyan-intense {
-  box-shadow: 0 0 25px rgba(0, 229, 255, 0.45);
 }
 
 /* Custom scrollbar */
@@ -103,31 +79,21 @@
   background: #F1F5F9;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #0B0F19;
+  background: #0F172A;
 }
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #334155;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  background: #3B82F6;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #00E5FF;
-}
-
-/* Radar pulse animation */
-@keyframes radar-pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
-.animate-radar {
-  animation: radar-pulse 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  background: #60A5FA;
 }
 
 /* Smooth reveal transitions */

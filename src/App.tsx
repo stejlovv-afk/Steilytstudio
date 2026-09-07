@@ -53,7 +53,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#080C14] text-slate-900 dark:text-slate-100 selection:bg-black dark:selection:bg-[#00E5FF] selection:text-[#00E5FF] dark:selection:text-black transition-colors duration-300">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0A0F1D] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-300">
       {/* Scroll Progress Bar at top */}
       <ScrollProgressBar />
 

@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
       id="main-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/90 dark:bg-[#080C14]/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_25px_rgba(0,0,0,0.4)]' 
+          ? 'bg-white/95 dark:bg-[#0A0F1D]/95 backdrop-blur-xl border-b border-slate-200/90 dark:border-slate-800/90 py-3 shadow-xs dark:shadow-[0_4px_25px_rgba(0,0,0,0.4)]' 
           : 'bg-transparent py-5'
       }`}
     >
@@ -55,18 +55,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
         
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 bg-black dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-xl flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-300">
-            <div className="w-4 h-4 border-2 border-[#00E5FF] rotate-45 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-[#00E5FF]"></div>
-            </div>
+          <div className="w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform duration-300 font-black text-sm">
+            ST
           </div>
           <div className="flex flex-col">
             <span className="font-display text-lg font-black tracking-tight text-slate-950 dark:text-white uppercase flex items-center gap-1.5">
-              STEILYT<span className="text-[#00B4D8] dark:text-[#00E5FF]">STUDIO</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00B4D8] dark:bg-[#00E5FF] animate-pulse" />
+              STEILYT<span className="text-blue-600 dark:text-blue-400">STUDIO</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-500" title="Принимаем заказы" />
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-slate-500 dark:text-slate-400 uppercase -mt-0.5 font-semibold">
-              TMA & Web Studio
+            <span className="text-[10px] font-medium tracking-wider text-slate-500 dark:text-slate-400 uppercase -mt-0.5">
+              Сайты & Telegram-боты
             </span>
           </div>
         </a>
@@ -77,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
             <a
               key={link.name}
               href={link.href}
-              className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors relative py-1"
+              className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors relative py-1"
             >
               {link.name}
             </a>
@@ -91,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
           <button
             id="theme-toggle-button"
             onClick={toggleTheme}
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-black dark:hover:border-[#00E5FF] hover:scale-105 active:scale-95 transition-all shadow-xs"
+            className="flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:scale-105 active:scale-95 transition-all shadow-xs"
             title={theme === 'dark' ? 'Включить светлую тему' : 'Включить темную тему'}
             aria-label="Toggle theme"
           >
@@ -124,18 +122,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
             href="https://t.me/Steilyt"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-black dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all shadow-xs"
+            className="flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all shadow-xs"
           >
-            <Send className="h-3.5 w-3.5 text-[#00B4D8] dark:text-[#00E5FF]" />
+            <Send className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
             <span>@Steilyt</span>
           </a>
 
           <button
             onClick={onOpenCalculator}
-            className="flex items-center gap-1.5 rounded-full bg-black dark:bg-[#00E5FF] px-5 py-2 text-xs font-bold text-white dark:text-black shadow-[0_4px_15px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(0,229,255,0.3)] hover:bg-slate-800 dark:hover:bg-cyan-300 hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-1.5 rounded-full bg-blue-600 hover:bg-blue-700 px-5 py-2 text-xs font-bold text-white shadow-md shadow-blue-600/20 hover:scale-105 active:scale-95 transition-all"
           >
-            <span>Заказать расчет</span>
-            <ArrowUpRight className="h-3.5 w-3.5 stroke-[2.5] text-[#00E5FF] dark:text-black" />
+            <span>Рассчитать стоимость</span>
+            <ArrowUpRight className="h-3.5 w-3.5 stroke-[2.5]" />
           </button>
         </div>
 
@@ -225,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 min-h-[46px] text-xs font-bold text-slate-800 dark:text-slate-200 active:scale-[0.98]"
                 >
-                  <Send className="h-4 w-4 text-[#00B4D8] dark:text-[#00E5FF]" />
+                  <Send className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   <span>Написать в Telegram (@Steilyt)</span>
                 </a>
 
@@ -234,10 +232,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
                     setMobileMenuOpen(false);
                     onOpenCalculator();
                   }}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-black dark:bg-[#00E5FF] min-h-[46px] text-xs font-bold text-white dark:text-black shadow-md active:scale-[0.98]"
+                  className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 min-h-[46px] text-xs font-bold text-white shadow-md shadow-blue-600/20 active:scale-[0.98]"
                 >
-                  <span>Заказать расчет</span>
-                  <ArrowUpRight className="h-4 w-4 stroke-[2.5] text-[#00E5FF] dark:text-black" />
+                  <span>Рассчитать стоимость</span>
+                  <ArrowUpRight className="h-4 w-4 stroke-[2.5]" />
                 </button>
               </div>
             </motion.div>

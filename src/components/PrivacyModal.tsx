@@ -48,7 +48,7 @@ export const PrivacyModal: React.FC<LegalModalProps> = ({
         {/* Header with Title and Close Button */}
         <div className="flex items-start justify-between pb-3 sm:pb-4 border-b border-slate-100 dark:border-slate-800 gap-2">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-[#00B4D8] dark:text-[#00E5FF] shrink-0">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 shrink-0">
               {activeTab === 'privacy' && <Shield className="h-4 w-4 sm:h-5 sm:w-5" />}
               {activeTab === 'terms' && <FileText className="h-4 w-4 sm:h-5 sm:w-5" />}
               {activeTab === 'consent' && <CheckSquare className="h-4 w-4 sm:h-5 sm:w-5" />}
@@ -98,7 +98,7 @@ export const PrivacyModal: React.FC<LegalModalProps> = ({
             onClick={() => setActiveTab('privacy')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
               activeTab === 'privacy'
-                ? 'bg-black dark:bg-[#00E5FF] text-white dark:text-black shadow-sm'
+                ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -110,7 +110,7 @@ export const PrivacyModal: React.FC<LegalModalProps> = ({
             onClick={() => setActiveTab('terms')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
               activeTab === 'terms'
-                ? 'bg-black dark:bg-[#00E5FF] text-white dark:text-black shadow-sm'
+                ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -122,7 +122,7 @@ export const PrivacyModal: React.FC<LegalModalProps> = ({
             onClick={() => setActiveTab('consent')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
               activeTab === 'consent'
-                ? 'bg-black dark:bg-[#00E5FF] text-white dark:text-black shadow-sm'
+                ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >

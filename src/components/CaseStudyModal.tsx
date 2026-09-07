@@ -78,35 +78,35 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             <button
               onClick={() => setModalTab('test')}
               className={`relative px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 min-h-[38px] ${
-                modalTab === 'test' ? 'text-white dark:text-black' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'
+                modalTab === 'test' ? 'text-white' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'
               }`}
             >
               {modalTab === 'test' && (
                 <motion.div
                   layoutId="activeModalTab"
-                  className="absolute inset-0 bg-black dark:bg-[#00E5FF] rounded-xl shadow-md"
+                  className="absolute inset-0 bg-blue-600 rounded-xl shadow-md shadow-blue-600/20"
                   transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                 />
               )}
-              <Play className="h-3.5 w-3.5 relative z-10 fill-current text-[#00E5FF] dark:text-black" />
+              <Play className="h-3.5 w-3.5 relative z-10 fill-current" />
               <span className="relative z-10 text-center">Интерактивный тест</span>
             </button>
 
             <button
               onClick={() => setModalTab('details')}
               className={`relative px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 min-h-[38px] ${
-                modalTab === 'details' ? 'text-white dark:text-black' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'
+                modalTab === 'details' ? 'text-white' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'
               }`}
             >
               {modalTab === 'details' && (
                 <motion.div
                   layoutId="activeModalTab"
-                  className="absolute inset-0 bg-black dark:bg-[#00E5FF] rounded-xl shadow-md"
+                  className="absolute inset-0 bg-blue-600 rounded-xl shadow-md shadow-blue-600/20"
                   transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                 />
               )}
               <Layers className="h-3.5 w-3.5 relative z-10" />
-              <span className="relative z-10 text-center">Метрики и кейс</span>
+              <span className="relative z-10 text-center">Результаты и описание</span>
             </button>
           </div>
         </div>
@@ -153,7 +153,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-5 sm:p-6">
                   <h4 className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400" />
-                    Бизнес-задача
+                    Какая была задача
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                     {project.challenge}
@@ -161,9 +161,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 </div>
 
                 <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-5 sm:p-6">
-                  <h4 className="text-xs font-bold text-slate-950 dark:text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#00B4D8] dark:bg-[#00E5FF]" />
-                    Реализованное решение Steilyt Studio
+                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400" />
+                    Что мы сделали
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                     {project.solution}
@@ -174,12 +174,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               {/* Features Implemented */}
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-slate-950 dark:text-white uppercase tracking-wider mb-3">
-                  Функционал и возможности продукта:
+                  Что реализовано в проекте:
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {project.featuresList.map((f, i) => (
                     <div key={i} className="flex items-center gap-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 px-3.5 py-2.5 text-xs text-slate-800 dark:text-slate-200 font-medium">
-                      <CheckCircle className="h-4 w-4 text-[#00B4D8] dark:text-[#00E5FF] shrink-0" />
+                      <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0" />
                       <span>{f}</span>
                     </div>
                   ))}
@@ -189,36 +189,36 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               {/* Steilyt Architecture Standards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
-                  <Zap className="h-4 w-4 text-[#00E5FF] shrink-0 mt-0.5" />
+                  <Zap className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Мгновенный отклик</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Отрисовка UI &lt; 0.5s без подвисаний и белых экранов.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Быстрая работа</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Мгновенное открытие на любом смартфоне без задержек.</p>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
-                  <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Безопасность оплат</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Сертифицированные шлюзы СБП, 54-ФЗ онлайн-чеки и интернет-эквайринг.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Безопасная оплата</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Прием платежей через СБП, карты и отправка чеков клиентам.</p>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
-                  <Server className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+                  <Server className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Прямой API мост</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Синхронизация с 1C, iiko, YClients, CRM и базами данных.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Связь с вашей базой</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Заказы сразу попадают в 1C, CRM, YClients или таблицу.</p>
                   </div>
                 </div>
               </div>
 
               {/* Tech Stack */}
               <div className="mb-8 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-bold block mb-2.5">Технологический стек проекта:</span>
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">Стек технологий:</span>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map(t => (
-                    <span key={t} className="rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 text-xs font-mono font-medium text-slate-800 dark:text-slate-200">
+                    <span key={t} className="rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 text-xs font-medium text-slate-800 dark:text-slate-200">
                       {t}
                     </span>
                   ))}
@@ -242,10 +242,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               onClose();
               onOrderSimilar(project.type);
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-black dark:bg-[#00E5FF] px-7 py-3 text-xs font-black text-white dark:text-black hover:bg-slate-800 dark:hover:bg-cyan-300 active:scale-95 transition-all shadow-md"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-7 py-3 text-xs font-bold text-white active:scale-95 transition-all shadow-md shadow-blue-600/20"
           >
-            <span>Заказать аналогичный проект</span>
-            <ArrowRight className="h-4 w-4 stroke-[2.5] text-[#00E5FF] dark:text-black" />
+            <span>Заказать похожий проект</span>
+            <ArrowRight className="h-4 w-4 stroke-[2.5]" />
           </button>
         </div>
 
