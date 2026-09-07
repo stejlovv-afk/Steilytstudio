@@ -21,6 +21,7 @@ interface MenuItem {
   price: number;
   calories: string;
   emoji: string;
+  image: string;
   popular?: boolean;
   isNew?: boolean;
   description: string;
@@ -47,6 +48,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 490,
     calories: '580 ккал',
     emoji: '🍔',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Флагманский бургер с сочной котлетой из мраморной говядины Black Angus, трюфельным айоли и чеддером.',
     ingredients: ['Мраморная говядина Black Angus', 'Трюфельный айоли', 'Чеддер 12 мес.', 'Карамелизированный лук', 'Пышная бриошь'],
@@ -65,6 +67,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 540,
     calories: '640 ккал',
     emoji: '🥓',
+    image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Двойной хрустящий бекон, выдержанный благородный сыр Дорблю и фирменный клюквенный джем.',
     ingredients: ['Двойной бекон', 'Соус Дорблю', 'Красный маринованный лук', 'Свежая руккола', 'Бриошь'],
@@ -82,6 +85,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 420,
     calories: '410 ккал',
     emoji: '🥑',
+    image: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=400&q=80',
     isNew: true,
     description: '100% растительная котлета Beyond Meat, свежее гуакамоле, томаты черри и соус манго-халапеньо.',
     ingredients: ['Котлета Beyond Meat', 'Гуакамоле из авокадо Хасс', 'Томаты кумато', 'Шпинат', 'Безглютеновая булочка'],
@@ -97,6 +101,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 690,
     calories: '820 ккал',
     emoji: '🍱',
+    image: 'https://images.unsplash.com/photo-1610614819513-58e34989848b?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Сбалансированный обед: Cyber Burger, хрустящий картофель фри с розмарином, соус и освежающая Nitro Cola.',
     ingredients: ['Cyber Burger (Black Angus)', 'Картофель Фри с морской солью', 'Craft Nitro Cola 0.5л', 'Сырный дип'],
@@ -113,6 +118,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 640,
     calories: '510 ккал',
     emoji: '🥗',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80',
     description: 'Протеиновый боул с лососем су-вид, киноа, авокадо и детокс-матча тоник без сахара.',
     ingredients: ['Лосось су-вид', 'Киноа с эдамаме', 'Авокадо Хасс', 'Matcha Tonic 0.33л'],
     availableModifiers: [
@@ -127,6 +133,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 190,
     calories: '120 ккал',
     emoji: '🥤',
+    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80',
     description: 'Крафтовая кола из натурального ореха колы, настоянная на азоте с веточкой свежей мяты.',
     ingredients: ['Экстракт ореха колы', 'Мята перечная', 'Азотная подача', 'Тростниковый сахар']
   },
@@ -137,6 +144,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 240,
     calories: '45 ккал',
     emoji: '🍵',
+    image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=400&q=80',
     description: 'Японская церемониальная матча Uji, фреш лайма и натуральный тоник без сахара.',
     ingredients: ['Церемониальная матча из Киото', 'Фреш лайма', 'Тоник без калорий']
   },
@@ -147,6 +155,7 @@ const MENU_ITEMS: MenuItem[] = [
     price: 220,
     calories: '290 ккал',
     emoji: '🍩',
+    image: 'https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=400&q=80',
     description: 'Теплый пончик с жидким центром из соленой карамели, посыпанный съедобным кондитерским золотом.',
     ingredients: ['Соленая карамель fleur de sel', 'Сливочный крем маскарпоне', 'Пищевое золото']
   }
@@ -493,19 +502,27 @@ export const UrbanLunchTester: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.96 }}
                           onClick={() => handleOpenCustomizer(item)}
-                          className="group cursor-pointer rounded-2xl border border-white/5 bg-[#181820] p-2.5 flex items-center justify-between hover:border-[#00E5FF]/40 hover:bg-[#1e1e28] transition-all"
+                          className="group cursor-pointer rounded-2xl border border-white/5 bg-[#181820] p-2.5 flex items-center justify-between hover:border-blue-500/40 hover:bg-[#1e1e28] transition-all"
                         >
                           <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                            <div className="h-12 w-12 rounded-xl bg-[#242430] border border-white/5 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform shadow-inner">
-                              {item.emoji}
+                            <div className="relative h-12 w-12 rounded-xl bg-[#242430] border border-white/5 overflow-hidden shrink-0 group-hover:scale-105 transition-transform shadow-inner">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                referrerPolicy="no-referrer"
+                                className="h-full w-full object-cover"
+                              />
+                              <span className="absolute bottom-0 right-0 text-[9px] bg-black/60 rounded-tl px-1">
+                                {item.emoji}
+                              </span>
                             </div>
                             <div className="min-w-0 flex-1 pr-1">
                               <div className="flex items-center gap-1.5">
-                                <h4 className="text-xs font-bold text-white truncate group-hover:text-[#00E5FF] transition-colors">
+                                <h4 className="text-xs font-bold text-white truncate group-hover:text-blue-400 transition-colors">
                                   {item.name}
                                 </h4>
                                 {item.popular && (
-                                  <span className="rounded bg-[#00E5FF]/20 text-[#00E5FF] text-[8px] font-bold px-1 py-0.2">Хит</span>
+                                  <span className="rounded bg-blue-600/20 text-blue-400 text-[8px] font-bold px-1 py-0.2">Хит</span>
                                 )}
                                 {item.isNew && (
                                   <span className="rounded bg-emerald-500/20 text-emerald-400 text-[8px] font-bold px-1 py-0.2">New</span>
@@ -514,11 +531,11 @@ export const UrbanLunchTester: React.FC = () => {
                               <p className="text-[9px] text-gray-400 line-clamp-1 mt-0.5">{item.description}</p>
                               
                               <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-xs font-black text-[#00E5FF] font-mono">{item.price} ₽</span>
+                                <span className="text-xs font-black text-blue-400 font-mono">{item.price} ₽</span>
                                 <span className="text-[9px] text-gray-500 font-mono">{item.calories}</span>
                                 {item.donenessOptions && (
                                   <span className="text-[8px] text-gray-400 border border-white/10 px-1 rounded flex items-center gap-0.5">
-                                    <SlidersHorizontal className="h-2 w-2 text-[#00E5FF]" /> Настроить
+                                    <SlidersHorizontal className="h-2 w-2 text-blue-400" /> Настроить
                                   </span>
                                 )}
                               </div>
@@ -528,7 +545,7 @@ export const UrbanLunchTester: React.FC = () => {
                           {/* Quick Action Button */}
                           <div className="shrink-0 ml-1.5">
                             {inCartCount > 0 ? (
-                              <div className="flex items-center gap-1 rounded-lg bg-[#00E5FF]/20 border border-[#00E5FF]/40 px-2 py-1 text-[#00E5FF] text-[10px] font-bold">
+                              <div className="flex items-center gap-1 rounded-lg bg-blue-600/20 border border-blue-500/40 px-2 py-1 text-blue-400 text-[10px] font-bold">
                                 <span>{inCartCount} в корзине</span>
                               </div>
                             ) : (
@@ -540,7 +557,7 @@ export const UrbanLunchTester: React.FC = () => {
                                     handleQuickAdd(item, e);
                                   }
                                 }}
-                                className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#242430] text-gray-300 group-hover:bg-[#00E5FF] group-hover:text-black transition-colors"
+                                className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#242430] text-gray-300 group-hover:bg-blue-600 group-hover:text-white transition-colors"
                               >
                                 <Plus className="h-4 w-4" />
                               </button>
@@ -566,7 +583,7 @@ export const UrbanLunchTester: React.FC = () => {
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <button 
                     onClick={() => setOrderStage('menu')}
-                    className="text-[10px] text-[#00E5FF] font-semibold flex items-center gap-1 hover:underline"
+                    className="text-[10px] text-blue-400 font-semibold flex items-center gap-1 hover:underline"
                   >
                     ← Назад
                   </button>
@@ -576,13 +593,18 @@ export const UrbanLunchTester: React.FC = () => {
 
                 {/* Dish Presentation Header */}
                 <div className="rounded-2xl bg-[#181820] p-3 border border-white/5 flex items-center gap-3">
-                  <div className="text-3xl h-12 w-12 rounded-xl bg-[#242430] flex items-center justify-center shrink-0">
-                    {customizingItem.emoji}
+                  <div className="h-14 w-14 rounded-xl bg-[#242430] overflow-hidden shrink-0 border border-white/10">
+                    <img
+                      src={customizingItem.image}
+                      alt={customizingItem.name}
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-white">{customizingItem.name}</h3>
                     <p className="text-[9px] text-gray-400 mt-0.5">{customizingItem.description}</p>
-                    <div className="text-xs font-mono font-black text-[#00E5FF] mt-1">Базовая цена: {customizingItem.price} ₽</div>
+                    <div className="text-xs font-mono font-black text-blue-400 mt-1">Базовая цена: {customizingItem.price} ₽</div>
                   </div>
                 </div>
 
@@ -602,7 +624,7 @@ export const UrbanLunchTester: React.FC = () => {
                           }}
                           className={`py-1.5 px-1 rounded-xl text-[9px] font-bold border transition-all ${
                             customDoneness === opt
-                              ? 'bg-[#00E5FF] text-black border-[#00E5FF] shadow-sm'
+                              ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
                               : 'bg-[#1e1e26] text-gray-400 border-white/5 hover:text-white'
                           }`}
                         >

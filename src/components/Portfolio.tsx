@@ -148,7 +148,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
                                 <span className="rounded bg-blue-600/20 text-blue-400 text-[8px] font-bold px-1.5 py-0.5">-15%</span>
                               </div>
                               <div className="rounded-lg bg-white/5 p-1.5 flex items-center justify-between text-[9px]">
-                                <span className="truncate pr-1 text-gray-200">Бургер Премиум</span>
+                                <span className="truncate pr-1 text-gray-200">Бургер Black Angus</span>
                                 <span className="text-blue-400 font-bold">490 ₽</span>
                               </div>
                               <div className="rounded-lg bg-blue-600 py-1 text-center text-[9px] font-bold text-white shadow-sm">
@@ -159,43 +159,44 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
 
                           {isFitTrack && (
                             <div className="space-y-1.5">
-                              <div className="rounded-lg bg-[#1c1c22] p-2 border border-white/5">
-                                <div className="text-[10px] font-bold text-emerald-400 flex items-center gap-1">
-                                  <Activity className="h-3 w-3" />
-                                  <span>FitTrack Club</span>
+                              <div className="rounded-lg bg-[#1c1c22] p-2 border border-white/5 flex items-center justify-between">
+                                <div>
+                                  <div className="text-[10px] font-bold text-white flex items-center gap-1">
+                                    <span>🛍️ Nordic Store</span>
+                                    <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                                  </div>
+                                  <div className="text-[8px] text-gray-400">Одежда & Снаряжение</div>
                                 </div>
-                                <div className="text-[8px] text-gray-400">Абонемент #84920 (Активен)</div>
+                                <span className="rounded bg-blue-600/20 text-blue-400 text-[8px] font-bold px-1.5 py-0.5">SALE15</span>
                               </div>
-                              <div className="grid grid-cols-2 gap-1 text-[8px] text-center">
-                                <div className="rounded bg-white/5 p-1">
-                                  <div className="text-white font-bold">14</div>
-                                  <div className="text-gray-400">тренировок</div>
-                                </div>
-                                <div className="rounded bg-white/5 p-1">
-                                  <div className="text-emerald-400 font-bold">2 450</div>
-                                  <div className="text-gray-400">баллов</div>
-                                </div>
+                              <div className="rounded-lg bg-white/5 p-1.5 flex items-center justify-between text-[9px]">
+                                <span className="truncate pr-1 text-gray-200">Худи Oversize Heavy</span>
+                                <span className="text-blue-400 font-bold">4 890 ₽</span>
                               </div>
-                              <div className="rounded-lg bg-emerald-600 py-1 text-center text-[9px] font-bold text-white">
-                                QR-вход в клуб
+                              <div className="rounded-lg bg-blue-600 py-1 text-center text-[9px] font-bold text-white shadow-sm">
+                                ⚡ Оплата СБП в 1 клик
                               </div>
                             </div>
                           )}
 
                           {isLumina && (
                             <div className="space-y-1.5">
-                              <div className="rounded-lg bg-[#1c1c22] p-2 border border-white/5">
-                                <div className="text-[10px] font-bold text-indigo-400 flex items-center gap-1">
-                                  <span>✨ Lumina Beauty</span>
+                              <div className="rounded-lg bg-[#1c1c22] p-2 border border-white/5 flex items-center justify-between">
+                                <div>
+                                  <div className="text-[10px] font-bold text-pink-300 flex items-center gap-1">
+                                    <span>✨ Lumina Beauty</span>
+                                    <span className="h-1.5 w-1.5 rounded-full bg-pink-400" />
+                                  </div>
+                                  <div className="text-[8px] text-gray-400">Запись: 18 авг в 14:00</div>
                                 </div>
-                                <div className="text-[8px] text-gray-400">Запись: 18 авг в 13:30</div>
+                                <span className="rounded bg-pink-500/20 text-pink-300 text-[8px] font-bold px-1.5 py-0.5">5.0 ★</span>
                               </div>
                               <div className="rounded-lg bg-white/5 p-1.5 flex items-center justify-between text-[9px]">
-                                <span>Мастер Алена С.</span>
-                                <span className="text-amber-400 font-bold">5.0 ★</span>
+                                <span className="truncate pr-1 text-gray-200">AirTouch / Мастер Алена</span>
+                                <span className="text-blue-400 font-bold">8 500 ₽</span>
                               </div>
-                              <div className="rounded-lg bg-indigo-600 py-1 text-center text-[9px] font-bold text-white">
-                                Записаться в 1 клик
+                              <div className="rounded-lg bg-blue-600 py-1 text-center text-[9px] font-bold text-white shadow-sm">
+                                Электронный талон в Telegram
                               </div>
                             </div>
                           )}
@@ -209,22 +210,25 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenCalculator }) => {
                             <div className="h-1.5 w-1.5 rounded-full bg-red-500" />
                             <div className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                            <span className="text-[8px] text-gray-400 font-mono ml-1">trade-hub.io</span>
+                            <span className="text-[8px] text-gray-400 font-mono ml-1">nordic-engineering.pro</span>
                           </div>
                           
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between text-[9px] font-bold">
-                              <span>Global Logistics B2B</span>
-                              <span className="text-blue-400">14 стран</span>
+                              <span>Nordic Engineering B2B</span>
+                              <span className="text-emerald-400">Speed 99/100</span>
                             </div>
-                            <div className="h-10 rounded bg-[#1c1c22] p-1 border border-white/5 flex items-center justify-center">
-                              <div className="text-[8px] text-gray-400 text-center">
-                                Калькулятор доставки & CRM
+                            <div className="h-11 rounded bg-[#1c1c22] p-1.5 border border-white/5 flex flex-col justify-center">
+                              <div className="text-[8px] text-blue-400 font-bold">
+                                📐 Интерактивный калькулятор сметы
+                              </div>
+                              <div className="text-[7px] text-gray-400">
+                                180 м² • ~4.2 млн ₽ • Срок 45 дней
                               </div>
                             </div>
                             <div className="flex justify-between items-center text-[8px] text-gray-300">
-                              <span>Онлайн-трекинг</span>
-                              <span className="text-emerald-400 font-bold">+180% заявок</span>
+                              <span>Мгновенная заявка</span>
+                              <span className="text-blue-400 font-bold">0.6 сек в Telegram</span>
                             </div>
                           </div>
                         </div>
