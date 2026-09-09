@@ -46,11 +46,15 @@ export interface ProjectCase {
 
 export interface WorkflowStage {
   step: number;
+  phase?: string;
+  badge?: string;
   title: string;
   duration: string;
   description: string;
   deliverables: string[];
   icon: string;
+  clientRole?: string;
+  agencyRole?: string;
 }
 
 export interface Testimonial {

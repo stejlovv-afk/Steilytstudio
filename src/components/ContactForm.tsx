@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Send, MessageCircle, Mail, Phone, ArrowRight, CheckCircle2, Sparkles, Shield, Clock } from 'lucide-react';
+import { Send, MessageCircle, Mail, ArrowRight, CheckCircle2, Sparkles, Shield, Clock, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ScrollReveal } from './ScrollReveal';
+import { sendLeadToTelegram } from '../utils/telegramNotifications';
 
 interface ContactFormProps {
   initialProjectType?: string;
@@ -22,20 +23,35 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [projectType, setProjectType] = useState(initialProjectType || 'Telegram Mini App (TMA)');
   const [comment, setComment] = useState('');
   const [estimate, setEstimate] = useState<string | undefined>(initialEstimate);
+  const [summary, setSummary] = useState<string | undefined>(initialSummary);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (initialProjectType) setProjectType(initialProjectType);
     if (initialEstimate) setEstimate(initialEstimate);
-  }, [initialProjectType, initialEstimate]);
+    if (initialSummary) setSummary(initialSummary);
+  }, [initialProjectType, initialEstimate, initialSummary]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
 
-    setTimeout(() => {
-      setLoading(false);
+    const result = await sendLeadToTelegram({
+      name,
+      telegram,
+      phone,
+      projectType,
+      estimate,
+      summary,
+      comment,
+    });
+
+    setLoading(false);
+
+    if (result.success) {
       setSubmitted(true);
       try {
         confetti({
@@ -47,7 +63,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       } catch {
         // fallback
       }
-    }, 1000);
+    } else {
+      // Even if Telegram API encounters a network issue, display friendly advice and still record or show error
+      setErrorMessage(
+        'Не удалось отправить автоматически из-за настроек сети. Вы можете написать напрямую в Telegram: @Steilyt'
+      );
+    }
   };
 
   return (
@@ -296,6 +317,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     </span>
                   </div>
 
+                  {/* Error Alert if any */}
+                  {errorMessage && (
+                    <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   {/* Submit Button */}
                   <button
                     type="submit"
@@ -303,7 +332,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-blue-600 hover:bg-blue-700 py-3.5 sm:py-4 text-xs font-bold text-white active:scale-[0.98] transition-all shadow-md shadow-blue-600/20 disabled:opacity-50 min-h-[50px]"
                   >
                     {loading ? (
-                      <span>Отправка данных...</span>
+                      <span className="flex items-center gap-2">
+                        <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span>Отправка в Telegram...</span>
+                      </span>
                     ) : (
                       <>
                         <span>Получить смету и консультацию</span>
