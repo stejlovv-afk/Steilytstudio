@@ -4,9 +4,10 @@ import { Send, MessageCircle, Mail, ArrowUp } from 'lucide-react';
 interface FooterProps {
   onOpenPrivacy: () => void;
   onOpenTerms?: () => void;
+  onOpenWarranty?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOpenWarranty }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -76,7 +77,20 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) =>
               <li className="text-gray-300">Продающие одностраничники (лендинги)</li>
               <li className="text-gray-300">Подключение оплаты (СБП, карты)</li>
               <li className="text-gray-300">Интеграция с CRM и 1С</li>
-              <li className="text-gray-300">Техподдержка и сопровождение</li>
+              <li className="text-gray-300 flex items-center gap-1.5">
+                <span>Гарантия 12 месяцев и поддержка</span>
+                {onOpenWarranty && (
+                  <button
+                    type="button"
+                    onClick={onOpenWarranty}
+                    title="Нажмите, чтобы узнать, что входит в гарантию"
+                    aria-label="Что входит в гарантию"
+                    className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full bg-blue-500/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-400/30 transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
+                  >
+                    <span className="text-[9px] font-black leading-none select-none">!</span>
+                  </button>
+                )}
+              </li>
             </ul>
           </div>
 
@@ -105,27 +119,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) =>
                 </div>
               </a>
 
-              {/* WhatsApp Link */}
-              <a
-                href="https://wa.me/79990000000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 p-3 min-h-[44px] text-white hover:border-emerald-500 hover:bg-white/10 transition-all group"
-              >
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600/20 text-emerald-400 shrink-0">
-                  <MessageCircle className="h-4 w-4" />
-                </div>
-                <div>
-                  <span className="text-[10px] text-gray-400 block font-medium">WhatsApp:</span>
-                  <span className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
-                    +7 (999) 000-00-00
-                  </span>
-                </div>
-              </a>
-
               {/* Email Link */}
               <a
-                href="mailto:contact@steilyt.studio"
+                href="mailto:steilytstudio@gmail.com"
                 className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 p-3 min-h-[44px] text-white hover:border-blue-500 hover:bg-white/10 transition-all group"
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-700 text-slate-300 shrink-0">
@@ -134,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) =>
                 <div>
                   <span className="text-[10px] text-gray-400 block font-medium">Email:</span>
                   <span className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors">
-                    contact@steilyt.studio
+                    steilytstudio@gmail.com
                   </span>
                 </div>
               </a>

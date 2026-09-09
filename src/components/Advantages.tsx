@@ -5,6 +5,7 @@ import { ScrollReveal } from './ScrollReveal';
 
 interface AdvantagesProps {
   onOpenCalculator: () => void;
+  onOpenWarranty?: () => void;
 }
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
@@ -15,7 +16,7 @@ const iconMap: Record<string, React.FC<{ className?: string }>> = {
   ShieldCheck: ShieldCheck,
 };
 
-export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator }) => {
+export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpenWarranty }) => {
   return (
     <section id="advantages" className="py-20 lg:py-28 bg-white dark:bg-[#0A0F1D] relative overflow-hidden transition-colors duration-300">
       
@@ -57,8 +58,23 @@ export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator }) => {
                       </span>
                     </div>
 
-                    <h3 className="font-display text-lg font-black text-slate-950 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {item.title}
+                    <h3 className="font-display text-lg font-black text-slate-950 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
+                      <span>{item.title}</span>
+                      {item.id === 6 && onOpenWarranty && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onOpenWarranty();
+                          }}
+                          title="Нажмите, чтобы узнать, что входит в гарантию"
+                          aria-label="Что входит в гарантию"
+                          className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950/80 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
+                        >
+                          <span className="text-xs font-black leading-none select-none">!</span>
+                        </button>
+                      )}
                     </h3>
 
                     <span className="text-xs text-slate-500 dark:text-slate-400 font-medium block mb-3">

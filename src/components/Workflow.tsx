@@ -25,7 +25,11 @@ const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Rocket: Rocket,
 };
 
-export const Workflow: React.FC = () => {
+interface WorkflowProps {
+  onOpenWarranty?: () => void;
+}
+
+export const Workflow: React.FC<WorkflowProps> = ({ onOpenWarranty }) => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const currentStage = workflowStages.find((s) => s.step === activeStep) || workflowStages[0];
   const CurrentIcon = iconMap[currentStage.icon] || Code2;
@@ -282,10 +286,23 @@ export const Workflow: React.FC = () => {
                   {currentStage.deliverables.map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-2 text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold bg-slate-50 dark:bg-slate-800/60 rounded-lg p-2.5 border border-slate-200/60 dark:border-slate-700/60"
+                      className="flex items-center justify-between gap-2 text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-semibold bg-slate-50 dark:bg-slate-800/60 rounded-lg p-2.5 border border-slate-200/60 dark:border-slate-700/60"
                     >
-                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
-                      <span>{item}</span>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                      {item.toLowerCase().includes('гарантия') && onOpenWarranty && (
+                        <button
+                          type="button"
+                          onClick={onOpenWarranty}
+                          title="Нажмите, чтобы узнать, что входит в гарантию"
+                          aria-label="Что входит в гарантию"
+                          className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950/80 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
+                        >
+                          <span className="text-[10px] font-black leading-none select-none">!</span>
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -375,9 +392,25 @@ export const Workflow: React.FC = () => {
                     </span>
                     <ul className="space-y-1">
                       {stage.deliverables.slice(0, 2).map((item, i) => (
-                        <li key={i} className="text-[11px] text-slate-800 dark:text-slate-200 font-medium flex items-center gap-1.5">
-                          <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />
-                          <span className="truncate">{item}</span>
+                        <li key={i} className="text-[11px] text-slate-800 dark:text-slate-200 font-medium flex items-center justify-between gap-1.5">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />
+                            <span className="truncate">{item}</span>
+                          </div>
+                          {item.toLowerCase().includes('гарантия') && onOpenWarranty && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onOpenWarranty();
+                              }}
+                              title="Нажмите, чтобы узнать, что входит в гарантию"
+                              aria-label="Что входит в гарантию"
+                              className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
+                            >
+                              <span className="text-[9px] font-black leading-none select-none">!</span>
+                            </button>
+                          )}
                         </li>
                       ))}
                     </ul>

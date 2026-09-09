@@ -10,10 +10,12 @@ import { InteractiveCalculator } from './components/InteractiveCalculator';
 import { ContactForm } from './components/ContactForm';
 import { Footer } from './components/Footer';
 import { PrivacyModal, LegalDocTab } from './components/PrivacyModal';
+import { WarrantyModal } from './components/WarrantyModal';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
 
 function AppContent() {
   const [legalModalOpen, setLegalModalOpen] = useState(false);
+  const [warrantyModalOpen, setWarrantyModalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState<LegalDocTab>('privacy');
   const [selectedServiceType, setSelectedServiceType] = useState<string>('Telegram Mini App (TMA)');
   const [calculatedEstimate, setCalculatedEstimate] = useState<string | undefined>(undefined);
@@ -91,16 +93,22 @@ function AppContent() {
         <Services onSelectService={handleSelectService} />
 
         {/* Section 3: Advantages */}
-        <Advantages onOpenCalculator={handleOpenCalculator} />
+        <Advantages 
+          onOpenCalculator={handleOpenCalculator} 
+          onOpenWarranty={() => setWarrantyModalOpen(true)}
+        />
 
         {/* Section 4: Interactive Portfolio with Live Case Test-Drive */}
         <Portfolio onOpenCalculator={handleOpenCalculator} />
 
         {/* Dynamic Cost Calculator */}
-        <InteractiveCalculator onApplyEstimate={handleApplyEstimate} />
+        <InteractiveCalculator 
+          onApplyEstimate={handleApplyEstimate} 
+          onOpenWarranty={() => setWarrantyModalOpen(true)}
+        />
 
         {/* Section 5: Workflow */}
-        <Workflow />
+        <Workflow onOpenWarranty={() => setWarrantyModalOpen(true)} />
 
         {/* Section 6: Contact Form */}
         <ContactForm 
@@ -111,6 +119,7 @@ function AppContent() {
           initialDesignLevel={calculatedDesignLevel}
           initialIsExpress={calculatedIsExpress}
           onOpenLegal={handleOpenLegal}
+          onOpenWarranty={() => setWarrantyModalOpen(true)}
         />
       </main>
 
@@ -118,6 +127,7 @@ function AppContent() {
       <Footer 
         onOpenPrivacy={() => handleOpenLegal('privacy')} 
         onOpenTerms={() => handleOpenLegal('terms')}
+        onOpenWarranty={() => setWarrantyModalOpen(true)}
       />
 
       {/* Legal & Privacy Policy Modal with 3 documents */}
@@ -125,6 +135,12 @@ function AppContent() {
         isOpen={legalModalOpen} 
         onClose={() => setLegalModalOpen(false)} 
         initialTab={legalTab}
+      />
+
+      {/* Warranty & Guarantee Details Modal */}
+      <WarrantyModal
+        isOpen={warrantyModalOpen}
+        onClose={() => setWarrantyModalOpen(false)}
       />
     </div>
   );

@@ -12,6 +12,7 @@ interface ContactFormProps {
   initialDesignLevel?: string;
   initialIsExpress?: boolean;
   onOpenLegal?: (tab?: 'privacy' | 'terms' | 'consent') => void;
+  onOpenWarranty?: () => void;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
@@ -22,6 +23,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   initialDesignLevel,
   initialIsExpress,
   onOpenLegal,
+  onOpenWarranty,
 }) => {
   const [name, setName] = useState('');
   const [telegram, setTelegram] = useState('');
@@ -36,6 +38,48 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Phone input sanitizer & formatter (strict digits, spaces, parentheses, plus, hyphens)
+  const handlePhoneChange = (rawValue: string) => {
+    // Extract only digits and leading plus
+    let clean = rawValue.replace(/[^\d+]/g, '');
+    
+    // Ensure plus is only at the beginning if present
+    if (clean.indexOf('+') > 0) {
+      clean = clean.replace(/\+/g, '');
+      clean = '+' + clean;
+    }
+
+    // Format if starts with 7 or 8 or +7
+    const digits = clean.replace(/\D/g, '');
+    if (digits.length === 0) {
+      setPhone('');
+      return;
+    }
+
+    // Friendly phone mask if Russian/CIS format
+    if (digits.startsWith('7') || digits.startsWith('8')) {
+      const national = digits.startsWith('7') || digits.startsWith('8') ? digits.slice(1, 11) : digits.slice(0, 10);
+      let formatted = '+7 ';
+      if (national.length > 0) {
+        formatted += `(${national.slice(0, 3)}`;
+      }
+      if (national.length >= 3) {
+        formatted += `) ${national.slice(3, 6)}`;
+      }
+      if (national.length >= 6) {
+        formatted += `-${national.slice(6, 8)}`;
+      }
+      if (national.length >= 8) {
+        formatted += `-${national.slice(8, 10)}`;
+      }
+      setPhone(formatted);
+    } else {
+      // International or other country codes: keep clean plus and digits only, limit to 16 chars
+      const formatted = clean.startsWith('+') ? '+' + digits.slice(0, 15) : '+' + digits.slice(0, 15);
+      setPhone(formatted);
+    }
+  };
 
   useEffect(() => {
     if (initialProjectType) setProjectType(initialProjectType);
@@ -133,35 +177,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       <Send className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                     <div>
-                      <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 block font-medium">Telegram:</span>
+                      <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 block font-medium">Telegram (основной канал):</span>
                       <span className="text-xs font-bold text-slate-950 dark:text-white font-mono">@Steilyt</span>
                     </div>
                   </div>
                   <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                 </a>
 
-                {/* WhatsApp Card */}
-                <a
-                  href="https://wa.me/79990000000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 hover:border-blue-500 hover:bg-white dark:hover:bg-slate-800 active:scale-[0.99] transition-all group min-h-[50px]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-emerald-600 text-white transition-colors shrink-0 shadow-sm">
-                      <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </div>
-                    <div>
-                      <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 block font-medium">WhatsApp:</span>
-                      <span className="text-xs font-bold text-slate-950 dark:text-white font-mono">+7 (999) 000-00-00</span>
-                    </div>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" />
-                </a>
-
                 {/* Email Card */}
                 <a
-                  href="mailto:contact@steilyt.studio"
+                  href="mailto:steilytstudio@gmail.com"
                   className="flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 hover:border-blue-500 hover:bg-white dark:hover:bg-slate-800 active:scale-[0.99] transition-all group min-h-[50px]"
                 >
                   <div className="flex items-center gap-3">
@@ -170,7 +195,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     </div>
                     <div>
                       <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 block font-medium">Электронная почта:</span>
-                      <span className="text-xs font-bold text-slate-950 dark:text-white font-mono">contact@steilyt.studio</span>
+                      <span className="text-xs font-bold text-slate-950 dark:text-white font-mono">steilytstudio@gmail.com</span>
                     </div>
                   </div>
                   <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
@@ -188,9 +213,22 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
                 <span>Быстрый ответ в течение 10–15 минут</span>
               </div>
-              <div className="flex items-center gap-2.5 sm:gap-3 text-xs text-slate-800 dark:text-slate-200 font-medium">
-                <Shield className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-                <span>Официальный договор, акты и гарантия</span>
+              <div className="flex items-center justify-between gap-2.5 sm:gap-3 text-xs text-slate-800 dark:text-slate-200 font-medium">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <Shield className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
+                  <span>Официальный договор, акты и гарантия 12 месяцев</span>
+                </div>
+                {onOpenWarranty && (
+                  <button
+                    type="button"
+                    onClick={onOpenWarranty}
+                    title="Нажмите, чтобы узнать, что входит в гарантию"
+                    aria-label="Что входит в гарантию"
+                    className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950/80 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
+                  >
+                    <span className="text-[10px] font-black leading-none select-none">!</span>
+                  </button>
+                )}
               </div>
               <div className="flex items-center gap-2.5 sm:gap-3 text-xs text-slate-800 dark:text-slate-200 font-medium">
                 <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
@@ -329,14 +367,29 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
                     <div>
                       <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1.5 sm:mb-2">
-                        Телефон (для связи или WhatsApp):
+                        Телефон (для связи):
                       </label>
                       <input
                         type="tel"
+                        inputMode="tel"
+                        autoComplete="tel"
                         placeholder="+7 (999) 000-00-00"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-base sm:text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all"
+                        onChange={(e) => handlePhoneChange(e.target.value)}
+                        onKeyDown={(e) => {
+                          // Allow navigation keys, backspace, delete, tab, enter, and numbers
+                          const allowedKeys = [
+                            'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'
+                          ];
+                          if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+                            return;
+                          }
+                          // Only digits and leading + are allowed
+                          if (!/[\d+]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className="w-full rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-base sm:text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all font-mono"
                       />
                     </div>
                   </div>

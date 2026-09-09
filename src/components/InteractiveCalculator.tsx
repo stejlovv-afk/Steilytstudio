@@ -13,9 +13,10 @@ interface CalculatorProps {
     designLevel?: string;
     isExpress?: boolean;
   }) => void;
+  onOpenWarranty?: () => void;
 }
 
-export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstimate }) => {
+export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstimate, onOpenWarranty }) => {
   const [projectType, setProjectType] = useState<'tma' | 'web' | 'landing' | 'ecosystem'>('tma');
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
     'catalog_payments',
@@ -513,7 +514,20 @@ export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstima
                 </div>
 
                 <div className="flex items-center justify-between py-3 border-b border-white/10 text-xs mb-6">
-                  <span className="text-slate-300">Гарантия и поддержка:</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-slate-300">Гарантия и поддержка:</span>
+                    {onOpenWarranty && (
+                      <button
+                        type="button"
+                        onClick={onOpenWarranty}
+                        title="Нажмите, чтобы узнать, что входит в гарантию"
+                        aria-label="Что входит в гарантию"
+                        className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-blue-500/30 hover:bg-blue-500 text-blue-300 hover:text-white border border-blue-400/40 transition-all transform hover:scale-110 shadow-xs cursor-pointer"
+                      >
+                        <span className="text-[10px] font-black leading-none select-none">!</span>
+                      </button>
+                    )}
+                  </div>
                   <span className="font-bold text-emerald-400">12 месяцев бесплатно</span>
                 </div>
 
