@@ -18,6 +18,9 @@ function AppContent() {
   const [selectedServiceType, setSelectedServiceType] = useState<string>('Telegram Mini App (TMA)');
   const [calculatedEstimate, setCalculatedEstimate] = useState<string | undefined>(undefined);
   const [calculationSummary, setCalculationSummary] = useState<string | undefined>(undefined);
+  const [calculatedFeatures, setCalculatedFeatures] = useState<string[] | undefined>(undefined);
+  const [calculatedDesignLevel, setCalculatedDesignLevel] = useState<string | undefined>(undefined);
+  const [calculatedIsExpress, setCalculatedIsExpress] = useState<boolean | undefined>(undefined);
 
   const handleOpenLegal = (tab: LegalDocTab = 'privacy') => {
     setLegalTab(tab);
@@ -43,13 +46,26 @@ function AppContent() {
     setSelectedServiceType(
       serviceType === 'tma' ? 'Telegram Mini App (TMA)' : 'Корпоративный сайт'
     );
+    setCalculatedFeatures(undefined);
+    setCalculatedDesignLevel(undefined);
+    setCalculatedIsExpress(undefined);
     handleOpenContact();
   };
 
-  const handleApplyEstimate = (data: { projectType: string; summary: string; estimatedPrice: string }) => {
+  const handleApplyEstimate = (data: {
+    projectType: string;
+    summary: string;
+    estimatedPrice: string;
+    features?: string[];
+    designLevel?: string;
+    isExpress?: boolean;
+  }) => {
     setSelectedServiceType(data.projectType);
     setCalculatedEstimate(data.estimatedPrice);
     setCalculationSummary(data.summary);
+    setCalculatedFeatures(data.features);
+    setCalculatedDesignLevel(data.designLevel);
+    setCalculatedIsExpress(data.isExpress);
   };
 
   return (
@@ -91,6 +107,9 @@ function AppContent() {
           initialProjectType={selectedServiceType}
           initialEstimate={calculatedEstimate}
           initialSummary={calculationSummary}
+          initialFeatures={calculatedFeatures}
+          initialDesignLevel={calculatedDesignLevel}
+          initialIsExpress={calculatedIsExpress}
           onOpenLegal={handleOpenLegal}
         />
       </main>

@@ -5,7 +5,14 @@ import confetti from 'canvas-confetti';
 import { ScrollReveal } from './ScrollReveal';
 
 interface CalculatorProps {
-  onApplyEstimate: (data: { projectType: string; summary: string; estimatedPrice: string }) => void;
+  onApplyEstimate: (data: {
+    projectType: string;
+    summary: string;
+    estimatedPrice: string;
+    features?: string[];
+    designLevel?: string;
+    isExpress?: boolean;
+  }) => void;
 }
 
 export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstimate }) => {
@@ -251,10 +258,26 @@ export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstima
       ecosystem: 'Комплекс (Сайт + Telegram-сервис)'
     };
 
+    const designNames: Record<string, string> = {
+      clean: 'Базовый аккуратный (чистый минимализм)',
+      custom3d: 'Премиум 3D / Анимации (современный интерактив)',
+      exclusive: 'Эксклюзивный Brand-Art (авторский арт-дирекшн)'
+    };
+
+    const readableFeatures = selectedFeatures.map((id) => {
+      const feat = featureDefinitions.find((f) => f.id === id);
+      if (!feat) return id;
+      const meta = feat.labels[projectType as keyof typeof feat.labels] || feat.labels.tma;
+      return `${meta.title} (+${feat.cost.toLocaleString('ru-RU')} ₽)`;
+    });
+
     onApplyEstimate({
       projectType: typeNames[projectType],
       summary: `Выбранный тип: ${typeNames[projectType]}, Доп. функций: ${selectedFeatures.length} шт, Срок: ~${finalDays} дн.`,
-      estimatedPrice: `${finalPrice.toLocaleString('ru-RU')} ₽`
+      estimatedPrice: `${finalPrice.toLocaleString('ru-RU')} ₽`,
+      features: readableFeatures,
+      designLevel: designNames[designLevel],
+      isExpress: isExpress,
     });
 
     // Scroll to contact

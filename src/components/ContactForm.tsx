@@ -8,6 +8,9 @@ interface ContactFormProps {
   initialProjectType?: string;
   initialEstimate?: string;
   initialSummary?: string;
+  initialFeatures?: string[];
+  initialDesignLevel?: string;
+  initialIsExpress?: boolean;
   onOpenLegal?: (tab?: 'privacy' | 'terms' | 'consent') => void;
 }
 
@@ -15,6 +18,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   initialProjectType,
   initialEstimate,
   initialSummary,
+  initialFeatures,
+  initialDesignLevel,
+  initialIsExpress,
   onOpenLegal,
 }) => {
   const [name, setName] = useState('');
@@ -24,6 +30,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [comment, setComment] = useState('');
   const [estimate, setEstimate] = useState<string | undefined>(initialEstimate);
   const [summary, setSummary] = useState<string | undefined>(initialSummary);
+  const [features, setFeatures] = useState<string[] | undefined>(initialFeatures);
+  const [designLevel, setDesignLevel] = useState<string | undefined>(initialDesignLevel);
+  const [isExpress, setIsExpress] = useState<boolean | undefined>(initialIsExpress);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -32,7 +41,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     if (initialProjectType) setProjectType(initialProjectType);
     if (initialEstimate) setEstimate(initialEstimate);
     if (initialSummary) setSummary(initialSummary);
-  }, [initialProjectType, initialEstimate, initialSummary]);
+    if (initialFeatures) setFeatures(initialFeatures);
+    if (initialDesignLevel) setDesignLevel(initialDesignLevel);
+    if (initialIsExpress !== undefined) setIsExpress(initialIsExpress);
+  }, [initialProjectType, initialEstimate, initialSummary, initialFeatures, initialDesignLevel, initialIsExpress]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +58,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       projectType,
       estimate,
       summary,
+      features,
+      designLevel,
+      isExpress,
       comment,
     });
 
@@ -218,14 +233,45 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   
                   {/* Attached Estimate Banner (if applied from calculator) */}
                   {estimate && (
-                    <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-                        <span className="text-xs font-bold text-slate-900 dark:text-white">Прикреплен предварительный расчет:</span>
+                    <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/50 space-y-2.5">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
+                          <span className="text-xs font-bold text-slate-900 dark:text-white">Прикреплен расчет из калькулятора:</span>
+                        </div>
+                        <span className="font-display text-xs font-bold bg-blue-600 text-white px-2.5 py-1 rounded-lg shrink-0 shadow-xs">
+                          {estimate}
+                        </span>
                       </div>
-                      <span className="font-display text-xs font-bold bg-blue-600 text-white px-2.5 py-1 rounded-lg shrink-0">
-                        {estimate}
-                      </span>
+
+                      {/* Display Selected Features & Modifiers */}
+                      {features && features.length > 0 && (
+                        <div className="pt-2 border-t border-blue-200/70 dark:border-blue-900/40">
+                          <div className="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                            <span>Выбранные функции ({features.length}):</span>
+                            {designLevel && (
+                              <span className="text-[10px] text-blue-600 dark:text-blue-400 font-medium">
+                                • {designLevel}
+                              </span>
+                            )}
+                            {isExpress && (
+                              <span className="text-[10px] text-amber-600 dark:text-amber-400 font-bold">
+                                • Экспресс
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {features.map((f, i) => (
+                              <span
+                                key={i}
+                                className="inline-flex items-center text-[10px] sm:text-[11px] font-medium bg-white/80 dark:bg-slate-900/70 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md border border-blue-200/80 dark:border-blue-800/60"
+                              >
+                                {f}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 

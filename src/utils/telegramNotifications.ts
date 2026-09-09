@@ -16,6 +16,9 @@ export interface LeadData {
   projectType: string;
   estimate?: string;
   summary?: string;
+  features?: string[];
+  designLevel?: string;
+  isExpress?: boolean;
   comment?: string;
 }
 
@@ -36,10 +39,23 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<{ success: boo
     message += `\n🎯 <b>Услуга:</b> ${escapeHtml(lead.projectType)}\n`;
 
     if (lead.estimate) {
-      message += `💰 <b>Смета из калькулятора:</b> <b>${escapeHtml(lead.estimate)}</b>\n`;
+      message += `💰 <b>Смета:</b> <b>${escapeHtml(lead.estimate)}</b>\n`;
     }
 
-    if (lead.summary) {
+    if (lead.designLevel) {
+      message += `🎨 <b>Уровень дизайна:</b> ${escapeHtml(lead.designLevel)}\n`;
+    }
+
+    if (lead.isExpress) {
+      message += `⚡ <b>Срочность:</b> Экспресс-разработка (в ускоренном режиме)\n`;
+    }
+
+    if (lead.features && lead.features.length > 0) {
+      message += `\n🧩 <b>Выбранные дополнения (${lead.features.length}):</b>\n`;
+      lead.features.forEach((feat, idx) => {
+        message += `  ${idx + 1}. ${escapeHtml(feat)}\n`;
+      });
+    } else if (lead.summary) {
       message += `📋 <b>Детали расчета:</b> ${escapeHtml(lead.summary)}\n`;
     }
 
