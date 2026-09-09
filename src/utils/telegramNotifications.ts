@@ -9,14 +9,6 @@ export const TELEGRAM_NOTIFICATIONS_CONFIG = {
   BOT_USERNAME: '@SteilytST_bot',
 };
 
-// Endpoints list: Try fast direct first, then reputable CORS/reverse-proxies so users without VPN in any ISP/region work flawlessly
-const TELEGRAM_ENDPOINTS = [
-  (token: string) => `https://api.telegram.org/bot${token}/sendMessage`,
-  // Fallback via Cloudflare / Worker reverse proxy for Telegram API
-  (token: string) => `https://tg-proxy.deno.dev/bot${token}/sendMessage`,
-  (token: string) => `https://api.cors.lol/?url=https://api.telegram.org/bot${token}/sendMessage`,
-];
-
 export interface LeadData {
   name: string;
   telegram: string;
@@ -37,8 +29,12 @@ export interface LeadResult {
 }
 
 export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
+  const cleanTg = lead.telegram ? lead.telegram.replace(/^@/, '') : '';
+  const fallbackUrl = `https://t.me/Steilyt?text=${encodeURIComponent(
+    `Здравствуйте! Оставляю заявку:\nИмя: ${lead.name}\nTelegram/Телефон: ${lead.telegram || lead.phone || ''}\nУслуга: ${lead.projectType}${lead.estimate ? `\nСмета: ${lead.estimate}` : ''}`
+  )}`;
+
   try {
-    const cleanTg = lead.telegram ? lead.telegram.replace(/^@/, '') : '';
     const dateStr = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
 
     let message = `🔥 <b>НОВАЯ ЗАЯВКА С САЙТА!</b>\n`;
@@ -81,59 +77,87 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
     message += `⏰ <b>Время (МСК):</b> ${dateStr}\n`;
     message += `🌐 <b>Источник:</b> GitHub Pages / Steilyt Studio`;
 
-    const payload = {
-      chat_id: TELEGRAM_NOTIFICATIONS_CONFIG.CHAT_ID,
-      text: message,
-      parse_mode: 'HTML',
-      disable_web_page_preview: true,
-    };
+    const token = TELEGRAM_NOTIFICATIONS_CONFIG.BOT_TOKEN;
+    const chatId = TELEGRAM_NOTIFICATIONS_CONFIG.CHAT_ID;
+    const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
 
-    let lastError = 'Сетевая ошибка';
+    // 1. Метод URLSearchParams (браузерный "simple request" x-www-form-urlencoded)
+    // Не вызывает строгий CORS preflight (OPTIONS), что решает блокировку в большинстве браузеров!
+    try {
+      const params = new URLSearchParams();
+      params.append('chat_id', chatId);
+      params.append('text', message);
+      params.append('parse_mode', 'HTML');
+      params.append('disable_web_page_preview', 'true');
 
-    // Try endpoints in sequence (direct first, then transparent reverse proxy fallbacks)
-    for (const getUrl of TELEGRAM_ENDPOINTS) {
-      try {
-        const targetUrl = getUrl(TELEGRAM_NOTIFICATIONS_CONFIG.BOT_TOKEN);
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout per attempt
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
 
-        const response = await fetch(targetUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data && data.ok) {
-            return { success: true };
-          }
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.ok) {
+          return { success: true };
         }
-      } catch (err: any) {
-        lastError = err?.message || 'Сетевая ошибка';
-        // Continue to next endpoint seamlessly
       }
+    } catch {
+      // Идем к следующему методу
+    }
+
+    // 2. Метод JSON POST
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'HTML',
+          disable_web_page_preview: true,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.ok) {
+          return { success: true };
+        }
+      }
+    } catch {
+      // Идем к следующему методу
+    }
+
+    // 3. Метод прямого GET-запроса (простой HTTP GET)
+    try {
+      const getUrl = `${apiUrl}?chat_id=${encodeURIComponent(chatId)}&text=${encodeURIComponent(message)}&parse_mode=HTML&disable_web_page_preview=true`;
+      const response = await fetch(getUrl, { method: 'GET' });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.ok) {
+          return { success: true };
+        }
+      }
+    } catch {
+      // Идем к фоллбеку
     }
 
     return { 
       success: false, 
-      error: lastError,
-      fallbackTelegramUrl: `https://t.me/Steilyt?text=${encodeURIComponent(
-        `Здравствуйте! Оставляю заявку:\nИмя: ${lead.name}\nTelegram/Телефон: ${lead.telegram || lead.phone || ''}\nУслуга: ${lead.projectType}${lead.estimate ? `\nСмета: ${lead.estimate}` : ''}`
-      )}`
+      error: 'Сетевое ограничение браузера',
+      fallbackTelegramUrl: fallbackUrl
     };
   } catch (err: any) {
     console.error('Failed to send lead to Telegram:', err);
     return { 
       success: false, 
       error: err?.message || 'Сетевая ошибка',
-      fallbackTelegramUrl: `https://t.me/Steilyt?text=${encodeURIComponent(
-        `Здравствуйте! Оставляю заявку:\nИмя: ${lead.name}\nУслуга: ${lead.projectType}`
-      )}`
+      fallbackTelegramUrl: fallbackUrl
     };
   }
 }
