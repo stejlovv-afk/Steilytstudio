@@ -38,6 +38,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [fallbackUrl, setFallbackUrl] = useState<string | null>(null);
 
   // Phone input sanitizer & formatter (strict digits, spaces, parentheses, plus, hyphens)
   const handlePhoneChange = (rawValue: string) => {
@@ -112,6 +113,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
     if (result.success) {
       setSubmitted(true);
+      setFallbackUrl(null);
       try {
         confetti({
           particleCount: 120,
@@ -123,10 +125,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         // fallback
       }
     } else {
-      // Even if Telegram API encounters a network issue, display friendly advice and still record or show error
       setErrorMessage(
-        'Не удалось отправить автоматически из-за настроек сети. Вы можете написать напрямую в Telegram: @Steilyt'
+        'Браузер ограничил прямое подключение к Telegram API. Вы можете продублировать заявку в 1 клик прямо в чат Telegram:'
       );
+      if (result.fallbackTelegramUrl) {
+        setFallbackUrl(result.fallbackTelegramUrl);
+      }
     }
   };
 
@@ -418,9 +422,22 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
                   {/* Error Alert if any */}
                   {errorMessage && (
-                    <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs flex items-start gap-2">
-                      <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-                      <span>{errorMessage}</span>
+                    <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs space-y-2">
+                      <div className="flex items-start gap-2">
+                        <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                        <span className="font-medium">{errorMessage}</span>
+                      </div>
+                      {fallbackUrl && (
+                        <a
+                          href={fallbackUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors shadow-xs"
+                        >
+                          <Send className="h-3.5 w-3.5" />
+                          <span>Открыть чат с @Steilyt и отправить заявку</span>
+                        </a>
+                      )}
                     </div>
                   )}
 

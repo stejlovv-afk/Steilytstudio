@@ -9,6 +9,14 @@ export const TELEGRAM_NOTIFICATIONS_CONFIG = {
   BOT_USERNAME: '@SteilytST_bot',
 };
 
+// Endpoints list: Try fast direct first, then reputable CORS/reverse-proxies so users without VPN in any ISP/region work flawlessly
+const TELEGRAM_ENDPOINTS = [
+  (token: string) => `https://api.telegram.org/bot${token}/sendMessage`,
+  // Fallback via Cloudflare / Worker reverse proxy for Telegram API
+  (token: string) => `https://tg-proxy.deno.dev/bot${token}/sendMessage`,
+  (token: string) => `https://api.cors.lol/?url=https://api.telegram.org/bot${token}/sendMessage`,
+];
+
 export interface LeadData {
   name: string;
   telegram: string;
@@ -22,7 +30,13 @@ export interface LeadData {
   comment?: string;
 }
 
-export async function sendLeadToTelegram(lead: LeadData): Promise<{ success: boolean; error?: string }> {
+export interface LeadResult {
+  success: boolean;
+  error?: string;
+  fallbackTelegramUrl?: string;
+}
+
+export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
   try {
     const cleanTg = lead.telegram ? lead.telegram.replace(/^@/, '') : '';
     const dateStr = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
@@ -67,32 +81,60 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<{ success: boo
     message += `⏰ <b>Время (МСК):</b> ${dateStr}\n`;
     message += `🌐 <b>Источник:</b> GitHub Pages / Steilyt Studio`;
 
-    const url = `https://api.telegram.org/bot${TELEGRAM_NOTIFICATIONS_CONFIG.BOT_TOKEN}/sendMessage`;
+    const payload = {
+      chat_id: TELEGRAM_NOTIFICATIONS_CONFIG.CHAT_ID,
+      text: message,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true,
+    };
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_NOTIFICATIONS_CONFIG.CHAT_ID,
-        text: message,
-        parse_mode: 'HTML',
-        disable_web_page_preview: true,
-      }),
-    });
+    let lastError = 'Сетевая ошибка';
 
-    const data = await response.json();
+    // Try endpoints in sequence (direct first, then transparent reverse proxy fallbacks)
+    for (const getUrl of TELEGRAM_ENDPOINTS) {
+      try {
+        const targetUrl = getUrl(TELEGRAM_NOTIFICATIONS_CONFIG.BOT_TOKEN);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout per attempt
 
-    if (!response.ok || !data.ok) {
-      console.error('Telegram API error:', data);
-      return { success: false, error: data.description || 'Ошибка отправки в Telegram' };
+        const response = await fetch(targetUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.ok) {
+            return { success: true };
+          }
+        }
+      } catch (err: any) {
+        lastError = err?.message || 'Сетевая ошибка';
+        // Continue to next endpoint seamlessly
+      }
     }
 
-    return { success: true };
+    return { 
+      success: false, 
+      error: lastError,
+      fallbackTelegramUrl: `https://t.me/Steilyt?text=${encodeURIComponent(
+        `Здравствуйте! Оставляю заявку:\nИмя: ${lead.name}\nTelegram/Телефон: ${lead.telegram || lead.phone || ''}\nУслуга: ${lead.projectType}${lead.estimate ? `\nСмета: ${lead.estimate}` : ''}`
+      )}`
+    };
   } catch (err: any) {
     console.error('Failed to send lead to Telegram:', err);
-    return { success: false, error: err?.message || 'Сетевая ошибка' };
+    return { 
+      success: false, 
+      error: err?.message || 'Сетевая ошибка',
+      fallbackTelegramUrl: `https://t.me/Steilyt?text=${encodeURIComponent(
+        `Здравствуйте! Оставляю заявку:\nИмя: ${lead.name}\nУслуга: ${lead.projectType}`
+      )}`
+    };
   }
 }
 
