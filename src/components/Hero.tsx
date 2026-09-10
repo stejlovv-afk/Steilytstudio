@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { TmaPhoneSimulator } from './TmaPhoneSimulator';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
   onOpenCalculator: () => void;
@@ -9,6 +10,8 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases }) => {
+  const { t, language } = useLanguage();
+
   return (
     <section id="hero" className="relative min-h-screen pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24 overflow-hidden ambient-glow bg-[#F8FAFC] dark:bg-[#0A0F1D] transition-colors duration-300">
       
@@ -31,10 +34,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
             >
               <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Студия веб-разработки & Telegram
+                {t.hero.pillStudio}
               </span>
               <span className="text-xs text-emerald-700 dark:text-emerald-300 font-bold bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800/60 px-2.5 py-0.5 rounded-full">
-                0% предоплаты
+                {t.hero.pillNoPrepayment}
               </span>
             </motion.div>
 
@@ -45,7 +48,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
               transition={{ duration: 0.55, delay: 0.1 }}
               className="font-display text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.18] sm:leading-[1.12] mb-4 sm:mb-6"
             >
-              Создаем <span className="text-blue-600 dark:text-blue-400">сайты и Telegram-боты</span>, которые приносят клиентов
+              {t.hero.titleStart}
+              <span className="text-blue-600 dark:text-blue-400">{t.hero.titleHighlight}</span>
+              {t.hero.titleEnd}
             </motion.h1>
 
             {/* Clear Subtitle */}
@@ -55,7 +60,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
               transition={{ duration: 0.55, delay: 0.2 }}
               className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mb-6 sm:mb-8 font-normal"
             >
-              Понятные сайты для бизнеса, удобные магазины и запись на услуги прямо в Telegram. Приступаем к работе <strong className="font-semibold text-slate-900 dark:text-white">без предоплаты</strong>: вы платите только тогда, когда сайт готов и протестирован на вашем телефоне.
+              {t.hero.subtitle}
+              <strong className="font-semibold text-slate-900 dark:text-white">{t.hero.subtitleHighlight}</strong>
+              {t.hero.subtitleAfter}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -70,7 +77,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
                 onClick={onOpenCalculator}
                 className="group relative inline-flex items-center justify-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:scale-105 active:scale-[0.98] min-h-[48px]"
               >
-                <span>Рассчитать стоимость проекта</span>
+                <span>{t.hero.calcButton}</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform group-hover:translate-x-1" />
               </button>
 
@@ -78,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
                 onClick={onScrollToCases}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 shadow-xs hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-[0.98] min-h-[48px]"
               >
-                <span>Посмотреть примеры и демо</span>
+                <span>{t.hero.viewCases}</span>
               </button>
             </motion.div>
 
@@ -91,23 +98,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCalculator, onScrollToCases })
             >
               <div className="flex flex-col p-3 sm:p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/90 dark:border-emerald-800/40 shadow-xs">
                 <div className="text-base sm:text-2xl font-black font-display text-emerald-700 dark:text-emerald-400">
-                  0 ₽ аванс
+                  {language === 'ru' ? '0 ₽ аванс' : '0 $ deposit'}
                 </div>
-                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5 leading-tight">Оплата по результату</span>
+                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5 leading-tight">{t.hero.benefitNoPrepay}</span>
               </div>
 
               <div className="flex flex-col p-3 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div className="text-base sm:text-2xl font-black font-display text-blue-600 dark:text-blue-400">
-                  от 5 дней
+                  {language === 'ru' ? 'от 5 дней' : 'from 5 days'}
                 </div>
-                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5 leading-tight">Быстрый запуск</span>
+                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5 leading-tight">{t.hero.benefitSpeed}</span>
               </div>
 
               <div className="flex flex-col p-3 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div className="text-base sm:text-2xl font-black font-display text-slate-950 dark:text-white">
-                  в 2 клика
+                  {language === 'ru' ? 'в 2 клика' : 'in 2 clicks'}
                 </div>
-                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5 leading-tight">Удобно клиенту</span>
+                <span className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5 leading-tight">{t.hero.benefitGuarantee}</span>
               </div>
             </motion.div>
 

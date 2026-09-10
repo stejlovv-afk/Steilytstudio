@@ -5,44 +5,121 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FoodItem {
   id: string;
   name: string;
+  nameEn: string;
   category: string;
+  categoryEn: string;
   price: number;
   calories: string;
+  caloriesEn: string;
   time: string;
+  timeEn: string;
   rating: number;
   emoji: string;
   badge?: string;
+  badgeEn?: string;
 }
 
 const mockMenu: FoodItem[] = [
-  { id: '1', name: 'Cyber Burger XL', category: 'Бургеры', price: 590, calories: '620 ккал', time: '15 мин', rating: 4.9, emoji: '🍔', badge: 'Топ' },
-  { id: '2', name: 'Tokyo Salmon Bowl', category: 'Боулы', price: 680, calories: '480 ккал', time: '12 мин', rating: 5.0, emoji: '🥗', badge: 'Fresh' },
-  { id: '3', name: 'Truffle Pizza Slice', category: 'Пицца', price: 420, calories: '390 ккал', time: '10 мин', rating: 4.8, emoji: '🍕' },
-  { id: '4', name: 'Neon Matcha Latte', category: 'Напитки', price: 290, calories: '140 ккал', time: '5 мин', rating: 4.9, emoji: '🍵' },
+  { 
+    id: '1', 
+    name: 'Cyber Burger XL', 
+    nameEn: 'Cyber Burger XL',
+    category: 'Бургеры', 
+    categoryEn: 'Burgers',
+    price: 590, 
+    calories: '620 ккал', 
+    caloriesEn: '620 kcal',
+    time: '15 мин', 
+    timeEn: '15 min',
+    rating: 4.9, 
+    emoji: '🍔', 
+    badge: 'Топ',
+    badgeEn: 'Top'
+  },
+  { 
+    id: '2', 
+    name: 'Tokyo Salmon Bowl', 
+    nameEn: 'Tokyo Salmon Bowl',
+    category: 'Боулы', 
+    categoryEn: 'Bowls',
+    price: 680, 
+    calories: '480 ккал', 
+    caloriesEn: '480 kcal',
+    time: '12 мин', 
+    timeEn: '12 min',
+    rating: 5.0, 
+    emoji: '🥗', 
+    badge: 'Fresh',
+    badgeEn: 'Fresh'
+  },
+  { 
+    id: '3', 
+    name: 'Truffle Pizza Slice', 
+    nameEn: 'Truffle Pizza Slice',
+    category: 'Пицца', 
+    categoryEn: 'Pizza',
+    price: 420, 
+    calories: '390 ккал', 
+    caloriesEn: '390 kcal',
+    time: '10 мин', 
+    timeEn: '10 min',
+    rating: 4.8, 
+    emoji: '🍕' 
+  },
+  { 
+    id: '4', 
+    name: 'Neon Matcha Latte', 
+    nameEn: 'Neon Matcha Latte',
+    category: 'Напитки', 
+    categoryEn: 'Drinks',
+    price: 290, 
+    calories: '140 ккал', 
+    caloriesEn: '140 kcal',
+    time: '5 мин', 
+    timeEn: '5 min',
+    rating: 4.9, 
+    emoji: '🍵' 
+  },
+];
+
+const CATEGORIES = [
+  { id: 'all', ru: 'Все', en: 'All' },
+  { id: 'burgers', ru: 'Бургеры', en: 'Burgers' },
+  { id: 'bowls', ru: 'Боулы', en: 'Bowls' },
+  { id: 'pizza', ru: 'Пицца', en: 'Pizza' },
+  { id: 'drinks', ru: 'Напитки', en: 'Drinks' },
 ];
 
 export const TmaPhoneSimulator: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState('Все');
+  const { language } = useLanguage();
+  const isRu = language === 'ru';
+
+  const [activeCategoryId, setActiveCategoryId] = useState('all');
   const [cart, setCart] = useState<{ [id: string]: number }>({ '1': 1, '4': 1 });
   const [orderStage, setOrderStage] = useState<'menu' | 'success'>('menu');
   const [orderId, setOrderId] = useState<number>(4892);
   const [orderStep, setOrderStep] = useState<number>(1);
   const [hapticPing, setHapticPing] = useState(false);
 
-  const categories = ['Все', 'Бургеры', 'Боулы', 'Пицца', 'Напитки'];
-
   const triggerHaptic = () => {
     setHapticPing(true);
     setTimeout(() => setHapticPing(false), 500);
   };
 
-  const filteredItems = activeCategory === 'Все'
+  const filteredItems = activeCategoryId === 'all'
     ? mockMenu
-    : mockMenu.filter(item => item.category === activeCategory);
+    : mockMenu.filter(item => {
+        if (activeCategoryId === 'burgers') return item.categoryEn === 'Burgers';
+        if (activeCategoryId === 'bowls') return item.categoryEn === 'Bowls';
+        if (activeCategoryId === 'pizza') return item.categoryEn === 'Pizza';
+        if (activeCategoryId === 'drinks') return item.categoryEn === 'Drinks';
+        return true;
+      });
 
   const totalCount = Object.values(cart).reduce<number>((sum: number, count: number) => sum + count, 0);
   const rawSum = Object.entries(cart).reduce<number>((sum: number, [id, count]: [string, number]) => {
@@ -108,7 +185,9 @@ export const TmaPhoneSimulator: React.FC = () => {
         className="hidden md:flex absolute -left-12 top-16 z-20 items-center gap-2 rounded-full border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-3.5 py-1.5 backdrop-blur-md shadow-lg pointer-events-none"
       >
         <span className="flex h-2 w-2 rounded-full bg-blue-600" />
-        <span className="text-xs font-bold text-slate-900 dark:text-slate-100">Внутри Telegram</span>
+        <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+          {isRu ? 'Внутри Telegram' : 'Inside Telegram'}
+        </span>
       </motion.div>
 
       <motion.div 
@@ -117,7 +196,9 @@ export const TmaPhoneSimulator: React.FC = () => {
         className="hidden md:flex absolute -right-10 bottom-24 z-20 items-center gap-2 rounded-full border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-3.5 py-1.5 backdrop-blur-md shadow-lg pointer-events-none"
       >
         <Zap className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400 fill-current" />
-        <span className="text-xs font-bold text-slate-900 dark:text-slate-100">Оплата СБП в 1 клик</span>
+        <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+          {isRu ? 'Оплата СБП в 1 клик' : '1-click Apple Pay & Card'}
+        </span>
       </motion.div>
 
       {/* Smartphone Chassis - Sleek Deep Navy/Slate Frame */}
@@ -135,12 +216,12 @@ export const TmaPhoneSimulator: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span onClick={handleReset} className="text-[11px] sm:text-xs text-blue-400 font-semibold cursor-pointer hover:underline">
-                Закрыть
+                {isRu ? 'Закрыть' : 'Close'}
               </span>
             </div>
             <div className="text-center">
               <div className="text-[11px] sm:text-xs font-bold text-white flex items-center justify-center gap-1">
-                <span>Доставка еды</span>
+                <span>{isRu ? 'Доставка еды' : 'Food Delivery'}</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />
               </div>
               <p className="text-[8px] sm:text-[9px] text-gray-400">Telegram Mini App</p>
@@ -149,7 +230,7 @@ export const TmaPhoneSimulator: React.FC = () => {
               <button 
                 onClick={handleReset} 
                 className="p-1 rounded-lg bg-[#282832] text-gray-300 hover:text-white active:scale-90 transition-transform"
-                title="Сбросить симулятор"
+                title={isRu ? 'Сбросить симулятор' : 'Reset Simulator'}
               >
                 <RefreshCw className="h-3 w-3" />
               </button>
@@ -176,10 +257,12 @@ export const TmaPhoneSimulator: React.FC = () => {
                       <Flame className="h-3.5 w-3.5 fill-current" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[11px] font-bold text-white truncate">Скидка 15% на первый заказ</div>
+                      <div className="text-[11px] font-bold text-white truncate">
+                        {isRu ? 'Скидка 15% на первый заказ' : '15% off first order'}
+                      </div>
                       <div className="text-[9px] text-gray-400 flex items-center gap-1 truncate">
                         <MapPin className="h-2.5 w-2.5 text-blue-400" />
-                        <span>Доставка за 25–35 минут</span>
+                        <span>{isRu ? 'Доставка за 25–35 минут' : 'Delivery in 25–35 min'}</span>
                       </div>
                     </div>
                   </div>
@@ -190,20 +273,20 @@ export const TmaPhoneSimulator: React.FC = () => {
 
                 {/* Navigation Category Pill */}
                 <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1">
-                  {categories.map((cat) => (
+                  {CATEGORIES.map((cat) => (
                     <button
-                      key={cat}
+                      key={cat.id}
                       onClick={() => {
                         triggerHaptic();
-                        setActiveCategory(cat);
+                        setActiveCategoryId(cat.id);
                       }}
                       className={`text-[10px] font-medium px-2.5 py-1 rounded-xl whitespace-nowrap transition-all ${
-                        activeCategory === cat
+                        activeCategoryId === cat.id
                           ? 'bg-blue-600 text-white font-bold'
                           : 'bg-[#1c1c22] text-gray-400 hover:text-white border border-white/5'
                       }`}
                     >
-                      {cat}
+                      {isRu ? cat.ru : cat.en}
                     </button>
                   ))}
                 </div>
@@ -212,6 +295,10 @@ export const TmaPhoneSimulator: React.FC = () => {
                 <div className="space-y-2 pb-14">
                   {filteredItems.map((item) => {
                     const count = cart[item.id] || 0;
+                    const itemName = isRu ? item.name : item.nameEn;
+                    const itemCalories = isRu ? item.calories : item.caloriesEn;
+                    const itemBadge = isRu ? item.badge : (item.badgeEn || item.badge);
+
                     return (
                       <div 
                         key={item.id}
@@ -223,15 +310,15 @@ export const TmaPhoneSimulator: React.FC = () => {
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1">
-                              <h4 className="text-xs font-semibold text-gray-200 truncate">{item.name}</h4>
-                              {item.badge && (
+                              <h4 className="text-xs font-semibold text-gray-200 truncate">{itemName}</h4>
+                              {itemBadge && (
                                 <span className="text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1 rounded">
-                                  {item.badge}
+                                  {itemBadge}
                                 </span>
                               )}
                             </div>
                             <div className="flex items-center gap-1.5 text-[9px] text-gray-400 mt-0.5">
-                              <span>{item.calories}</span>
+                              <span>{itemCalories}</span>
                               <span>•</span>
                               <span className="flex items-center text-amber-400">
                                 <Star className="h-2.5 w-2.5 fill-amber-400 mr-0.5" />
@@ -287,26 +374,36 @@ export const TmaPhoneSimulator: React.FC = () => {
                   <Check className="h-6 w-6 stroke-[3]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">Заказ #{orderId} оплачен!</h3>
-                  <p className="text-[10px] text-gray-400 mt-0.5">Чек отправлен в Telegram. Оплата через СБП без комиссии.</p>
+                  <h3 className="text-sm font-bold text-white">
+                    {isRu ? `Заказ #${orderId} оплачен!` : `Order #${orderId} paid!`}
+                  </h3>
+                  <p className="text-[10px] text-gray-400 mt-0.5">
+                    {isRu 
+                      ? 'Чек отправлен в Telegram. Оплата через СБП без комиссии.' 
+                      : 'Receipt sent to Telegram. Instant zero-fee payment.'}
+                  </p>
                 </div>
 
                 <div className="rounded-xl bg-[#1c1c22] p-3 border border-white/5 text-left text-xs space-y-2">
                   <div className="flex items-center justify-between text-[9px] text-gray-400">
-                    <span>СТАТУС ЗАКАЗА:</span>
-                    <span className="text-emerald-400 font-bold">ОПЛАЧЕН</span>
+                    <span>{isRu ? 'СТАТУС ЗАКАЗА:' : 'ORDER STATUS:'}</span>
+                    <span className="text-emerald-400 font-bold">{isRu ? 'ОПЛАЧЕН' : 'PAID'}</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     {orderStep === 1 ? (
                       <>
                         <span className="h-2 w-2 rounded-full bg-amber-400 animate-ping" />
-                        <span className="font-bold text-white text-xs">Готовится на кухне (12 мин)</span>
+                        <span className="font-bold text-white text-xs">
+                          {isRu ? 'Готовится на кухне (12 мин)' : 'Preparing in kitchen (12 min)'}
+                        </span>
                       </>
                     ) : (
                       <>
                         <Bike className="h-4 w-4 text-blue-400 animate-bounce" />
-                        <span className="font-bold text-blue-400 text-xs">Курьер везет заказ к вам</span>
+                        <span className="font-bold text-blue-400 text-xs">
+                          {isRu ? 'Курьер везет заказ к вам' : 'Courier is on the way'}
+                        </span>
                       </>
                     )}
                   </div>
@@ -320,7 +417,7 @@ export const TmaPhoneSimulator: React.FC = () => {
                   onClick={handleReset}
                   className="w-full py-2.5 rounded-xl border border-white/10 bg-[#1c1c22] text-xs font-semibold text-gray-300 hover:text-white hover:border-blue-500 transition-all"
                 >
-                  Вернуться в меню
+                  {isRu ? 'Вернуться в меню' : 'Return to Menu'}
                 </button>
               </motion.div>
             )}
@@ -340,10 +437,10 @@ export const TmaPhoneSimulator: React.FC = () => {
               >
                 <div className="flex items-center gap-1.5">
                   <ShoppingBag className="h-3.5 w-3.5" />
-                  <span>Оформить заказ</span>
+                  <span>{isRu ? 'Оформить заказ' : 'Checkout'}</span>
                 </div>
                 <div className="font-bold">
-                  {totalCount > 0 ? `${discountedSum} ₽` : 'Корзина пуста'}
+                  {totalCount > 0 ? `${discountedSum} ₽` : (isRu ? 'Корзина пуста' : 'Cart is empty')}
                 </div>
               </button>
             </div>
@@ -358,7 +455,9 @@ export const TmaPhoneSimulator: React.FC = () => {
       {/* Caption under simulator */}
       <div className="mt-3 text-center">
         <p className="text-xs text-slate-500 font-medium">
-          Интерактивное демо Telegram-магазина • Добавьте блюда и нажмите «Оформить»
+          {isRu 
+            ? 'Интерактивное демо Telegram-магазина • Добавьте блюда и нажмите «Оформить»' 
+            : 'Interactive Telegram Mini App demo • Add dishes & tap "Checkout"'}
         </p>
       </div>
     </div>

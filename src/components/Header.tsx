@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Send, Sun, Moon } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Send, Sun, Moon, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   onOpenCalculator: () => void;
@@ -12,6 +13,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,12 +36,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: 'Услуги', href: '#services' },
-    { name: 'Преимущества', href: '#advantages' },
-    { name: 'Примеры работ', href: '#portfolio' },
-    { name: 'Калькулятор', href: '#calculator' },
-    { name: 'Этапы', href: '#workflow' },
-    { name: 'Контакты', href: '#contact' },
+    { name: t.nav.services, href: '#services' },
+    { name: t.nav.advantages, href: '#advantages' },
+    { name: t.nav.portfolio, href: '#portfolio' },
+    { name: t.nav.calculator, href: '#calculator' },
+    { name: t.nav.workflow, href: '#workflow' },
+    { name: t.nav.contact, href: '#contact' },
   ];
 
   return (
@@ -61,10 +63,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
           <div className="flex flex-col">
             <span className="font-display text-lg font-black tracking-tight text-slate-950 dark:text-white uppercase flex items-center gap-1.5">
               STEILYT<span className="text-blue-600 dark:text-blue-400">STUDIO</span>
-              <span className="h-2 w-2 rounded-full bg-emerald-500" title="Принимаем заказы" />
+              <span className="h-2 w-2 rounded-full bg-emerald-500" title={t.nav.availableBadge} />
             </span>
             <span className="text-[10px] font-medium tracking-wider text-slate-500 dark:text-slate-400 uppercase -mt-0.5">
-              Сайты & Telegram-боты
+              {t.nav.subLogo}
             </span>
           </div>
         </a>
@@ -82,15 +84,28 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
           ))}
         </nav>
 
-        {/* Action Buttons & Theme Switcher */}
-        <div className="hidden sm:flex items-center gap-2.5">
+        {/* Action Buttons, Language & Theme Switcher */}
+        <div className="hidden sm:flex items-center gap-2">
           
+          {/* Language Switcher Button (Desktop) */}
+          <button
+            id="language-toggle-button"
+            onClick={toggleLanguage}
+            className="flex items-center gap-1.5 px-2.5 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 active:scale-95 transition-all shadow-xs text-xs font-bold"
+            title={t.nav.langSwitchTitle}
+            aria-label="Toggle language"
+          >
+            <Globe className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="uppercase tracking-wider font-extrabold text-blue-600 dark:text-blue-400">{language === 'ru' ? 'RU' : 'EN'}</span>
+            <span className="text-[10px] text-slate-400 font-normal">/ {language === 'ru' ? 'EN' : 'RU'}</span>
+          </button>
+
           {/* Theme Toggle Button */}
           <button
             id="theme-toggle-button"
             onClick={toggleTheme}
             className="flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:scale-105 active:scale-95 transition-all shadow-xs"
-            title={theme === 'dark' ? 'Включить светлую тему' : 'Включить темную тему'}
+            title={theme === 'dark' ? t.nav.themeToggleLight : t.nav.themeToggleDark}
             aria-label="Toggle theme"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -122,7 +137,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
             href="https://t.me/Steilyt"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all shadow-xs"
+            className="flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3.5 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-blue-500 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all shadow-xs"
           >
             <Send className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
             <span>@Steilyt</span>
@@ -130,15 +145,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
 
           <button
             onClick={onOpenCalculator}
-            className="flex items-center gap-1.5 rounded-full bg-blue-600 hover:bg-blue-700 px-5 py-2 text-xs font-bold text-white shadow-md shadow-blue-600/20 hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-1.5 rounded-full bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-600/20 hover:scale-105 active:scale-95 transition-all"
           >
-            <span>Рассчитать стоимость</span>
+            <span>{t.nav.calculateCost}</span>
             <ArrowUpRight className="h-3.5 w-3.5 stroke-[2.5]" />
           </button>
         </div>
 
-        {/* Mobile menu and theme toggle */}
-        <div className="flex items-center gap-2 sm:hidden">
+        {/* Mobile menu, language and theme toggle */}
+        <div className="flex items-center gap-1.5 sm:hidden">
+          {/* Mobile Language button */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-2.5 h-[42px] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-extrabold shadow-xs active:scale-95 transition-transform"
+            aria-label="Toggle language"
+            title={t.nav.langSwitchTitle}
+          >
+            <Globe className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+            <span>{language.toUpperCase()}</span>
+          </button>
+
           <button
             onClick={toggleTheme}
             className="flex items-center justify-center min-w-[42px] min-h-[42px] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 shadow-xs active:scale-95 transition-transform"
@@ -195,25 +221,38 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
                 ))}
               </div>
 
-              {/* Mobile Theme Switch Button */}
-              <div className="pt-3 pb-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Тема оформления:</span>
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 active:scale-95"
-                >
-                  {theme === 'dark' ? (
-                    <>
-                      <Sun className="h-3.5 w-3.5 text-amber-400" />
-                      <span>Темная</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="h-3.5 w-3.5 text-slate-700" />
-                      <span>Светлая</span>
-                    </>
-                  )}
-                </button>
+              {/* Mobile Language & Theme Row */}
+              <div className="pt-3 pb-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Язык / Language:</span>
+                  <button
+                    onClick={toggleLanguage}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 active:scale-95"
+                  >
+                    <Globe className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                    <span>{language === 'ru' ? '🇷🇺 Русский (RU)' : '🇬🇧 English (EN)'}</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">{language === 'ru' ? 'Тема оформления:' : 'Theme appearance:'}</span>
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 active:scale-95"
+                  >
+                    {theme === 'dark' ? (
+                      <>
+                        <Sun className="h-3.5 w-3.5 text-amber-400" />
+                        <span>{language === 'ru' ? 'Темная' : 'Dark'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="h-3.5 w-3.5 text-slate-700" />
+                        <span>{language === 'ru' ? 'Светлая' : 'Light'}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div className="flex flex-col gap-2.5 pt-1">
@@ -224,7 +263,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
                   className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 min-h-[46px] text-xs font-bold text-slate-800 dark:text-slate-200 active:scale-[0.98]"
                 >
                   <Send className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <span>Написать в Telegram (@Steilyt)</span>
+                  <span>{t.nav.writeTelegram} (@Steilyt)</span>
                 </a>
 
                 <button
@@ -234,7 +273,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCalculator, onOpenContact 
                   }}
                   className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 min-h-[46px] text-xs font-bold text-white shadow-md shadow-blue-600/20 active:scale-[0.98]"
                 >
-                  <span>Рассчитать стоимость</span>
+                  <span>{t.nav.calculateCost}</span>
                   <ArrowUpRight className="h-4 w-4 stroke-[2.5]" />
                 </button>
               </div>

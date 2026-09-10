@@ -7,25 +7,31 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface CustomModifier {
   id: string;
   name: string;
+  nameEn: string;
   price: number;
 }
 
 interface MenuItem {
   id: string;
   name: string;
+  nameEn: string;
   category: 'burgers' | 'combos' | 'drinks' | 'desserts';
   price: number;
   calories: string;
+  caloriesEn: string;
   emoji: string;
   image: string;
   popular?: boolean;
   isNew?: boolean;
   description: string;
+  descriptionEn: string;
   ingredients: string[];
+  ingredientsEn: string[];
   donenessOptions?: string[];
   availableModifiers?: CustomModifier[];
 }
@@ -44,124 +50,159 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: 'b1',
     name: 'Cyber Burger Supreme',
+    nameEn: 'Cyber Burger Supreme',
     category: 'burgers',
     price: 490,
     calories: '580 ккал',
+    caloriesEn: '580 kcal',
     emoji: '🍔',
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Флагманский бургер с сочной котлетой из мраморной говядины Black Angus, трюфельным айоли и чеддером.',
+    descriptionEn: 'Flagship burger with juicy Black Angus prime beef patty, truffle aioli, and cheddar.',
     ingredients: ['Мраморная говядина Black Angus', 'Трюфельный айоли', 'Чеддер 12 мес.', 'Карамелизированный лук', 'Пышная бриошь'],
+    ingredientsEn: ['Black Angus Beef', 'Truffle Aioli', 'Aged Cheddar 12m', 'Caramelized Onion', 'Brioche Bun'],
     donenessOptions: ['Medium', 'Medium Well', 'Well Done'],
     availableModifiers: [
-      { id: 'm1', name: 'Двойной сыр Чеддер', price: 60 },
-      { id: 'm2', name: 'Хрустящий бекон', price: 80 },
-      { id: 'm3', name: 'Халапеньо гриль', price: 45 },
-      { id: 'm4', name: 'Трюфельный соус Extra', price: 55 }
+      { id: 'm1', name: 'Двойной сыр Чеддер', nameEn: 'Double Cheddar Cheese', price: 60 },
+      { id: 'm2', name: 'Хрустящий бекон', nameEn: 'Crispy Bacon', price: 80 },
+      { id: 'm3', name: 'Халапеньо гриль', nameEn: 'Grilled Jalapeño', price: 45 },
+      { id: 'm4', name: 'Трюфельный соус Extra', nameEn: 'Extra Truffle Sauce', price: 55 }
     ]
   },
   {
     id: 'b2',
     name: 'TMA Truffle Bacon',
+    nameEn: 'TMA Truffle Bacon',
     category: 'burgers',
     price: 540,
     calories: '640 ккал',
+    caloriesEn: '640 kcal',
     emoji: '🥓',
     image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Двойной хрустящий бекон, выдержанный благородный сыр Дорблю и фирменный клюквенный джем.',
+    descriptionEn: 'Double crispy bacon, aged noble Dorblu blue cheese, and signature cranberry jam.',
     ingredients: ['Двойной бекон', 'Соус Дорблю', 'Красный маринованный лук', 'Свежая руккола', 'Бриошь'],
+    ingredientsEn: ['Double Bacon', 'Dorblu Sauce', 'Pickled Red Onion', 'Fresh Arugula', 'Brioche'],
     donenessOptions: ['Medium Well', 'Well Done'],
     availableModifiers: [
-      { id: 'm1', name: 'Двойной сыр Чеддер', price: 60 },
-      { id: 'm2', name: 'Экстра бекон', price: 80 },
-      { id: 'm4', name: 'Трюфельный соус', price: 55 }
+      { id: 'm1', name: 'Двойной сыр Чеддер', nameEn: 'Double Cheddar Cheese', price: 60 },
+      { id: 'm2', name: 'Экстра бекон', nameEn: 'Extra Bacon', price: 80 },
+      { id: 'm4', name: 'Трюфельный соус', nameEn: 'Truffle Sauce', price: 55 }
     ]
   },
   {
     id: 'b3',
     name: 'Neon Vegan Burger',
+    nameEn: 'Neon Vegan Burger',
     category: 'burgers',
     price: 420,
     calories: '410 ккал',
+    caloriesEn: '410 kcal',
     emoji: '🥑',
     image: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=400&q=80',
     isNew: true,
     description: '100% растительная котлета Beyond Meat, свежее гуакамоле, томаты черри и соус манго-халапеньо.',
+    descriptionEn: '100% plant-based Beyond Meat patty, fresh guacamole, cherry tomatoes, and mango-jalapeño sauce.',
     ingredients: ['Котлета Beyond Meat', 'Гуакамоле из авокадо Хасс', 'Томаты кумато', 'Шпинат', 'Безглютеновая булочка'],
+    ingredientsEn: ['Beyond Meat Patty', 'Hass Avocado Guacamole', 'Kumato Tomatoes', 'Baby Spinach', 'Gluten-free Bun'],
     availableModifiers: [
-      { id: 'm5', name: 'Экстра гуакамоле', price: 75 },
-      { id: 'm3', name: 'Халапеньо', price: 45 }
+      { id: 'm5', name: 'Экстра гуакамоле', nameEn: 'Extra Guacamole', price: 75 },
+      { id: 'm3', name: 'Халапеньо', nameEn: 'Jalapeño', price: 45 }
     ]
   },
   {
     id: 'c1',
     name: 'Комбо "PRO Девелопер"',
+    nameEn: 'Combo "PRO Developer"',
     category: 'combos',
     price: 690,
     calories: '820 ккал',
+    caloriesEn: '820 kcal',
     emoji: '🍱',
     image: 'https://images.unsplash.com/photo-1610614819513-58e34989848b?auto=format&fit=crop&w=400&q=80',
     popular: true,
     description: 'Сбалансированный обед: Cyber Burger, хрустящий картофель фри с розмарином, соус и освежающая Nitro Cola.',
+    descriptionEn: 'Balanced lunch: Cyber Burger, rosemary sea-salt fries, signature dip, and refreshing Nitro Cola.',
     ingredients: ['Cyber Burger (Black Angus)', 'Картофель Фри с морской солью', 'Craft Nitro Cola 0.5л', 'Сырный дип'],
+    ingredientsEn: ['Cyber Burger (Black Angus)', 'Sea Salt Rosemary Fries', 'Craft Nitro Cola 0.5L', 'Cheese Dip'],
     donenessOptions: ['Medium', 'Medium Well', 'Well Done'],
     availableModifiers: [
-      { id: 'm1', name: 'Двойной сыр в бургер', price: 60 },
-      { id: 'm2', name: 'Хрустящий бекон', price: 80 }
+      { id: 'm1', name: 'Двойной сыр в бургер', nameEn: 'Double Cheese in Burger', price: 60 },
+      { id: 'm2', name: 'Хрустящий бекон', nameEn: 'Crispy Bacon', price: 80 }
     ]
   },
   {
     id: 'c2',
     name: 'Комбо "Cyber Fitness"',
+    nameEn: 'Combo "Cyber Fitness"',
     category: 'combos',
     price: 640,
     calories: '510 ккал',
+    caloriesEn: '510 kcal',
     emoji: '🥗',
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80',
     description: 'Протеиновый боул с лососем су-вид, киноа, авокадо и детокс-матча тоник без сахара.',
+    descriptionEn: 'High-protein bowl with sous-vide salmon, edamame quinoa, fresh avocado, and sugar-free matcha tonic.',
     ingredients: ['Лосось су-вид', 'Киноа с эдамаме', 'Авокадо Хасс', 'Matcha Tonic 0.33л'],
+    ingredientsEn: ['Sous-vide Salmon', 'Edamame Quinoa', 'Hass Avocado', 'Matcha Tonic 0.33L'],
     availableModifiers: [
-      { id: 'm5', name: 'Экстра лосось (+50г)', price: 140 },
-      { id: 'm5a', name: 'Семена чиа', price: 30 }
+      { id: 'm5', name: 'Экстра лосось (+50г)', nameEn: 'Extra Salmon (+50g)', price: 140 },
+      { id: 'm5a', name: 'Семена чиа', nameEn: 'Chia Seeds', price: 30 }
     ]
   },
   {
     id: 'd1',
     name: 'Craft Nitro Cola',
+    nameEn: 'Craft Nitro Cola',
     category: 'drinks',
     price: 190,
     calories: '120 ккал',
+    caloriesEn: '120 kcal',
     emoji: '🥤',
     image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80',
     description: 'Крафтовая кола из натурального ореха колы, настоянная на азоте с веточкой свежей мяты.',
-    ingredients: ['Экстракт ореха колы', 'Мята перечная', 'Азотная подача', 'Тростниковый сахар']
+    descriptionEn: 'Craft nitro-infused cola made from natural kola nuts with a fresh sprig of garden mint.',
+    ingredients: ['Экстракт ореха колы', 'Мята перечная', 'Азотная подача', 'Тростниковый сахар'],
+    ingredientsEn: ['Kola Nut Extract', 'Garden Peppermint', 'Nitro Draft', 'Cane Sugar']
   },
   {
     id: 'd2',
     name: 'Matcha Tonic Zero',
+    nameEn: 'Matcha Tonic Zero',
     category: 'drinks',
     price: 240,
     calories: '45 ккал',
+    caloriesEn: '45 kcal',
     emoji: '🍵',
     image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=400&q=80',
     description: 'Японская церемониальная матча Uji, фреш лайма и натуральный тоник без сахара.',
-    ingredients: ['Церемониальная матча из Киото', 'Фреш лайма', 'Тоник без калорий']
+    descriptionEn: 'Ceremonial grade Uji Japanese matcha, fresh lime juice, and zero-calorie botanical tonic.',
+    ingredients: ['Церемониальная матча из Киото', 'Фреш лайма', 'Тоник без калорий'],
+    ingredientsEn: ['Ceremonial Kyoto Matcha', 'Lime Juice', 'Zero-sugar Tonic']
   },
   {
     id: 's1',
     name: 'Cyber Donut Salted Caramel',
+    nameEn: 'Cyber Donut Salted Caramel',
     category: 'desserts',
     price: 220,
     calories: '290 ккал',
+    caloriesEn: '290 kcal',
     emoji: '🍩',
     image: 'https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=400&q=80',
     description: 'Теплый пончик с жидким центром из соленой карамели, посыпанный съедобным кондитерским золотом.',
-    ingredients: ['Соленая карамель fleur de sel', 'Сливочный крем маскарпоне', 'Пищевое золото']
+    descriptionEn: 'Warm artisanal donut with molten salted caramel center, dusted with 24k edible pastry gold.',
+    ingredients: ['Соленая карамель fleur de sel', 'Сливочный крем маскарпоне', 'Пищевое золото'],
+    ingredientsEn: ['Fleur de Sel Caramel', 'Mascarpone Cream', 'Edible Gold Dust']
   }
 ];
 
 export const UrbanLunchTester: React.FC = () => {
+  const { language } = useLanguage();
+  const isRu = language === 'ru';
+
   const [activeCategory, setActiveCategory] = useState<'all' | 'burgers' | 'combos' | 'drinks' | 'desserts'>('all');
   
   // Cart state with detailed modifier configurations
@@ -170,7 +211,7 @@ export const UrbanLunchTester: React.FC = () => {
       item: MENU_ITEMS[0],
       quantity: 1,
       selectedDoneness: 'Medium Well',
-      selectedModifiers: [{ id: 'm2', name: 'Хрустящий бекон', price: 80 }],
+      selectedModifiers: [{ id: 'm2', name: 'Хрустящий бекон', nameEn: 'Crispy Bacon', price: 80 }],
       itemKey: 'b1-Medium Well-[m2]'
     },
     {
@@ -192,7 +233,9 @@ export const UrbanLunchTester: React.FC = () => {
 
   // Checkout state
   const [paymentMethod, setPaymentMethod] = useState<'sbp' | 'card' | 'cash'>('sbp');
-  const [deliveryAddress, setDeliveryAddress] = useState<string>('Пресненская наб., д. 12, Башня Федерация');
+  const [deliveryAddress, setDeliveryAddress] = useState<string>(
+    isRu ? 'Москва, Пресненская наб., д. 12, Башня Федерация' : '12 Presnenskaya Emb, Moscow (Federation Tower)'
+  );
   const [isDetectingGeo, setIsDetectingGeo] = useState<boolean>(false);
   const [useLoyaltyPoints, setUseLoyaltyPoints] = useState<boolean>(false);
   const userLoyaltyBalance = 240; // 240 points available
@@ -200,17 +243,16 @@ export const UrbanLunchTester: React.FC = () => {
 
   // Live order progress tracking
   const [orderId, setOrderId] = useState<number>(4821);
-  const [orderTimeElapsed, setOrderTimeElapsed] = useState<number>(0);
   const [deliveryStatusStep, setDeliveryStatusStep] = useState<number>(1); // 1: Accepted, 2: Chef cooking, 3: Courier on route, 4: Arrived
   const [hapticFeedbackTriggered, setHapticFeedbackTriggered] = useState(false);
   const [courierChatOpen, setCourierChatOpen] = useState(false);
 
   const categories = [
-    { id: 'all', label: 'Все меню' },
-    { id: 'burgers', label: '🍔 Бургеры' },
-    { id: 'combos', label: '🍱 Комбо' },
-    { id: 'drinks', label: '🥤 Напитки' },
-    { id: 'desserts', label: '🍩 Десерты' },
+    { id: 'all', label: isRu ? 'Все меню' : 'All Menu' },
+    { id: 'burgers', label: isRu ? '🍔 Бургеры' : '🍔 Burgers' },
+    { id: 'combos', label: isRu ? '🍱 Комбо' : '🍱 Combos' },
+    { id: 'drinks', label: isRu ? '🥤 Напитки' : '🥤 Drinks' },
+    { id: 'desserts', label: isRu ? '🍩 Десерты' : '🍩 Desserts' },
   ] as const;
 
   // Haptic trigger effect
@@ -309,7 +351,11 @@ export const UrbanLunchTester: React.FC = () => {
     setIsDetectingGeo(true);
     setTimeout(() => {
       setIsDetectingGeo(false);
-      setDeliveryAddress('Москва, Пресненская наб., 12 (Москва-Сити, БЦ Восток)');
+      setDeliveryAddress(
+        isRu 
+          ? 'Москва, Пресненская наб., 12 (Москва-Сити, БЦ Восток)' 
+          : '12 Presnenskaya Emb, Moscow (Federation Tower East)'
+      );
     }, 900);
   };
 
@@ -340,7 +386,6 @@ export const UrbanLunchTester: React.FC = () => {
     setOrderId(newId);
     setOrderStage('success');
     setDeliveryStatusStep(1);
-    setOrderTimeElapsed(0);
 
     // Progression of live steps for realistic immersion
     setTimeout(() => setDeliveryStatusStep(2), 2500);
@@ -353,7 +398,7 @@ export const UrbanLunchTester: React.FC = () => {
         item: MENU_ITEMS[0],
         quantity: 1,
         selectedDoneness: 'Medium Well',
-        selectedModifiers: [{ id: 'm2', name: 'Хрустящий бекон', price: 80 }],
+        selectedModifiers: [{ id: 'm2', name: 'Хрустящий бекон', nameEn: 'Crispy Bacon', price: 80 }],
         itemKey: 'b1-Medium Well-[m2]'
       },
       {
@@ -391,7 +436,7 @@ export const UrbanLunchTester: React.FC = () => {
               onClick={handleResetDemo}
               className="text-amber-400 font-semibold text-[11px] hover:underline flex items-center gap-0.5"
             >
-              <span>Закрыть</span>
+              <span>{isRu ? 'Закрыть' : 'Close'}</span>
             </button>
             <div className="h-3 w-px bg-white/15" />
             <div className="flex flex-col">
@@ -411,7 +456,7 @@ export const UrbanLunchTester: React.FC = () => {
             )}
             <button 
               onClick={handleResetDemo}
-              title="Сбросить состояние демо"
+              title={isRu ? 'Сбросить состояние демо' : 'Reset demo state'}
               className="p-1 sm:p-1.5 rounded-lg bg-[#281E16] text-amber-200/80 hover:text-white hover:bg-amber-600/30 transition-colors"
             >
               <RefreshCw className="h-3 w-3" />
@@ -441,17 +486,20 @@ export const UrbanLunchTester: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-[11px] font-black text-white flex items-center gap-1">
-                        Промокод BURGER15
+                        {isRu ? 'Промокод BURGER15' : 'Promo code BURGER15'}
                         <span className="rounded bg-gradient-to-r from-amber-500 to-orange-500 px-1.5 py-0.2 text-[8px] font-black text-black">
                           -15%
                         </span>
                       </div>
-                      <div className="text-[9px] text-gray-300">Ваш кэшбэк: <span className="text-amber-400 font-bold">240 баллов</span></div>
+                      <div className="text-[9px] text-gray-300">
+                        {isRu ? 'Ваш кэшбэк:' : 'Your cashback:'}{' '}
+                        <span className="text-amber-400 font-bold">{isRu ? '240 баллов' : '240 pts'}</span>
+                      </div>
                     </div>
                   </div>
                   <div className="text-right">
                     <span className="text-[9px] text-emerald-400 font-mono flex items-center gap-0.5 justify-end">
-                      <Clock className="h-2.5 w-2.5" /> 25-35 мин
+                      <Clock className="h-2.5 w-2.5" /> {isRu ? '25-35 мин' : '25-35 min'}
                     </span>
                   </div>
                 </div>
@@ -508,7 +556,7 @@ export const UrbanLunchTester: React.FC = () => {
                             <div className="relative h-12 w-12 rounded-xl bg-[#261E18] border border-amber-500/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform shadow-inner">
                               <img
                                 src={item.image}
-                                alt={item.name}
+                                alt={isRu ? item.name : item.nameEn}
                                 referrerPolicy="no-referrer"
                                 className="h-full w-full object-cover"
                               />
@@ -519,23 +567,29 @@ export const UrbanLunchTester: React.FC = () => {
                             <div className="min-w-0 flex-1 pr-1">
                               <div className="flex items-center gap-1.5">
                                 <h4 className="text-xs font-bold text-white truncate group-hover:text-amber-400 transition-colors">
-                                  {item.name}
+                                  {isRu ? item.name : item.nameEn}
                                 </h4>
                                 {item.popular && (
-                                  <span className="rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 text-[8px] font-bold px-1 py-0.2">Хит</span>
+                                  <span className="rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 text-[8px] font-bold px-1 py-0.2">
+                                    {isRu ? 'Хит' : 'Popular'}
+                                  </span>
                                 )}
                                 {item.isNew && (
                                   <span className="rounded bg-emerald-500/20 text-emerald-400 text-[8px] font-bold px-1 py-0.2">New</span>
                                 )}
                               </div>
-                              <p className="text-[9px] text-gray-400 line-clamp-1 mt-0.5">{item.description}</p>
+                              <p className="text-[9px] text-gray-400 line-clamp-1 mt-0.5">
+                                {isRu ? item.description : item.descriptionEn}
+                              </p>
                               
                               <div className="flex items-center gap-2 mt-1.5">
                                 <span className="text-xs font-black text-amber-400 font-mono">{item.price} ₽</span>
-                                <span className="text-[9px] text-gray-500 font-mono">{item.calories}</span>
+                                <span className="text-[9px] text-gray-500 font-mono">
+                                  {isRu ? item.calories : item.caloriesEn}
+                                </span>
                                 {item.donenessOptions && (
                                   <span className="text-[8px] text-amber-300/80 border border-amber-500/20 px-1 rounded flex items-center gap-0.5">
-                                    <SlidersHorizontal className="h-2 w-2 text-amber-400" /> Настроить
+                                    <SlidersHorizontal className="h-2 w-2 text-amber-400" /> {isRu ? 'Настроить' : 'Customize'}
                                   </span>
                                 )}
                               </div>
@@ -546,7 +600,7 @@ export const UrbanLunchTester: React.FC = () => {
                           <div className="shrink-0 ml-1.5">
                             {inCartCount > 0 ? (
                               <div className="flex items-center gap-1 rounded-lg bg-amber-500/20 border border-amber-500/40 px-2 py-1 text-amber-400 text-[10px] font-bold">
-                                <span>{inCartCount} в заказе</span>
+                                <span>{inCartCount} {isRu ? 'в заказе' : 'in cart'}</span>
                               </div>
                             ) : (
                               <button
@@ -571,7 +625,7 @@ export const UrbanLunchTester: React.FC = () => {
               </motion.div>
             )}
 
-            {/* VIEW 2: Interactive Dish Customizer Bottom Sheet (Конструктор блюда) */}
+            {/* VIEW 2: Interactive Dish Customizer Bottom Sheet */}
             {orderStage === 'customize' && customizingItem && (
               <motion.div
                 key="customize-view"
@@ -585,9 +639,9 @@ export const UrbanLunchTester: React.FC = () => {
                     onClick={() => setOrderStage('menu')}
                     className="text-[10px] text-amber-400 font-semibold flex items-center gap-1 hover:underline"
                   >
-                    ← Назад
+                    ← {isRu ? 'Назад' : 'Back'}
                   </button>
-                  <span className="text-xs font-bold text-white">Конструктор блюда</span>
+                  <span className="text-xs font-bold text-white">{isRu ? 'Конструктор блюда' : 'Dish Customizer'}</span>
                   <span className="h-4 w-4" />
                 </div>
 
@@ -596,15 +650,17 @@ export const UrbanLunchTester: React.FC = () => {
                   <div className="h-14 w-14 rounded-xl bg-[#261E18] overflow-hidden shrink-0 border border-amber-500/20">
                     <img
                       src={customizingItem.image}
-                      alt={customizingItem.name}
+                      alt={isRu ? customizingItem.name : customizingItem.nameEn}
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-white">{customizingItem.name}</h3>
-                    <p className="text-[9px] text-gray-400 mt-0.5">{customizingItem.description}</p>
-                    <div className="text-xs font-mono font-black text-amber-400 mt-1">Базовая цена: {customizingItem.price} ₽</div>
+                    <h3 className="text-xs font-bold text-white">{isRu ? customizingItem.name : customizingItem.nameEn}</h3>
+                    <p className="text-[9px] text-gray-400 mt-0.5">{isRu ? customizingItem.description : customizingItem.descriptionEn}</p>
+                    <div className="text-xs font-mono font-black text-amber-400 mt-1">
+                      {isRu ? 'Базовая цена:' : 'Base price:'} {customizingItem.price} ₽
+                    </div>
                   </div>
                 </div>
 
@@ -612,7 +668,7 @@ export const UrbanLunchTester: React.FC = () => {
                 {customizingItem.donenessOptions && (
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-mono text-gray-400 uppercase flex items-center gap-1">
-                      <Flame className="h-3 w-3 text-amber-400" /> Степень прожарки котлеты:
+                      <Flame className="h-3 w-3 text-amber-400" /> {isRu ? 'Степень прожарки котлеты:' : 'Patty doneness:'}
                     </label>
                     <div className="grid grid-cols-3 gap-1">
                       {customizingItem.donenessOptions.map((opt) => (
@@ -639,7 +695,7 @@ export const UrbanLunchTester: React.FC = () => {
                 {customizingItem.availableModifiers && customizingItem.availableModifiers.length > 0 && (
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-mono text-gray-400 uppercase flex items-center gap-1">
-                      <Plus className="h-3 w-3 text-amber-400" /> Добавить топпинги:
+                      <Plus className="h-3 w-3 text-amber-400" /> {isRu ? 'Добавить топпинги:' : 'Add toppings:'}
                     </label>
                     <div className="space-y-1">
                       {customizingItem.availableModifiers.map((mod) => {
@@ -661,7 +717,7 @@ export const UrbanLunchTester: React.FC = () => {
                                 : 'bg-[#1A1410] border-white/5 text-gray-400 hover:border-amber-500/20'
                             }`}
                           >
-                            <span className="text-[10px] font-semibold">{mod.name}</span>
+                            <span className="text-[10px] font-semibold">{isRu ? mod.name : mod.nameEn}</span>
                             <span className="text-[10px] font-mono font-bold text-amber-400">+{mod.price} ₽</span>
                           </div>
                         );
@@ -672,7 +728,7 @@ export const UrbanLunchTester: React.FC = () => {
 
                 {/* Exclude ingredients */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-mono text-gray-400 uppercase">Особые пожелания:</label>
+                  <label className="text-[10px] font-mono text-gray-400 uppercase">{isRu ? 'Особые пожелания:' : 'Special requests:'}</label>
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
                       onClick={() => {
@@ -685,7 +741,9 @@ export const UrbanLunchTester: React.FC = () => {
                           : 'border-white/5 bg-[#1A1410] text-gray-400'
                       }`}
                     >
-                      {customNoOnions ? '✕ Без лука' : '+ Без лука'}
+                      {customNoOnions 
+                        ? (isRu ? '✕ Без лука' : '✕ No onions') 
+                        : (isRu ? '+ Без лука' : '+ No onions')}
                     </button>
                     <button
                       onClick={() => {
@@ -698,7 +756,9 @@ export const UrbanLunchTester: React.FC = () => {
                           : 'border-white/5 bg-[#1A1410] text-gray-400'
                       }`}
                     >
-                      {customNoSauce ? '✕ Без соуса' : '+ Соус отдельно'}
+                      {customNoSauce 
+                        ? (isRu ? '✕ Без соуса' : '✕ No sauce') 
+                        : (isRu ? '+ Соус отдельно' : '+ Sauce on side')}
                     </button>
                   </div>
                 </div>
@@ -708,7 +768,7 @@ export const UrbanLunchTester: React.FC = () => {
                   onClick={handleSaveCustomizedItem}
                   className="w-full mt-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all flex items-center justify-between px-3 shadow-[0_4px_15px_rgba(245,158,11,0.35)]"
                 >
-                  <span>Добавить в заказ</span>
+                  <span>{isRu ? 'Добавить в заказ' : 'Add to Order'}</span>
                   <span className="font-mono">
                     {customizingItem.price + customModifiers.reduce((s, m) => s + m.price, 0)} ₽
                   </span>
@@ -716,7 +776,7 @@ export const UrbanLunchTester: React.FC = () => {
               </motion.div>
             )}
 
-            {/* VIEW 3: Interactive Checkout (СБП, Геолокация Telegram, Бонусы) */}
+            {/* VIEW 3: Interactive Checkout */}
             {orderStage === 'checkout' && (
               <motion.div
                 key="checkout-view"
@@ -730,10 +790,10 @@ export const UrbanLunchTester: React.FC = () => {
                     onClick={() => setOrderStage('menu')}
                     className="text-[10px] text-amber-400 font-semibold flex items-center gap-1 hover:underline"
                   >
-                    ← В меню
+                    ← {isRu ? 'В меню' : 'Menu'}
                   </button>
-                  <span className="text-xs font-bold text-white">Оформление заказа</span>
-                  <span className="text-[10px] text-gray-400 font-mono">{totalItemsCount} поз.</span>
+                  <span className="text-xs font-bold text-white">{isRu ? 'Оформление заказа' : 'Checkout'}</span>
+                  <span className="text-[10px] text-gray-400 font-mono">{totalItemsCount} {isRu ? 'поз.' : 'items'}</span>
                 </div>
 
                 {/* Telegram Profile & Geolocation Card */}
@@ -741,7 +801,7 @@ export const UrbanLunchTester: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 text-gray-300 text-[10px]">
                       <MapPin className="h-3 w-3 text-amber-400" />
-                      <span className="font-bold">Адрес доставки:</span>
+                      <span className="font-bold">{isRu ? 'Адрес доставки:' : 'Delivery address:'}</span>
                     </div>
                     <button
                       onClick={handleAutoDetectLocation}
@@ -749,15 +809,15 @@ export const UrbanLunchTester: React.FC = () => {
                       className="text-[9px] text-amber-400 hover:underline flex items-center gap-0.5 font-mono"
                     >
                       <Compass className={`h-2.5 w-2.5 ${isDetectingGeo ? 'animate-spin' : ''}`} />
-                      <span>{isDetectingGeo ? 'Определяем...' : 'Из Telegram'}</span>
+                      <span>{isDetectingGeo ? (isRu ? 'Определяем...' : 'Detecting...') : (isRu ? 'Из Telegram' : 'From Telegram')}</span>
                     </button>
                   </div>
                   <div className="text-xs font-semibold text-white bg-[#120E0B] p-2 rounded-xl border border-amber-500/10">
                     {deliveryAddress}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-400">
-                    <span>Курьер до двери</span>
-                    <span className="text-emerald-400 font-bold">⏱ 25–35 минут</span>
+                    <span>{isRu ? 'Курьер до двери' : 'Door-to-door courier'}</span>
+                    <span className="text-emerald-400 font-bold">⏱ {isRu ? '25–35 минут' : '25–35 minutes'}</span>
                   </div>
                 </div>
 
@@ -767,14 +827,14 @@ export const UrbanLunchTester: React.FC = () => {
                     <div key={c.itemKey} className="flex items-center justify-between text-[10px] py-1 border-b border-white/5 last:border-0">
                       <div className="min-w-0 flex-1 pr-2">
                         <div className="font-semibold text-white truncate flex items-center gap-1">
-                          <span>{c.item.name}</span>
+                          <span>{isRu ? c.item.name : c.item.nameEn}</span>
                           {c.selectedDoneness && (
                             <span className="text-[8px] text-gray-400">({c.selectedDoneness})</span>
                           )}
                         </div>
                         {c.selectedModifiers.length > 0 && (
                           <div className="text-[8px] text-amber-400 truncate">
-                            +{c.selectedModifiers.map(m => m.name).join(', ')}
+                            +{c.selectedModifiers.map(m => isRu ? m.name : m.nameEn).join(', ')}
                           </div>
                         )}
                       </div>
@@ -813,8 +873,12 @@ export const UrbanLunchTester: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <Gift className={`h-4 w-4 ${useLoyaltyPoints ? 'text-amber-400' : 'text-gray-400'}`} />
                     <div>
-                      <div className="text-[10px] font-bold text-white">Списать баллы лояльности</div>
-                      <div className="text-[8px] text-gray-400">Доступно: {userLoyaltyBalance} баллов (-200 ₽)</div>
+                      <div className="text-[10px] font-bold text-white">{isRu ? 'Списать баллы лояльности' : 'Redeem loyalty points'}</div>
+                      <div className="text-[8px] text-gray-400">
+                        {isRu 
+                          ? `Доступно: ${userLoyaltyBalance} баллов (-200 ₽)` 
+                          : `Available: ${userLoyaltyBalance} pts (-200 ₽)`}
+                      </div>
                     </div>
                   </div>
                   <input
@@ -827,12 +891,12 @@ export const UrbanLunchTester: React.FC = () => {
 
                 {/* Payment Method Selector (СБП, Карта, Курьеру) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-mono text-gray-400 uppercase">Способ оплаты:</label>
+                  <label className="text-[9px] font-mono text-gray-400 uppercase">{isRu ? 'Способ оплаты:' : 'Payment method:'}</label>
                   <div className="grid grid-cols-3 gap-1">
                     {[
-                      { id: 'sbp', label: '⚡ СБП', sub: 'Без комиссии' },
-                      { id: 'card', label: '💳 Карта', sub: 'МИР / Visa' },
-                      { id: 'cash', label: '💵 Курьеру', sub: 'При получении' },
+                      { id: 'sbp', label: isRu ? '⚡ СБП' : '⚡ FPS', sub: isRu ? 'Без комиссии' : '0% fee' },
+                      { id: 'card', label: isRu ? '💳 Карта' : '💳 Card', sub: 'MIR / Visa' },
+                      { id: 'cash', label: isRu ? '💵 Курьеру' : '💵 Courier', sub: isRu ? 'При получении' : 'On delivery' },
                     ].map(p => (
                       <button
                         key={p.id}
@@ -856,25 +920,25 @@ export const UrbanLunchTester: React.FC = () => {
                 {/* Total breakdown */}
                 <div className="rounded-2xl bg-[#1A1410] p-2.5 border border-amber-500/15 space-y-1 text-[10px]">
                   <div className="flex justify-between text-gray-400">
-                    <span>Сумма заказа:</span>
+                    <span>{isRu ? 'Сумма заказа:' : 'Subtotal:'}</span>
                     <span className="font-mono">{rawSum} ₽</span>
                   </div>
                   <div className="flex justify-between text-emerald-400">
-                    <span>Промокод (-15%):</span>
+                    <span>{isRu ? 'Промокод (-15%):' : 'Promo code (-15%):'}</span>
                     <span className="font-mono">-{promoDiscount} ₽</span>
                   </div>
                   {useLoyaltyPoints && (
                     <div className="flex justify-between text-amber-400">
-                      <span>Баллы лояльности:</span>
+                      <span>{isRu ? 'Баллы лояльности:' : 'Loyalty points:'}</span>
                       <span className="font-mono">-{pointsDiscount} ₽</span>
                     </div>
                   )}
                   <div className="flex justify-between text-gray-400">
-                    <span>Доставка:</span>
-                    <span className="text-emerald-400 font-bold">0 ₽ (Бесплатно)</span>
+                    <span>{isRu ? 'Доставка:' : 'Delivery:'}</span>
+                    <span className="text-emerald-400 font-bold">{isRu ? '0 ₽ (Бесплатно)' : '0 ₽ (Free)'}</span>
                   </div>
                   <div className="pt-1.5 border-t border-white/10 flex justify-between font-bold text-white text-xs">
-                    <span>К оплате:</span>
+                    <span>{isRu ? 'К оплате:' : 'Total due:'}</span>
                     <span className="text-amber-400 font-mono text-sm">{finalPayable} ₽</span>
                   </div>
                 </div>
@@ -886,7 +950,11 @@ export const UrbanLunchTester: React.FC = () => {
                   className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black text-xs hover:brightness-110 active:scale-98 transition-all shadow-[0_5px_20px_rgba(245,158,11,0.35)] flex items-center justify-center gap-1.5"
                 >
                   <Sparkles className="h-3.5 w-3.5 fill-current" />
-                  <span>Оплатить {finalPayable} ₽ через {paymentMethod === 'sbp' ? 'СБП' : paymentMethod === 'card' ? 'Карту' : 'Курьера'}</span>
+                  <span>
+                    {isRu 
+                      ? `Оплатить ${finalPayable} ₽ через ${paymentMethod === 'sbp' ? 'СБП' : paymentMethod === 'card' ? 'Карту' : 'Курьера'}`
+                      : `Pay ${finalPayable} ₽ via ${paymentMethod === 'sbp' ? 'FPS' : paymentMethod === 'card' ? 'Card' : 'Courier'}`}
+                  </span>
                 </button>
               </motion.div>
             )}
@@ -904,8 +972,12 @@ export const UrbanLunchTester: React.FC = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-xs font-black text-white">Заказ #{orderId} принят в работу!</h3>
-                  <p className="text-[9px] text-gray-400 mt-0.5">Электронный чек 54-ФЗ отправлен в Telegram бот</p>
+                  <h3 className="text-xs font-black text-white">
+                    {isRu ? `Заказ #${orderId} принят в работу!` : `Order #${orderId} accepted!`}
+                  </h3>
+                  <p className="text-[9px] text-gray-400 mt-0.5">
+                    {isRu ? 'Электронный чек 54-ФЗ отправлен в Telegram бот' : 'Digital receipt sent to Telegram bot'}
+                  </p>
                 </div>
 
                 {/* Interactive Live Kitchen & Courier Timeline */}
@@ -913,16 +985,18 @@ export const UrbanLunchTester: React.FC = () => {
                   <div className="flex items-center justify-between text-[9px] text-gray-400 font-mono">
                     <span className="flex items-center gap-1 text-amber-300">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      LIVE СТАТУС ЗАКАЗА
+                      {isRu ? 'LIVE СТАТУС ЗАКАЗА' : 'LIVE ORDER STATUS'}
                     </span>
-                    <span className="text-amber-400 font-bold">⏱ 24 мин</span>
+                    <span className="text-amber-400 font-bold">⏱ {isRu ? '24 мин' : '24 min'}</span>
                   </div>
 
                   {/* Step indicators */}
                   <div className="space-y-2 text-[10px]">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                      <span className="text-gray-300 font-medium">Заказ подтвержден кухней (14:32)</span>
+                      <span className="text-gray-300 font-medium">
+                        {isRu ? 'Заказ подтвержден кухней (14:32)' : 'Order confirmed by kitchen (14:32)'}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -932,7 +1006,7 @@ export const UrbanLunchTester: React.FC = () => {
                         <UtensilsCrossed className="h-3.5 w-3.5 text-amber-400 animate-spin shrink-0" />
                       )}
                       <span className={deliveryStatusStep >= 2 ? 'text-white font-bold' : 'text-gray-400'}>
-                        Шеф готовит бургеры на гриле
+                        {isRu ? 'Шеф готовит бургеры на гриле' : 'Chef is grilling your burgers'}
                       </span>
                     </div>
 
@@ -943,7 +1017,7 @@ export const UrbanLunchTester: React.FC = () => {
                         <span className="h-3.5 w-3.5 rounded-full border border-white/20 flex items-center justify-center text-[8px] text-gray-500 shrink-0">3</span>
                       )}
                       <span className={deliveryStatusStep >= 3 ? 'text-amber-400 font-bold' : 'text-gray-500'}>
-                        Курьер Артем в пути к вам (11 мин)
+                        {isRu ? 'Курьер Артем в пути к вам (11 мин)' : 'Courier Artem on route to you (11 min)'}
                       </span>
                     </div>
                   </div>
@@ -964,9 +1038,9 @@ export const UrbanLunchTester: React.FC = () => {
                       🚴‍♂️
                     </div>
                     <div>
-                      <div className="text-[10px] font-bold text-white">Курьер Артем</div>
+                      <div className="text-[10px] font-bold text-white">{isRu ? 'Курьер Артем' : 'Courier Artem'}</div>
                       <div className="text-[8px] text-gray-400 flex items-center gap-1">
-                        <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" /> 4.98 • Электробайк
+                        <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" /> 4.98 • {isRu ? 'Электробайк' : 'E-bike'}
                       </div>
                     </div>
                   </div>
@@ -975,14 +1049,14 @@ export const UrbanLunchTester: React.FC = () => {
                     <button 
                       onClick={() => setCourierChatOpen(!courierChatOpen)}
                       className="p-1.5 rounded-lg bg-[#281E16] text-amber-400 hover:bg-amber-500 hover:text-black transition-colors"
-                      title="Написать в чат Telegram"
+                      title={isRu ? 'Написать в чат Telegram' : 'Chat in Telegram'}
                     >
                       <MessageSquare className="h-3 w-3" />
                     </button>
                     <button 
                       onClick={() => triggerHaptic()}
                       className="p-1.5 rounded-lg bg-[#281E16] text-emerald-400 hover:bg-emerald-400 hover:text-black transition-colors"
-                      title="Позвонить курьеру"
+                      title={isRu ? 'Позвонить курьеру' : 'Call courier'}
                     >
                       <Phone className="h-3 w-3" />
                     </button>
@@ -995,7 +1069,10 @@ export const UrbanLunchTester: React.FC = () => {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="p-2 rounded-xl bg-[#281E16] text-[9px] text-amber-200/90 text-left border border-amber-500/20"
                   >
-                    💬 <strong>Курьер:</strong> «Уже забрал ваш заказ из ресторана! Буду через 10 минут, домофон работает?»
+                    💬 <strong>{isRu ? 'Курьер:' : 'Courier:'}</strong>{' '}
+                    {isRu 
+                      ? '«Уже забрал ваш заказ из ресторана! Буду через 10 минут, домофон работает?»' 
+                      : '“Just picked up your order from the kitchen! Be there in 10 mins, does intercom work?”'}
                   </motion.div>
                 )}
 
@@ -1004,7 +1081,7 @@ export const UrbanLunchTester: React.FC = () => {
                   onClick={handleResetDemo}
                   className="w-full py-2 rounded-xl border border-amber-500/20 bg-[#1A1410] text-[10px] font-semibold text-gray-300 hover:text-white hover:border-amber-500 transition-all"
                 >
-                  Сделать новый заказ
+                  {isRu ? 'Сделать новый заказ' : 'Place a new order'}
                 </button>
               </motion.div>
             )}
@@ -1030,7 +1107,7 @@ export const UrbanLunchTester: React.FC = () => {
             >
               <div className="flex items-center gap-1.5">
                 <ShoppingBag className="h-4 w-4" />
-                <span>Корзина ({totalItemsCount})</span>
+                <span>{isRu ? `Корзина (${totalItemsCount})` : `Cart (${totalItemsCount})`}</span>
               </div>
               <span className="font-mono">{finalPayable} ₽</span>
             </button>
@@ -1045,7 +1122,7 @@ export const UrbanLunchTester: React.FC = () => {
         <div className="flex items-center justify-between pb-3 border-b border-amber-500/15">
           <div className="flex items-center gap-2 text-amber-500 font-mono text-[11px] font-bold">
             <Sparkles className="h-4 w-4" />
-            <span>АРХИТЕКТУРА КЕЙСА URBAN LUNCH</span>
+            <span>{isRu ? 'АРХИТЕКТУРА КЕЙСА URBAN LUNCH' : 'URBAN LUNCH ARCHITECTURE'}</span>
           </div>
           <span className="text-[10px] rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-mono px-2 py-0.5 font-bold">
             Production Ready
@@ -1053,12 +1130,14 @@ export const UrbanLunchTester: React.FC = () => {
         </div>
 
         <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-[11px]">
-          Полноценный ресторанный сервис внутри мессенджера Telegram с конверсией в повторный заказ в 3.8 раза выше, чем у нативных приложений.
+          {isRu
+            ? 'Полноценный ресторанный сервис внутри мессенджера Telegram с конверсией в повторный заказ в 3.8 раза выше, чем у нативных приложений.'
+            : 'Full-featured restaurant delivery service inside Telegram with 3.8x higher repeat order conversion compared to native store apps.'}
         </p>
 
         <div className="space-y-2.5">
           <div className="text-[10px] font-mono uppercase text-amber-500/80 font-bold">
-            Что реализовано в этом решении:
+            {isRu ? 'Что реализовано в этом решении:' : 'Implemented features in this case:'}
           </div>
 
           <ul className="space-y-2 text-slate-700 dark:text-gray-300">
@@ -1067,7 +1146,10 @@ export const UrbanLunchTester: React.FC = () => {
                 <SlidersHorizontal className="h-3 w-3" />
               </div>
               <div>
-                <strong>Конструктор блюд и модификаторы:</strong> Выбор степени прожарки, добавление сыра/бекона, исключение аллергенов.
+                <strong>{isRu ? 'Конструктор блюд и модификаторы:' : 'Custom dish builder & toppings:'}</strong>{' '}
+                {isRu 
+                  ? 'Выбор степени прожарки, добавление сыра/бекона, исключение аллергенов.' 
+                  : 'Choice of patty doneness, add extra cheese/bacon, allergen exclusion.'}
               </div>
             </li>
 
@@ -1076,7 +1158,10 @@ export const UrbanLunchTester: React.FC = () => {
                 <MapPin className="h-3 w-3" />
               </div>
               <div>
-                <strong>Автоподстановка профиля:</strong> Телефон и геолокация подтягиваются из Telegram в один тап без ручного ввода.
+                <strong>{isRu ? 'Автоподстановка профиля:' : 'Profile & GPS auto-fill:'}</strong>{' '}
+                {isRu 
+                  ? 'Телефон и геолокация подтягиваются из Telegram в один тап без ручного ввода.' 
+                  : 'Phone number and address seamlessly fetched from Telegram profile in one tap.'}
               </div>
             </li>
 
@@ -1085,7 +1170,10 @@ export const UrbanLunchTester: React.FC = () => {
                 <Gift className="h-3 w-3" />
               </div>
               <div>
-                <strong>Кэшбэк и бонусы:</strong> Накопительная система баллов, стимулирующая клиентов заказывать каждую неделю.
+                <strong>{isRu ? 'Кэшбэк и бонусы:' : 'Cashback & loyalty engine:'}</strong>{' '}
+                {isRu 
+                  ? 'Накопительная система баллов, стимулирующая клиентов заказывать каждую неделю.' 
+                  : 'Points accumulation system rewarding regular orders and boosting retention.'}
               </div>
             </li>
 
@@ -1094,7 +1182,10 @@ export const UrbanLunchTester: React.FC = () => {
                 <Bike className="h-3 w-3" />
               </div>
               <div>
-                <strong>Сквозной трекинг кухни и курьера:</strong> Webhook-интеграция с iiko / 1C:Общепит с авто-статусами.
+                <strong>{isRu ? 'Сквозной трекинг кухни и курьера:' : 'End-to-end kitchen & courier tracking:'}</strong>{' '}
+                {isRu 
+                  ? 'Webhook-интеграция с iiko / 1C:Общепит с авто-статусами.' 
+                  : 'Webhook integration with iiko / POS systems with live automatic order status.'}
               </div>
             </li>
           </ul>
@@ -1102,23 +1193,33 @@ export const UrbanLunchTester: React.FC = () => {
 
         {/* Business Impact Card */}
         <div className="rounded-2xl bg-amber-500/10 dark:bg-[#201812] p-4 border border-amber-500/20 space-y-2">
-          <span className="text-[10px] text-amber-400 block font-mono">РЕЗУЛЬТАТ ДЛЯ БИЗНЕСА:</span>
+          <span className="text-[10px] text-amber-400 block font-mono">
+            {isRu ? 'РЕЗУЛЬТАТ ДЛЯ БИЗНЕСА:' : 'BUSINESS IMPACT:'}
+          </span>
           
           <div className="grid grid-cols-2 gap-3">
             <div>
               <div className="text-lg font-black text-amber-400 font-mono">+30.4%</div>
-              <div className="text-[10px] text-slate-600 dark:text-gray-400">Повторные заказы</div>
+              <div className="text-[10px] text-slate-600 dark:text-gray-400">
+                {isRu ? 'Повторные заказы' : 'Repeat orders'}
+              </div>
             </div>
             <div>
               <div className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">1.2 млн ₽</div>
-              <div className="text-[10px] text-slate-600 dark:text-gray-400">Экономия на комиссиях агрегаторов</div>
+              <div className="text-[10px] text-slate-600 dark:text-gray-400">
+                {isRu ? 'Экономия на комиссиях' : 'Saved aggregator fees'}
+              </div>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-2 text-[10px] text-slate-500 dark:text-gray-400 pt-1">
           <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
-          <span>Готово к подключению к вашей CRM за 10 рабочих дней</span>
+          <span>
+            {isRu 
+              ? 'Готово к подключению к вашей CRM за 10 рабочих дней' 
+              : 'Ready to connect with your CRM/POS in 10 business days'}
+          </span>
         </div>
 
       </div>

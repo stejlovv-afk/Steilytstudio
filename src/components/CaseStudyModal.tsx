@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, ArrowRight, Play, Layers, ShieldCheck, Zap, Server, Users } from 'lucide-react';
+import { X, CheckCircle, ArrowRight, Play, Layers, ShieldCheck, Zap, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ProjectCase } from '../types';
 import { UrbanLunchTester } from './case-testers/UrbanLunchTester';
 import { GlobalTradeTester } from './case-testers/GlobalTradeTester';
 import { FitTrackTester } from './case-testers/FitTrackTester';
 import { LuminaBookingTester } from './case-testers/LuminaBookingTester';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CaseStudyModalProps {
   project: ProjectCase | null;
@@ -21,6 +22,8 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   onOrderSimilar 
 }) => {
   const [modalTab, setModalTab] = useState<'test' | 'details'>(initialTab);
+  const { language } = useLanguage();
+  const isRu = language === 'ru';
 
   if (!project) return null;
 
@@ -47,7 +50,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
         <button
           onClick={onClose}
           className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 transition-all shadow-sm"
-          aria-label="Закрыть окно"
+          aria-label={isRu ? 'Закрыть окно' : 'Close modal'}
         >
           <X className="h-5 w-5" />
         </button>
@@ -89,7 +92,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 />
               )}
               <Play className="h-3.5 w-3.5 relative z-10 fill-current" />
-              <span className="relative z-10 text-center">Интерактивный тест</span>
+              <span className="relative z-10 text-center">{isRu ? 'Интерактивный тест' : 'Interactive Demo'}</span>
             </button>
 
             <button
@@ -106,7 +109,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 />
               )}
               <Layers className="h-3.5 w-3.5 relative z-10" />
-              <span className="relative z-10 text-center">Результаты и описание</span>
+              <span className="relative z-10 text-center">{isRu ? 'Результаты и описание' : 'Results & Details'}</span>
             </button>
           </div>
         </div>
@@ -153,7 +156,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-5 sm:p-6">
                   <h4 className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400" />
-                    Какая была задача
+                    {isRu ? 'Какая была задача' : 'The Challenge'}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                     {project.challenge}
@@ -163,7 +166,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-5 sm:p-6">
                   <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400" />
-                    Что мы сделали
+                    {isRu ? 'Что мы сделали' : 'Our Solution'}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                     {project.solution}
@@ -174,7 +177,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               {/* Features Implemented */}
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-slate-950 dark:text-white uppercase tracking-wider mb-3">
-                  Что реализовано в проекте:
+                  {isRu ? 'Что реализовано в проекте:' : 'Delivered features:'}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {project.featuresList.map((f, i) => (
@@ -186,36 +189,36 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 </div>
               </div>
 
-              {/* Steilyt Architecture Standards */}
+              {/* Architecture Standards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
                   <Zap className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Быстрая работа</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Мгновенное открытие на любом смартфоне без задержек.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">{isRu ? 'Быстрая работа' : 'High Performance'}</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">{isRu ? 'Мгновенное открытие на любом смартфоне без задержек.' : 'Instant cold-start on any mobile device without lag.'}</p>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
                   <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Безопасная оплата</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Прием платежей через СБП, карты и отправка чеков клиентам.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">{isRu ? 'Безопасная оплата' : 'Secure Payments'}</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">{isRu ? 'Прием платежей через СБП, карты и отправка чеков клиентам.' : 'Seamless checkout with card processing and automatic receipt dispatch.'}</p>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start gap-2.5">
                   <Server className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">Связь с вашей базой</h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Заказы сразу попадают в 1C, CRM, YClients или таблицу.</p>
+                    <h5 className="text-xs font-bold text-slate-900 dark:text-white">{isRu ? 'Связь с вашей базой' : 'CRM / ERP Integration'}</h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">{isRu ? 'Заказы сразу попадают в 1C, CRM, YClients или таблицу.' : 'Live 2-way data pipe with your inventory, CRM, or Google Sheets.'}</p>
                   </div>
                 </div>
               </div>
 
               {/* Tech Stack */}
               <div className="mb-8 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">Стек технологий:</span>
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">{isRu ? 'Стек технологий:' : 'Tech Stack:'}</span>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map(t => (
                     <span key={t} className="rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 text-xs font-medium text-slate-800 dark:text-slate-200">
@@ -234,7 +237,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             onClick={onClose}
             className="w-full sm:w-auto px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
-            Закрыть окно
+            {isRu ? 'Закрыть окно' : 'Close'}
           </button>
 
           <button
@@ -244,7 +247,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             }}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-7 py-3 text-xs font-bold text-white active:scale-95 transition-all shadow-md shadow-blue-600/20"
           >
-            <span>Заказать похожий проект</span>
+            <span>{isRu ? 'Заказать похожий проект' : 'Request Similar Project'}</span>
             <ArrowRight className="h-4 w-4 stroke-[2.5]" />
           </button>
         </div>

@@ -6,54 +6,72 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface Specialist {
   id: string;
   name: string;
+  nameEn: string;
   role: string;
+  roleEn: string;
   rating: number;
   reviewsCount: number;
   experience: string;
+  experienceEn: string;
   photo: string;
 }
 
 interface Service {
   id: string;
   name: string;
+  nameEn: string;
   category: string;
+  categoryEn: string;
   price: number;
   duration: string;
+  durationEn: string;
   description: string;
+  descriptionEn: string;
   photo: string;
   badge?: string;
+  badgeEn?: string;
 }
 
 const SPECIALISTS: Specialist[] = [
   { 
     id: 'spec_1', 
     name: 'Алена Соколова', 
+    nameEn: 'Elena Sokolova',
     role: 'Топ-стилист & Арт-директор', 
+    roleEn: 'Top Stylist & Creative Director',
     rating: 5.0, 
     reviewsCount: 142, 
     experience: '7 лет опыта', 
+    experienceEn: '7 years exp.',
     photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80' 
   },
   { 
     id: 'spec_2', 
     name: 'Екатерина Миронова', 
+    nameEn: 'Catherine Mironova',
     role: 'Ведущий колорист & Трихолог', 
+    roleEn: 'Master Colorist & Trichologist',
     rating: 4.92, 
     reviewsCount: 98, 
     experience: '5 лет опыта', 
+    experienceEn: '5 years exp.',
     photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80' 
   },
   { 
     id: 'spec_3', 
     name: 'Дарья Романова', 
+    nameEn: 'Daria Romanova',
     role: 'Мастер премиум-маникюра', 
+    roleEn: 'Senior Nail Artist & Care',
     rating: 4.96, 
     reviewsCount: 184, 
     experience: '6 лет опыта', 
+    experienceEn: '6 years exp.',
     photo: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80' 
   },
 ];
@@ -62,49 +80,59 @@ const SERVICES: Service[] = [
   { 
     id: 'serv_1', 
     name: 'Окрашивание AirTouch / Balayage', 
+    nameEn: 'AirTouch / Balayage Coloring',
     category: 'Волосы', 
+    categoryEn: 'Hair',
     price: 8500, 
     duration: '180 мин', 
+    durationEn: '180 min',
     description: 'Мягкий естественный градиент, защита структуры Olaplex и тонирование премиум-красителем.',
+    descriptionEn: 'Seamless natural gradient, Olaplex bond reinforcement, and luxury gloss toning.',
     photo: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80',
-    badge: 'Топ выбор'
+    badge: 'Топ выбор',
+    badgeEn: 'Top Pick'
   },
   { 
     id: 'serv_2', 
     name: 'Авторская стрижка & Укладка Dyson', 
+    nameEn: 'Signature Haircut & Dyson Blowout',
     category: 'Волосы', 
+    categoryEn: 'Hair',
     price: 3200, 
     duration: '60 мин', 
+    durationEn: '60 min',
     description: 'Индивидуальный подбор формы под овал лица, спа-уход для кожи головы и финишная укладка.',
+    descriptionEn: 'Bespoke precision cutting, relaxing scalp spa treatment, and polished Dyson styling.',
     photo: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=400&q=80'
   },
   { 
     id: 'serv_3', 
     name: 'Smart-маникюр с покрытием Luxio', 
+    nameEn: 'Smart Manicure & Luxio Gel',
     category: 'Ногти', 
+    categoryEn: 'Nails',
     price: 2600, 
     duration: '75 мин', 
+    durationEn: '75 min',
     description: 'Аппаратная бережная обработка кутикулы, выравнивание ногтевой пластины, стойкое покрытие.',
+    descriptionEn: 'Gentle precision e-file care, nail plate alignment, and flawless long-wear gel.',
     photo: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=400&q=80'
   },
   { 
     id: 'serv_4', 
     name: 'Глубокий СПА-уход "Абсолютное счастье"', 
+    nameEn: 'Deep Hair Spa "Absolute Happiness"',
     category: 'СПА-уход', 
+    categoryEn: 'Spa Care',
     price: 4900, 
     duration: '90 мин', 
+    durationEn: '90 min',
     description: 'Многоступенчатое восстановление Lebel, молекулярное питание и ультразвуковой утюжок.',
+    descriptionEn: 'Multi-step Japanese Lebel hair therapy, deep molecular hydration and ultrasonic sealing.',
     photo: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80',
-    badge: 'Новинка'
+    badge: 'Новинка',
+    badgeEn: 'New'
   },
-];
-
-const DATES = [
-  { day: 'Пн', num: '18', full: '18 авг', active: true },
-  { day: 'Вт', num: '19', full: '19 авг', active: true },
-  { day: 'Ср', num: '20', full: '20 авг', active: true },
-  { day: 'Чт', num: '21', full: '21 авг', active: true },
-  { day: 'Пт', num: '22', full: '22 авг', active: true },
 ];
 
 const TIME_SLOTS = [
@@ -117,13 +145,24 @@ const TIME_SLOTS = [
 ];
 
 export const LuminaBookingTester: React.FC = () => {
+  const { language } = useLanguage();
+  const isRu = language === 'ru';
+
+  const dates = [
+    { day: isRu ? 'Пн' : 'Mon', num: '18', full: isRu ? '18 авг' : 'Aug 18' },
+    { day: isRu ? 'Вт' : 'Tue', num: '19', full: isRu ? '19 авг' : 'Aug 19' },
+    { day: isRu ? 'Ср' : 'Wed', num: '20', full: isRu ? '20 авг' : 'Aug 20' },
+    { day: isRu ? 'Чт' : 'Thu', num: '21', full: isRu ? '21 авг' : 'Aug 21' },
+    { day: isRu ? 'Пт' : 'Fri', num: '22', full: isRu ? '22 авг' : 'Aug 22' },
+  ];
+
   const [step, setStep] = useState<'service' | 'specialist' | 'datetime' | 'confirmation' | 'success'>('service');
   const [selectedService, setSelectedService] = useState<Service>(SERVICES[0]);
   const [selectedSpecialist, setSelectedSpecialist] = useState<Specialist>(SPECIALISTS[0]);
-  const [selectedDate, setSelectedDate] = useState<string>('18 авг');
+  const [selectedDate, setSelectedDate] = useState<string>(isRu ? '18 авг' : 'Aug 18');
   const [selectedTime, setSelectedTime] = useState<string>('14:00');
-  const [paymentType, setPaymentType] = useState<'deposit' | 'full' | 'salon'>('deposit');
-  const [userName, setUserName] = useState<string>('Виктория Орлова');
+  const [paymentType, setPaymentType] = useState<'deposit' | 'salon'>('deposit');
+  const [userName, setUserName] = useState<string>(isRu ? 'Виктория Орлова' : 'Victoria Orlova');
   const [userPhone, setUserPhone] = useState<string>('+7 (999) 450-12-88');
   const [tgNotificationEnabled, setTgNotificationEnabled] = useState<boolean>(true);
   const [bookingCode, setBookingCode] = useState<number>(58204);
@@ -165,7 +204,7 @@ export const LuminaBookingTester: React.FC = () => {
             }}
             className="text-[11px] text-rose-400 font-semibold hover:underline"
           >
-            {step === 'service' ? 'Закрыть' : '‹ Назад'}
+            {step === 'service' ? (isRu ? 'Закрыть' : 'Close') : (isRu ? '‹ Назад' : '‹ Back')}
           </button>
           <div className="text-center">
             <div className="text-[11px] sm:text-xs font-bold text-white flex items-center justify-center gap-1">
@@ -192,65 +231,75 @@ export const LuminaBookingTester: React.FC = () => {
               <div className="p-3 rounded-2xl bg-gradient-to-r from-rose-950/70 via-pink-950/50 to-purple-950/40 border border-rose-500/30 shadow-inner">
                 <div className="flex items-center gap-1.5 text-rose-300 font-bold text-xs">
                   <Sparkles className="h-3.5 w-3.5 text-rose-400" />
-                  <span>Премиум-запись в салон 24/7</span>
+                  <span>{isRu ? 'Премиум-запись в салон 24/7' : '24/7 VIP Salon Concierge'}</span>
                 </div>
                 <p className="text-[10px] text-rose-200/70 mt-0.5">
-                  Топ-стилисты, японский SPA-уход и авторские протоколы красоты
+                  {isRu 
+                    ? 'Топ-стилисты, японский SPA-уход и авторские протоколы красоты' 
+                    : 'Master stylists, Japanese hair spa treatments, and bespoke beauty care'}
                 </p>
               </div>
 
               <div className="space-y-2">
-                {SERVICES.map((serv) => (
-                  <div
-                    key={serv.id}
-                    onClick={() => {
-                      setSelectedService(serv);
-                      setStep('specialist');
-                    }}
-                    className={`p-2.5 rounded-2xl border transition-all cursor-pointer group flex gap-2.5 ${
-                      selectedService.id === serv.id
-                        ? 'border-rose-500 bg-[#261421] shadow-lg shadow-rose-950/40'
-                        : 'border-rose-500/15 bg-[#1B1019] hover:border-rose-500/40 hover:bg-[#20131E]'
-                    }`}
-                  >
-                    <img
-                      src={serv.photo}
-                      alt={serv.name}
-                      referrerPolicy="no-referrer"
-                      className="h-16 w-16 rounded-xl object-cover bg-rose-950 shrink-0 border border-rose-500/20"
-                    />
+                {SERVICES.map((serv) => {
+                  const servName = isRu ? serv.name : serv.nameEn;
+                  const servCategory = isRu ? serv.category : serv.categoryEn;
+                  const servDuration = isRu ? serv.duration : serv.durationEn;
+                  const servDesc = isRu ? serv.description : serv.descriptionEn;
+                  const servBadge = isRu ? serv.badge : (serv.badgeEn || serv.badge);
 
-                    <div className="flex-1 min-w-0 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between gap-1">
-                          <span className="text-[9px] font-bold text-rose-400 uppercase tracking-wider">
-                            {serv.category} • {serv.duration}
-                          </span>
-                          {serv.badge && (
-                            <span className="text-[8px] font-bold bg-gradient-to-r from-rose-500 to-pink-500 text-white px-1.5 py-0.2 rounded-full shadow-sm">
-                              {serv.badge}
+                  return (
+                    <div
+                      key={serv.id}
+                      onClick={() => {
+                        setSelectedService(serv);
+                        setStep('specialist');
+                      }}
+                      className={`p-2.5 rounded-2xl border transition-all cursor-pointer group flex gap-2.5 ${
+                        selectedService.id === serv.id
+                          ? 'border-rose-500 bg-[#261421] shadow-lg shadow-rose-950/40'
+                          : 'border-rose-500/15 bg-[#1B1019] hover:border-rose-500/40 hover:bg-[#20131E]'
+                      }`}
+                    >
+                      <img
+                        src={serv.photo}
+                        alt={servName}
+                        referrerPolicy="no-referrer"
+                        className="h-16 w-16 rounded-xl object-cover bg-rose-950 shrink-0 border border-rose-500/20"
+                      />
+
+                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between gap-1">
+                            <span className="text-[9px] font-bold text-rose-400 uppercase tracking-wider">
+                              {servCategory} • {servDuration}
                             </span>
-                          )}
+                            {servBadge && (
+                              <span className="text-[8px] font-bold bg-gradient-to-r from-rose-500 to-pink-500 text-white px-1.5 py-0.2 rounded-full shadow-sm">
+                                {servBadge}
+                              </span>
+                            )}
+                          </div>
+                          <h4 className="font-bold text-white text-xs mt-0.5 line-clamp-1 group-hover:text-rose-300 transition-colors">
+                            {servName}
+                          </h4>
+                          <p className="text-[9px] text-rose-200/60 line-clamp-1 mt-0.5">
+                            {servDesc}
+                          </p>
                         </div>
-                        <h4 className="font-bold text-white text-xs mt-0.5 line-clamp-1 group-hover:text-rose-300 transition-colors">
-                          {serv.name}
-                        </h4>
-                        <p className="text-[9px] text-rose-200/60 line-clamp-1 mt-0.5">
-                          {serv.description}
-                        </p>
-                      </div>
 
-                      <div className="flex items-center justify-between mt-1 pt-1 border-t border-rose-500/10">
-                        <span className="font-black text-xs text-rose-300 font-mono">
-                          {serv.price.toLocaleString('ru-RU')} ₽
-                        </span>
-                        <span className="text-[10px] font-bold text-rose-400 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
-                          Выбрать <ChevronRight className="h-3 w-3" />
-                        </span>
+                        <div className="flex items-center justify-between mt-1 pt-1 border-t border-rose-500/10">
+                          <span className="font-black text-xs text-rose-300 font-mono">
+                            {serv.price.toLocaleString('ru-RU')} ₽
+                          </span>
+                          <span className="text-[10px] font-bold text-rose-400 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                            {isRu ? 'Выбрать' : 'Select'} <ChevronRight className="h-3 w-3" />
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -259,50 +308,60 @@ export const LuminaBookingTester: React.FC = () => {
           {step === 'specialist' && (
             <div className="space-y-2.5 pb-6">
               <div className="flex items-center justify-between pb-1 border-b border-rose-500/20">
-                <span className="text-[11px] font-bold text-white">Выберите топ-мастера:</span>
-                <span className="text-[9px] text-rose-300 truncate max-w-[140px] font-semibold">{selectedService.name}</span>
+                <span className="text-[11px] font-bold text-white">
+                  {isRu ? 'Выберите топ-мастера:' : 'Choose top specialist:'}
+                </span>
+                <span className="text-[9px] text-rose-300 truncate max-w-[140px] font-semibold">
+                  {isRu ? selectedService.name : selectedService.nameEn}
+                </span>
               </div>
 
               <div className="space-y-2">
-                {SPECIALISTS.map((spec) => (
-                  <div
-                    key={spec.id}
-                    onClick={() => {
-                      setSelectedSpecialist(spec);
-                      setStep('datetime');
-                    }}
-                    className={`p-3 rounded-2xl border transition-all cursor-pointer group flex items-center justify-between gap-3 ${
-                      selectedSpecialist.id === spec.id
-                        ? 'border-rose-500 bg-[#261421] shadow-md shadow-rose-950/40'
-                        : 'border-rose-500/15 bg-[#1B1019] hover:border-rose-500/40'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <img
-                        src={spec.photo}
-                        alt={spec.name}
-                        referrerPolicy="no-referrer"
-                        className="h-12 w-12 rounded-full object-cover border-2 border-rose-500/50 shrink-0"
-                      />
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-white text-xs truncate">{spec.name}</h4>
-                        <p className="text-[10px] text-rose-300/70 truncate">{spec.role}</p>
-                        <div className="flex items-center gap-2 mt-1 text-[10px]">
-                          <span className="flex items-center text-amber-300 font-bold">
-                            <Star className="h-3 w-3 fill-amber-400 text-amber-400 mr-0.5" />
-                            {spec.rating}
-                          </span>
-                          <span className="text-rose-500/50">•</span>
-                          <span className="text-rose-200/70">{spec.reviewsCount} отзывов</span>
-                          <span className="text-rose-500/50">•</span>
-                          <span className="text-rose-200/70">{spec.experience}</span>
+                {SPECIALISTS.map((spec) => {
+                  const specName = isRu ? spec.name : spec.nameEn;
+                  const specRole = isRu ? spec.role : spec.roleEn;
+                  const specExp = isRu ? spec.experience : spec.experienceEn;
+
+                  return (
+                    <div
+                      key={spec.id}
+                      onClick={() => {
+                        setSelectedSpecialist(spec);
+                        setStep('datetime');
+                      }}
+                      className={`p-3 rounded-2xl border transition-all cursor-pointer group flex items-center justify-between gap-3 ${
+                        selectedSpecialist.id === spec.id
+                          ? 'border-rose-500 bg-[#261421] shadow-md shadow-rose-950/40'
+                          : 'border-rose-500/15 bg-[#1B1019] hover:border-rose-500/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <img
+                          src={spec.photo}
+                          alt={specName}
+                          referrerPolicy="no-referrer"
+                          className="h-12 w-12 rounded-full object-cover border-2 border-rose-500/50 shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-white text-xs truncate">{specName}</h4>
+                          <p className="text-[10px] text-rose-300/70 truncate">{specRole}</p>
+                          <div className="flex items-center gap-2 mt-1 text-[10px]">
+                            <span className="flex items-center text-amber-300 font-bold">
+                              <Star className="h-3 w-3 fill-amber-400 text-amber-400 mr-0.5" />
+                              {spec.rating}
+                            </span>
+                            <span className="text-rose-500/50">•</span>
+                            <span className="text-rose-200/70">{spec.reviewsCount} {isRu ? 'отзывов' : 'reviews'}</span>
+                            <span className="text-rose-500/50">•</span>
+                            <span className="text-rose-200/70">{specExp}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <ChevronRight className="h-4 w-4 text-rose-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                ))}
+                      <ChevronRight className="h-4 w-4 text-rose-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -312,10 +371,10 @@ export const LuminaBookingTester: React.FC = () => {
             <div className="space-y-3 pb-6">
               <div>
                 <span className="text-[11px] font-bold text-white block mb-1.5">
-                  1. Выберите дату визита:
+                  {isRu ? '1. Выберите дату визита:' : '1. Select appointment date:'}
                 </span>
                 <div className="grid grid-cols-5 gap-1.5">
-                  {DATES.map((d) => (
+                  {dates.map((d) => (
                     <button
                       key={d.full}
                       onClick={() => setSelectedDate(d.full)}
@@ -334,10 +393,12 @@ export const LuminaBookingTester: React.FC = () => {
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[11px] font-bold text-white">2. Свободные окна мастера:</span>
+                  <span className="text-[11px] font-bold text-white">
+                    {isRu ? '2. Свободные окна мастера:' : '2. Stylist open slots:'}
+                  </span>
                   <span className="text-[9px] text-rose-300 font-semibold flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-pulse" />
-                    Есть 4 свободных окна
+                    {isRu ? 'Есть 4 свободных окна' : '4 slots available'}
                   </span>
                 </div>
                 
@@ -364,16 +425,18 @@ export const LuminaBookingTester: React.FC = () => {
               <div className="p-2.5 rounded-xl bg-[#1B1019] border border-rose-500/20 flex items-center justify-between text-[10px]">
                 <div className="flex items-center gap-2">
                   <Clock className="h-3.5 w-3.5 text-rose-400" />
-                  <span className="text-rose-200/80">Длительность процедуры:</span>
+                  <span className="text-rose-200/80">{isRu ? 'Длительность процедуры:' : 'Treatment duration:'}</span>
                 </div>
-                <span className="font-bold text-white">{selectedService.duration}</span>
+                <span className="font-bold text-white">
+                  {isRu ? selectedService.duration : selectedService.durationEn}
+                </span>
               </div>
 
               <button
                 onClick={() => setStep('confirmation')}
                 className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-rose-600/30 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
               >
-                <span>Перейти к подтверждению</span>
+                <span>{isRu ? 'Перейти к подтверждению' : 'Proceed to Confirmation'}</span>
                 <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -384,21 +447,23 @@ export const LuminaBookingTester: React.FC = () => {
             <div className="space-y-2.5 pb-6">
               <div className="rounded-2xl border border-rose-500/20 bg-[#1B1019] p-3 space-y-2">
                 <div className="flex items-center justify-between pb-1.5 border-b border-rose-500/10">
-                  <span className="text-rose-300/60 text-[10px]">Услуга:</span>
+                  <span className="text-rose-300/60 text-[10px]">{isRu ? 'Услуга:' : 'Service:'}</span>
                   <span className="font-bold text-white text-[11px] text-right truncate max-w-[170px]">
-                    {selectedService.name}
+                    {isRu ? selectedService.name : selectedService.nameEn}
                   </span>
                 </div>
                 <div className="flex items-center justify-between pb-1.5 border-b border-rose-500/10">
-                  <span className="text-rose-300/60 text-[10px]">Мастер:</span>
-                  <span className="font-bold text-white text-[11px]">{selectedSpecialist.name}</span>
+                  <span className="text-rose-300/60 text-[10px]">{isRu ? 'Мастер:' : 'Stylist:'}</span>
+                  <span className="font-bold text-white text-[11px]">
+                    {isRu ? selectedSpecialist.name : selectedSpecialist.nameEn}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between pb-1.5 border-b border-rose-500/10">
-                  <span className="text-rose-300/60 text-[10px]">Дата и время:</span>
+                  <span className="text-rose-300/60 text-[10px]">{isRu ? 'Дата и время:' : 'Date & Time:'}</span>
                   <span className="font-bold text-rose-400 font-mono">{selectedDate}, {selectedTime}</span>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-rose-200 font-bold">Стоимость:</span>
+                  <span className="text-rose-200 font-bold">{isRu ? 'Стоимость:' : 'Total Cost:'}</span>
                   <span className="text-sm font-black text-white font-mono">
                     {selectedService.price.toLocaleString('ru-RU')} ₽
                   </span>
@@ -407,7 +472,9 @@ export const LuminaBookingTester: React.FC = () => {
 
               {/* Payment Option */}
               <div>
-                <span className="text-[10px] font-bold text-rose-300/70 block mb-1">Способ подтверждения:</span>
+                <span className="text-[10px] font-bold text-rose-300/70 block mb-1">
+                  {isRu ? 'Способ подтверждения:' : 'Booking Confirmation Method:'}
+                </span>
                 <div className="grid grid-cols-2 gap-1.5">
                   <button
                     onClick={() => setPaymentType('deposit')}
@@ -417,8 +484,8 @@ export const LuminaBookingTester: React.FC = () => {
                         : 'border-rose-500/15 bg-[#1B1019] text-rose-300/60'
                     }`}
                   >
-                    <span className="text-[10px] block">Предоплата 500 ₽</span>
-                    <span className="text-[8px] text-rose-300/60">Гарантия брони окна</span>
+                    <span className="text-[10px] block">{isRu ? 'Предоплата 500 ₽' : '500 ₽ Deposit'}</span>
+                    <span className="text-[8px] text-rose-300/60">{isRu ? 'Гарантия брони окна' : 'Guaranteed slot reservation'}</span>
                   </button>
 
                   <button
@@ -429,8 +496,8 @@ export const LuminaBookingTester: React.FC = () => {
                         : 'border-rose-500/15 bg-[#1B1019] text-rose-300/60'
                     }`}
                   >
-                    <span className="text-[10px] block">Оплата в салоне</span>
-                    <span className="text-[8px] text-rose-300/60">Картой или наличными</span>
+                    <span className="text-[10px] block">{isRu ? 'Оплата в салоне' : 'Pay at Salon'}</span>
+                    <span className="text-[8px] text-rose-300/60">{isRu ? 'Картой или наличными' : 'Credit card or cash'}</span>
                   </button>
                 </div>
               </div>
@@ -442,7 +509,9 @@ export const LuminaBookingTester: React.FC = () => {
               >
                 <div className="flex items-center gap-2">
                   <MessageSquare className="h-3.5 w-3.5 text-rose-400" />
-                  <span className="text-[10px] text-rose-100">Напоминание в Telegram за 3 часа</span>
+                  <span className="text-[10px] text-rose-100">
+                    {isRu ? 'Напоминание в Telegram за 3 часа' : 'Telegram reminder 3 hours prior'}
+                  </span>
                 </div>
                 <div className={`h-4 w-7 rounded-full p-0.5 transition-colors ${tgNotificationEnabled ? 'bg-rose-500' : 'bg-rose-950'}`}>
                   <div className={`h-3 w-3 rounded-full bg-white transition-transform ${tgNotificationEnabled ? 'translate-x-3' : 'translate-x-0'}`} />
@@ -454,7 +523,7 @@ export const LuminaBookingTester: React.FC = () => {
                 className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-rose-600/30 active:scale-95 transition-all flex items-center justify-center gap-1.5"
               >
                 <Check className="h-4 w-4 stroke-[3]" />
-                <span>Завершить запись</span>
+                <span>{isRu ? 'Завершить запись' : 'Confirm Appointment'}</span>
               </button>
             </div>
           )}
@@ -471,9 +540,11 @@ export const LuminaBookingTester: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-black text-white">Вы успешно записаны!</h3>
+                <h3 className="text-sm font-black text-white">{isRu ? 'Вы успешно записаны!' : 'Appointment Confirmed!'}</h3>
                 <p className="text-rose-200/80 text-[10px] mt-0.5">
-                  Электронный VIP-талон #{bookingCode} отправлен вам в Telegram
+                  {isRu 
+                    ? `Электронный VIP-талон #${bookingCode} отправлен вам в Telegram` 
+                    : `Digital VIP pass #${bookingCode} sent to your Telegram`}
                 </p>
               </div>
 
@@ -481,26 +552,32 @@ export const LuminaBookingTester: React.FC = () => {
               <div className="rounded-2xl bg-[#1D111C] border border-rose-500/30 p-3 w-full text-left space-y-2 text-[10px] shadow-lg">
                 <div className="flex items-center justify-between pb-2 border-b border-rose-500/20">
                   <div>
-                    <span className="text-rose-300/60 text-[8px] block">Мастер:</span>
-                    <span className="font-bold text-white text-xs">{selectedSpecialist.name}</span>
+                    <span className="text-rose-300/60 text-[8px] block">{isRu ? 'Мастер:' : 'Stylist:'}</span>
+                    <span className="font-bold text-white text-xs">
+                      {isRu ? selectedSpecialist.name : selectedSpecialist.nameEn}
+                    </span>
                   </div>
                   <div className="text-right">
-                    <span className="text-rose-300/60 text-[8px] block">Время визита:</span>
+                    <span className="text-rose-300/60 text-[8px] block">{isRu ? 'Время визита:' : 'Appointment:'}</span>
                     <span className="font-bold text-rose-400 text-xs font-mono">{selectedDate}, {selectedTime}</span>
                   </div>
                 </div>
 
                 <div className="text-rose-200/80 flex items-center gap-1.5">
                   <MapPin className="h-3 w-3 text-rose-400 shrink-0" />
-                  <span>Москва, ул. Тверская, 14 (Студия Lumina)</span>
+                  <span>
+                    {isRu ? 'Москва, ул. Тверская, 14 (Студия Lumina)' : 'Moscow, 14 Tverskaya St. (Lumina Studio)'}
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between pt-1 text-rose-300/80 text-[9px]">
                   <span className="flex items-center gap-1 text-emerald-400 font-semibold">
                     <ShieldCheck className="h-3 w-3" />
-                    Бронь подтверждена
+                    {isRu ? 'Бронь подтверждена' : 'Booking verified'}
                   </span>
-                  <span className="font-mono text-rose-300 font-bold">Талон #{bookingCode}</span>
+                  <span className="font-mono text-rose-300 font-bold">
+                    {isRu ? `Талон #${bookingCode}` : `Pass #${bookingCode}`}
+                  </span>
                 </div>
               </div>
 
@@ -508,7 +585,7 @@ export const LuminaBookingTester: React.FC = () => {
                 onClick={() => setStep('service')}
                 className="text-xs font-bold text-rose-400 hover:underline"
               >
-                ← Записаться на другую услугу
+                {isRu ? '← Записаться на другую услугу' : '← Book Another Service'}
               </button>
             </motion.div>
           )}
@@ -525,7 +602,7 @@ export const LuminaBookingTester: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="flex h-2 w-2 rounded-full bg-rose-500" />
             <h4 className="text-xs sm:text-sm font-bold text-slate-950 dark:text-white uppercase tracking-wider">
-              Что получает салон красоты или клиника:
+              {isRu ? 'Что получает салон красоты или клиника:' : 'What beauty salons & clinics gain:'}
             </h4>
           </div>
 
@@ -533,25 +610,37 @@ export const LuminaBookingTester: React.FC = () => {
             <li className="flex items-start gap-2">
               <CheckCircle2 className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
               <span>
-                <strong>0% пропущенных записей:</strong> Telegram-бот автоматически отправляет напоминания за 24 ч и за 3 ч с кнопками «Подтверждаю» или «Перенести».
+                <strong>{isRu ? '0% пропущенных записей:' : '0% Missed Appointments:'}</strong>{' '}
+                {isRu 
+                  ? 'Telegram-бот автоматически отправляет напоминания за 24 ч и за 3 ч с кнопками «Подтверждаю» или «Перенести».' 
+                  : 'Automated Telegram reminders sent at 24h and 3h with 1-click Confirm or Reschedule buttons.'}
               </span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
               <span>
-                <strong>Снижение неявок на 70%:</strong> Возможность брать символическую предоплату (300–500 ₽) дисциплинирует гостей и исключает пустые окна.
+                <strong>{isRu ? 'Снижение неявок на 70%:' : '70% No-show Reduction:'}</strong>{' '}
+                {isRu 
+                  ? 'Возможность брать символическую предоплату (300–500 ₽) дисциплинирует гостей и исключает пустые окна.' 
+                  : 'Optional nominal reservation fee (300-500 ₽) eliminates ghost clients and secures prime calendar slots.'}
               </span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
               <span>
-                <strong>Экономия до 3 часов в день:</strong> Администратор освобожден от рутинных переписок «А на сколько часов свободно у Алены?».
+                <strong>{isRu ? 'Экономия до 3 часов в день:' : '3+ Hours Saved Daily:'}</strong>{' '}
+                {isRu 
+                  ? 'Администратор освобожден от рутинных переписок «А на сколько часов свободно у Алены?». ' 
+                  : 'Receptionists are relieved of constant manual back-and-forth messaging about master schedules.'}
               </span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
               <span>
-                <strong>Синхронизация с YClients, 1C или Google Calendar:</strong> Свободные окна подгружаются в реальном времени без накладок.
+                <strong>{isRu ? 'Синхронизация с YClients, 1C или Google Calendar:' : 'Live YClients / CRM / Calendar Sync:'}</strong>{' '}
+                {isRu 
+                  ? 'Свободные окна подгружаются в реальном времени без накладок.' 
+                  : 'Available slots sync live across databases with zero double-booking conflicts.'}
               </span>
             </li>
           </ul>
@@ -559,7 +648,7 @@ export const LuminaBookingTester: React.FC = () => {
           {/* Quick Scenario Buttons */}
           <div className="pt-3 border-t border-rose-100 dark:border-rose-500/20 space-y-2">
             <span className="text-[11px] font-bold text-slate-900 dark:text-white block">
-              Попробуйте сценарии:
+              {isRu ? 'Попробуйте сценарии:' : 'Try interactive test scenarios:'}
             </span>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -569,8 +658,12 @@ export const LuminaBookingTester: React.FC = () => {
                 }}
                 className="p-2 rounded-xl bg-rose-50 dark:bg-[#20131E] text-left border border-rose-200 dark:border-rose-500/30 hover:border-rose-400 transition-colors"
               >
-                <div className="font-bold text-slate-900 dark:text-white text-[10px]">1. Выбрать дату</div>
-                <div className="text-[9px] text-slate-500 dark:text-rose-300/70">Слоты времени</div>
+                <div className="font-bold text-slate-900 dark:text-white text-[10px]">
+                  {isRu ? '1. Выбрать дату' : '1. Select Date'}
+                </div>
+                <div className="text-[9px] text-slate-500 dark:text-rose-300/70">
+                  {isRu ? 'Слоты времени' : 'Time slots'}
+                </div>
               </button>
 
               <button
@@ -579,8 +672,12 @@ export const LuminaBookingTester: React.FC = () => {
                 }}
                 className="p-2 rounded-xl bg-rose-50 dark:bg-[#20131E] text-left border border-rose-200 dark:border-rose-500/30 hover:border-rose-400 transition-colors"
               >
-                <div className="font-bold text-slate-900 dark:text-white text-[10px]">2. Подтверждение</div>
-                <div className="text-[9px] text-slate-500 dark:text-rose-300/70">Предоплата и талон</div>
+                <div className="font-bold text-slate-900 dark:text-white text-[10px]">
+                  {isRu ? '2. Подтверждение' : '2. Confirmation'}
+                </div>
+                <div className="text-[9px] text-slate-500 dark:text-rose-300/70">
+                  {isRu ? 'Предоплата и талон' : 'Deposit & VIP Pass'}
+                </div>
               </button>
             </div>
           </div>

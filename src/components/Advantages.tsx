@@ -1,7 +1,8 @@
 import React from 'react';
 import { Users, TrendingUp, CreditCard, Zap, ShieldCheck, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
-import { advantagesData } from '../data/agencyData';
+import { localizedData } from '../data/localizedData';
 import { ScrollReveal } from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AdvantagesProps {
   onOpenCalculator: () => void;
@@ -17,6 +18,9 @@ const iconMap: Record<string, React.FC<{ className?: string }>> = {
 };
 
 export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpenWarranty }) => {
+  const { language, t } = useLanguage();
+  const advantagesList = localizedData[language].advantages;
+
   return (
     <section id="advantages" className="py-20 lg:py-28 bg-white dark:bg-[#0A0F1D] relative overflow-hidden transition-colors duration-300">
       
@@ -28,19 +32,19 @@ export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpen
         {/* Section Header with Scroll Reveal */}
         <ScrollReveal direction="up" className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 dark:border-blue-900/50 bg-blue-50 dark:bg-blue-950/40 px-4 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 mb-4 shadow-xs">
-            <span>Наши преимущества</span>
+            <span>{t.advantages.badge}</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-4">
-            Почему заказчики выбирают нас
+            {t.advantages.title}
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300">
-            Делаем проекты, которые приносят реальные заказы и прибыль вашему бизнесу, без головной боли и задержек.
+            {t.advantages.subtitle}
           </p>
         </ScrollReveal>
 
         {/* Cards Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {advantagesData.map((item, index) => {
+          {advantagesList.map((item, index) => {
             const IconComponent = iconMap[item.iconName] || Zap;
             return (
               <ScrollReveal key={item.id} direction="up" delay={index * 0.08} className="h-full">
@@ -68,8 +72,8 @@ export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpen
                             e.stopPropagation();
                             onOpenWarranty();
                           }}
-                          title="Нажмите, чтобы узнать, что входит в гарантию"
-                          aria-label="Что входит в гарантию"
+                          title="Warranty details"
+                          aria-label="Warranty details"
                           className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950/80 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
                         >
                           <span className="text-xs font-black leading-none select-none">!</span>
@@ -107,27 +111,27 @@ export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpen
               <div className="lg:col-span-8">
                 <div className="inline-flex items-center gap-2 text-xs text-blue-300 uppercase tracking-wider mb-3 font-bold">
                   <Sparkles className="h-4 w-4 text-blue-400" />
-                  <span>ПРЕИМУЩЕСТВА TELEGRAM ДЛЯ БИЗНЕСА</span>
+                  <span>{t.advantages.telegramBannerBadge}</span>
                 </div>
                 <h3 className="font-display text-xl sm:text-3xl font-black text-white mb-3 sm:mb-4">
-                  Почему Telegram Mini Apps приносят больше продаж, чем обычные сайты?
+                  {t.advantages.telegramBannerTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5 sm:mb-6">
-                  Клиенту не нужно выходить из Telegram, скачивать сторонние приложения или регистрироваться заново. Он открывает ваш магазин прямо в чате в 1 клик, оплачивает через СБП или банковскую карту за секунды, а вы получаете мгновенный канал связи с клиентом без затрат на SMS.
+                  {t.advantages.telegramBannerDesc}
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4">
                   <div className="rounded-xl sm:rounded-2xl bg-white/5 p-3 sm:p-3.5 border border-white/10">
-                    <div className="text-sm sm:text-lg font-bold text-blue-400">1 клик</div>
-                    <div className="text-[10px] sm:text-[11px] text-slate-300">Вход без паролей и регистраций</div>
+                    <div className="text-sm sm:text-lg font-bold text-blue-400">{t.advantages.bannerStat1Number}</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-300">{t.advantages.bannerStat1Text}</div>
                   </div>
                   <div className="rounded-xl sm:rounded-2xl bg-white/5 p-3 sm:p-3.5 border border-white/10">
-                    <div className="text-sm sm:text-lg font-bold text-emerald-400">0% комиссии</div>
-                    <div className="text-[10px] sm:text-[11px] text-slate-300">Без поборов App Store и Google</div>
+                    <div className="text-sm sm:text-lg font-bold text-emerald-400">{t.advantages.bannerStat2Number}</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-300">{t.advantages.bannerStat2Text}</div>
                   </div>
                   <div className="rounded-xl sm:rounded-2xl bg-white/5 p-3 sm:p-3.5 border border-white/10 col-span-2 sm:col-span-1">
-                    <div className="text-sm sm:text-lg font-bold text-blue-400">98% прочтений</div>
-                    <div className="text-[10px] sm:text-[11px] text-slate-300">Бесплатные уведомления клиенту</div>
+                    <div className="text-sm sm:text-lg font-bold text-blue-400">{t.advantages.bannerStat3Number}</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-300">{t.advantages.bannerStat3Text}</div>
                   </div>
                 </div>
               </div>
@@ -137,7 +141,7 @@ export const Advantages: React.FC<AdvantagesProps> = ({ onOpenCalculator, onOpen
                   onClick={onOpenCalculator}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-6 sm:px-7 py-3.5 sm:py-4 text-xs font-bold text-white active:scale-95 transition-all shadow-lg shadow-blue-600/30 min-h-[48px]"
                 >
-                  <span>Рассчитать стоимость для бизнеса</span>
+                  <span>{t.advantages.calcBtn}</span>
                   <ArrowRight className="h-4 w-4 stroke-[2.5]" />
                 </button>
               </div>

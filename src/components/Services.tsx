@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Smartphone, Globe, ArrowRight, CheckCircle } from 'lucide-react';
-import { motion } from 'motion/react';
-import { servicesData } from '../data/agencyData';
+import { localizedData } from '../data/localizedData';
 import { ScrollReveal } from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServicesProps {
   onSelectService: (serviceType: 'tma' | 'web') => void;
@@ -10,9 +10,11 @@ interface ServicesProps {
 
 export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
   const [, setHoveredCard] = useState<string | null>(null);
+  const { language, t } = useLanguage();
 
-  const tmaService = servicesData.find(s => s.id === 'tma')!;
-  const webService = servicesData.find(s => s.id === 'web')!;
+  const services = localizedData[language].services;
+  const tmaService = services.find(s => s.id === 'tma')!;
+  const webService = services.find(s => s.id === 'web')!;
 
   return (
     <section id="services" className="py-20 lg:py-28 bg-slate-50/70 dark:bg-[#0B101B]/80 relative overflow-hidden border-t border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300">
@@ -26,13 +28,13 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
         {/* Section Header with Scroll Reveal */}
         <ScrollReveal direction="up" className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 dark:border-blue-900/50 bg-blue-50 dark:bg-blue-950/40 px-4 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 mb-4 shadow-xs">
-            <span>Направления разработки</span>
+            <span>{t.services.badge}</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight mb-4">
-            Что мы создаем для вас
+            {t.services.title}
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300">
-            Два ключевых инструмента, которые окупаются быстрее всего: удобные приложения в Telegram и продающие сайты.
+            {t.services.subtitle}
           </p>
         </ScrollReveal>
 
@@ -85,7 +87,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
 
                 {/* Tech Stack Pills */}
                 <div className="pt-5 sm:pt-6 border-t border-slate-100 dark:border-slate-800 mb-6 sm:mb-8">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">На чем делаем:</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">{t.services.techLabel}</span>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {tmaService.technologies.map((tech) => (
                       <span key={tech} className="rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-xs font-medium text-slate-800 dark:text-slate-200">
@@ -99,14 +101,14 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
               {/* Bottom Actions */}
               <div className="flex items-center justify-between pt-4 sm:pt-5 border-t border-slate-100 dark:border-slate-800">
                 <div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">Сроки:</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">{t.services.timelineLabel}</span>
                   <span className="text-xs font-bold text-slate-950 dark:text-white">{tmaService.timeline}</span>
                 </div>
                 <button
                   onClick={() => onSelectService('tma')}
                   className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 sm:px-6 py-2.5 sm:py-3 text-xs font-bold text-white shadow-md shadow-blue-600/20 active:scale-95 transition-all min-h-[44px]"
                 >
-                  <span>Заказать Telegram-сервис</span>
+                  <span>{t.services.orderTmaBtn}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -114,7 +116,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             </div>
           </ScrollReveal>
 
-          {/* Card 2: Сайты и Лендинги */}
+          {/* Card 2: Web & Landings */}
           <ScrollReveal direction="right" delay={0.2} className="h-full">
             <div 
               id="service-card-web"
@@ -160,7 +162,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
 
                 {/* Tech Stack Pills */}
                 <div className="pt-5 sm:pt-6 border-t border-slate-100 dark:border-slate-800 mb-6 sm:mb-8">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">На чем делаем:</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 block mb-2.5">{t.services.techLabel}</span>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {webService.technologies.map((tech) => (
                       <span key={tech} className="rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-xs font-medium text-slate-800 dark:text-slate-200">
@@ -174,14 +176,14 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
               {/* Bottom Actions */}
               <div className="flex items-center justify-between pt-4 sm:pt-5 border-t border-slate-100 dark:border-slate-800">
                 <div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">Сроки:</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">{t.services.timelineLabel}</span>
                   <span className="text-xs font-bold text-slate-950 dark:text-white">{webService.timeline}</span>
                 </div>
                 <button
                   onClick={() => onSelectService('web')}
                   className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 sm:px-6 py-2.5 sm:py-3 text-xs font-bold text-white shadow-md shadow-blue-600/20 active:scale-95 transition-all min-h-[44px]"
                 >
-                  <span>Заказать сайт</span>
+                  <span>{t.services.orderWebBtn}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>

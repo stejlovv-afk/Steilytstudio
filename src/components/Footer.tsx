@@ -1,5 +1,6 @@
 import React from 'react';
-import { Send, MessageCircle, Mail, ArrowUp } from 'lucide-react';
+import { Send, Mail, ArrowUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onOpenPrivacy: () => void;
@@ -8,6 +9,8 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOpenWarranty }) => {
+  const { t, language } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -34,19 +37,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
                   <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
                 </span>
                 <span className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">
-                  Сайты и Telegram-приложения
+                  {t.nav.subLogo}
                 </span>
               </div>
             </div>
 
             <p className="text-gray-400 text-xs leading-relaxed mb-6 max-w-sm">
-              Создаем сайты, лендинги и Telegram Mini Apps для бизнеса. Работаем без предоплаты: сначала делаем и согласуем результат, потом оплата.
+              {t.footer.bio}
             </p>
 
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[11px] font-bold text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Принимаем новые проекты
+                {t.footer.statusOpen}
               </span>
             </div>
           </div>
@@ -54,37 +57,37 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
           {/* Col 2: Navigation Links (2 cols) */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-              Разделы сайта
+              {t.footer.sectionsTitle}
             </h4>
             <ul className="space-y-2">
-              <li><a href="#services" className="hover:text-white transition-colors">Что мы делаем</a></li>
-              <li><a href="#advantages" className="hover:text-white transition-colors">Преимущества</a></li>
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Примеры работ</a></li>
-              <li><a href="#calculator" className="hover:text-white transition-colors">Калькулятор цены</a></li>
-              <li><a href="#workflow" className="hover:text-white transition-colors">Этапы работы</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Оставить заявку</a></li>
+              <li><a href="#services" className="hover:text-white transition-colors">{t.nav.services}</a></li>
+              <li><a href="#advantages" className="hover:text-white transition-colors">{t.nav.advantages}</a></li>
+              <li><a href="#portfolio" className="hover:text-white transition-colors">{t.nav.portfolio}</a></li>
+              <li><a href="#calculator" className="hover:text-white transition-colors">{t.nav.calculator}</a></li>
+              <li><a href="#workflow" className="hover:text-white transition-colors">{t.nav.workflow}</a></li>
+              <li><a href="#contact" className="hover:text-white transition-colors">{t.nav.contact}</a></li>
             </ul>
           </div>
 
           {/* Col 3: Services (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-              Услуги
+              {language === 'ru' ? 'Услуги' : 'Services'}
             </h4>
             <ul className="space-y-2">
-              <li className="text-gray-300">Telegram Mini Apps под ключ</li>
-              <li className="text-gray-300">Сайты компаний и каталоги</li>
-              <li className="text-gray-300">Продающие одностраничники (лендинги)</li>
-              <li className="text-gray-300">Подключение оплаты (СБП, карты)</li>
-              <li className="text-gray-300">Интеграция с CRM и 1С</li>
+              <li className="text-gray-300">{language === 'ru' ? 'Telegram Mini Apps под ключ' : 'Turnkey Telegram Mini Apps'}</li>
+              <li className="text-gray-300">{language === 'ru' ? 'Сайты компаний и каталоги' : 'Corporate websites & catalogs'}</li>
+              <li className="text-gray-300">{language === 'ru' ? 'Продающие одностраничники (лендинги)' : 'High-converting landing pages'}</li>
+              <li className="text-gray-300">{language === 'ru' ? 'Подключение оплаты (СБП, карты)' : 'Payment gateway integration'}</li>
+              <li className="text-gray-300">{language === 'ru' ? 'Интеграция с CRM и 1С' : 'CRM & ERP integration'}</li>
               <li className="text-gray-300 flex items-center gap-1.5">
-                <span>Гарантия 12 месяцев и поддержка</span>
+                <span>{language === 'ru' ? 'Гарантия 12 месяцев и поддержка' : '12-month technical warranty & support'}</span>
                 {onOpenWarranty && (
                   <button
                     type="button"
                     onClick={onOpenWarranty}
-                    title="Нажмите, чтобы узнать, что входит в гарантию"
-                    aria-label="Что входит в гарантию"
+                    title={language === 'ru' ? 'Нажмите, чтобы узнать, что входит в гарантию' : 'Click to see warranty coverage'}
+                    aria-label="Warranty details"
                     className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full bg-blue-500/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-400/30 transition-all transform hover:scale-110 shadow-xs cursor-pointer shrink-0"
                   >
                     <span className="text-[9px] font-black leading-none select-none">!</span>
@@ -97,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
           {/* Col 4: Contacts */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-              Контакты
+              {t.footer.contactsTitle}
             </h4>
             
             <div className="space-y-2.5 sm:space-y-3">
@@ -121,7 +124,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
 
               {/* Email Link */}
               <a
-                href="mailto:steilytstudio@gmail.com"
+                href="mailto:Steilytstudio@gmail.com"
                 className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 p-3 min-h-[44px] text-white hover:border-blue-500 hover:bg-white/10 transition-all group"
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-700 text-slate-300 shrink-0">
@@ -130,7 +133,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
                 <div>
                   <span className="text-[10px] text-gray-400 block font-medium">Email:</span>
                   <span className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors">
-                    steilytstudio@gmail.com
+                    Steilytstudio@gmail.com
                   </span>
                 </div>
               </a>
@@ -142,7 +145,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
         {/* Bottom Sub-Footer Bar */}
         <div className="pt-8 border-t border-slate-900 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500 text-center sm:text-left">
           <div>
-            © {new Date().getFullYear()} Steilyt Studio. Все права защищены.
+            © {new Date().getFullYear()} Steilyt Studio. {t.footer.copyright}
           </div>
 
           <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3.5 sm:gap-6">
@@ -150,21 +153,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
               onClick={onOpenPrivacy}
               className="hover:text-white transition-colors underline underline-offset-4 py-1"
             >
-              Политика конфиденциальности (152-ФЗ)
+              {t.footer.privacy}
             </button>
 
             <button
               onClick={onOpenTerms || onOpenPrivacy}
               className="hover:text-white transition-colors underline underline-offset-4 py-1"
             >
-              Пользовательское соглашение
+              {t.footer.terms}
             </button>
 
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1.5 rounded-lg bg-white/5 hover:bg-white/10 px-3 py-2 text-white transition-all group min-h-[36px]"
             >
-              <span>Наверх</span>
+              <span>{t.footer.toTop}</span>
               <ArrowUp className="h-3.5 w-3.5 group-hover:-translate-y-0.5 transition-transform text-blue-400" />
             </button>
           </div>
