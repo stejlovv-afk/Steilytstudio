@@ -100,3 +100,10 @@
 .scroll-reveal-item {
   will-change: transform, opacity;
 }
+
+/* Prevent mobile browsers (Mi Browser, Samsung Internet, WebKit) from filling canvas with opaque white layer */
+canvas {
+  background: transparent !important;
+  color-scheme: only light;
+}
+

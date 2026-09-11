@@ -5,7 +5,7 @@ import {
   FileCheck, Award, TrendingUp, Sparkles, MapPin, ChevronRight, User
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../../utils/confetti';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface CompletedProject {
@@ -124,14 +124,12 @@ export const GlobalTradeTester: React.FC = () => {
 
     setTimeout(() => {
       setIsSubmittingLead(false);
-      try {
-        confetti({
-          particleCount: 60,
-          spread: 60,
-          origin: { y: 0.65 },
-          colors: ['#2563EB', '#38BDF8', '#10B981']
-        });
-      } catch {}
+      fireConfetti({
+        particleCount: 60,
+        spread: 60,
+        origin: { y: 0.65 },
+        colors: ['#2563EB', '#38BDF8', '#10B981']
+      });
 
       setLeadNotification({
         received: true,

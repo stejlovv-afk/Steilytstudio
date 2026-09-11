@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Check, ArrowRight, Sparkles, Smartphone, Globe, Shield, Clock, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../utils/confetti';
 import { ScrollReveal } from './ScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -261,16 +261,12 @@ export const InteractiveCalculator: React.FC<CalculatorProps> = ({ onApplyEstima
   const finalDays = isExpress ? Math.max(7, Math.round(baseDays * 0.65)) : baseDays;
 
   const handleFixEstimate = () => {
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#2563EB', '#3B82F6', '#60A5FA', '#10B981']
-      });
-    } catch {
-      // fallback
-    }
+    fireConfetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.7 },
+      colors: ['#2563EB', '#3B82F6', '#60A5FA', '#10B981']
+    });
 
     const typeNames: Record<string, string> = {
       tma: isRu ? 'Telegram Mini App (TMA)' : 'Telegram Mini App (TMA)',

@@ -5,7 +5,7 @@ import {
   QrCode, Share2, Award, ArrowLeft, CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../../utils/confetti';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface Specialist {
@@ -168,14 +168,12 @@ export const LuminaBookingTester: React.FC = () => {
   const [bookingCode, setBookingCode] = useState<number>(58204);
 
   const handleFinishBooking = () => {
-    try {
-      confetti({
-        particleCount: 65,
-        spread: 65,
-        origin: { y: 0.65 },
-        colors: ['#F43F5E', '#FB7185', '#FBBF24', '#F472B6']
-      });
-    } catch {}
+    fireConfetti({
+      particleCount: 65,
+      spread: 65,
+      origin: { y: 0.65 },
+      colors: ['#F43F5E', '#FB7185', '#FBBF24', '#F472B6']
+    });
     setBookingCode(Math.floor(50000 + Math.random() * 40000));
     setStep('success');
   };

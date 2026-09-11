@@ -1,6 +1,6 @@
 // Configuration for Telegram Lead Notifications
 // Bot: @SteilytST_bot
-// Admin: @Steilyt (ID: 1786199451)
+// Admin: @Steilyt
 
 export const TELEGRAM_NOTIFICATIONS_CONFIG = {
   // ВНИМАНИЕ: BOT_TOKEN надежно защищен на стороне Google Apps Script и скрыт от браузера и GitHub.
@@ -87,35 +87,34 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
 
     // 1. ПРИОРИТЕТНЫЙ КАНАЛ: Google Apps Script Webhook
     // Работает у 100% пользователей в РФ БЕЗ VPN, так как script.google.com не заблокирован!
-    // Используем mode: 'no-cors' для отправки beacon/form-post без риска CORS-ошибок
+    // Используем mode: 'no-cors' и credentials: 'omit' для обхода трекинг-блокеров в Mi Browser/Safari
     if (googleScriptUrl) {
       try {
-        const response = await fetch(googleScriptUrl, {
+        await fetch(googleScriptUrl, {
           method: 'POST',
+          mode: 'no-cors',
+          cache: 'no-cache',
+          credentials: 'omit',
           headers: {
             'Content-Type': 'text/plain;charset=utf-8',
           },
           body: JSON.stringify({ text: message }),
         });
 
-        if (response.ok) {
-          return { success: true };
-        }
+        // Запрос успешно передан сетевому стеку браузера
+        return { success: true };
       } catch (scriptErr) {
-        console.warn('Google script standard fetch failed, trying no-cors:', scriptErr);
-        try {
-          // Фоллбек отправки через no-cors (запрос дойдет до Google гарантированно)
-          await fetch(googleScriptUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'text/plain',
-            },
-            body: JSON.stringify({ text: message }),
-          });
-          return { success: true };
-        } catch {
-          // Переходим к прямому Telegram API
+        console.warn('Google script standard fetch failed, trying sendBeacon:', scriptErr);
+        if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+          try {
+            const blob = new Blob([JSON.stringify({ text: message })], { type: 'text/plain;charset=utf-8' });
+            const sent = navigator.sendBeacon(googleScriptUrl, blob);
+            if (sent) {
+              return { success: true };
+            }
+          } catch (beaconErr) {
+            console.warn('sendBeacon failed:', beaconErr);
+          }
         }
       }
     }

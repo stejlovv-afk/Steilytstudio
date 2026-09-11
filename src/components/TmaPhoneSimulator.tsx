@@ -4,7 +4,7 @@ import {
   Clock, MapPin, CheckCircle2, Bike, RefreshCw, Sparkles 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../utils/confetti';
 import { useLanguage } from '../context/LanguageContext';
 
 interface FoodItem {
@@ -151,14 +151,12 @@ export const TmaPhoneSimulator: React.FC = () => {
 
   const handleCheckout = () => {
     triggerHaptic();
-    try {
-      confetti({
-        particleCount: 60,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#00E5FF', '#38BDF8', '#ffffff']
-      });
-    } catch {}
+    fireConfetti({
+      particleCount: 60,
+      spread: 60,
+      origin: { y: 0.7 },
+      colors: ['#00E5FF', '#38BDF8', '#ffffff']
+    });
 
     const newId = Math.floor(1000 + Math.random() * 9000);
     setOrderId(newId);

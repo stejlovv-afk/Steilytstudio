@@ -6,7 +6,7 @@ import {
   Gift, Heart, Info, CheckCircle2, ChevronDown, Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../../utils/confetti';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface CustomModifier {
@@ -373,14 +373,12 @@ export const UrbanLunchTester: React.FC = () => {
   // Place order
   const handlePlaceOrder = () => {
     triggerHaptic();
-    try {
-      confetti({
-        particleCount: 85,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#00E5FF', '#38BDF8', '#10B981', '#ffffff']
-      });
-    } catch {}
+    fireConfetti({
+      particleCount: 85,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#00E5FF', '#38BDF8', '#10B981', '#ffffff']
+    });
 
     const newId = Math.floor(2000 + Math.random() * 7000);
     setOrderId(newId);

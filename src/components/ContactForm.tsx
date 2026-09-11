@@ -9,7 +9,7 @@ import {
   Mail, 
   AlertCircle 
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../utils/confetti';
 import { sendLeadToTelegram } from '../utils/telegramNotifications';
 import { ScrollReveal } from './ScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
@@ -121,16 +121,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     if (result.success) {
       setSubmitted(true);
       setFallbackUrl(null);
-      try {
-        confetti({
-          particleCount: 120,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#000000', '#00E5FF', '#38BDF8']
-        });
-      } catch {
-        // fallback
-      }
+      fireConfetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#000000', '#00E5FF', '#38BDF8']
+      });
     } else {
       setErrorMessage(
         isRu 

@@ -5,7 +5,7 @@ import {
   CreditCard, CheckCircle2, SlidersHorizontal, Eye, Box, AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '../../utils/confetti';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface Product {
@@ -231,9 +231,7 @@ export const FitTrackTester: React.FC = () => {
     if (promoInput.trim().toUpperCase() === 'SALE15' || promoInput.trim().toUpperCase() === 'START') {
       setAppliedDiscount(15);
       setPromoMessage(isRu ? 'Промокод применен: скидка 15% 🎉' : 'Promo code applied: 15% discount 🎉');
-      try {
-        confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
-      } catch {}
+      fireConfetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
     } else {
       setPromoMessage(isRu ? 'Попробуйте промокод: SALE15' : 'Try promo code: SALE15');
     }
@@ -247,14 +245,12 @@ export const FitTrackTester: React.FC = () => {
   const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCheckout = () => {
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 70,
-        origin: { y: 0.65 },
-        colors: ['#2563EB', '#38BDF8', '#10B981']
-      });
-    } catch {}
+    fireConfetti({
+      particleCount: 70,
+      spread: 70,
+      origin: { y: 0.65 },
+      colors: ['#2563EB', '#38BDF8', '#10B981']
+    });
     const newId = Math.floor(70000 + Math.random() * 20000);
     setOrderNumber(newId);
     setTrackNumber(`CDEK-${Math.floor(100000000 + Math.random() * 900000000)}`);
