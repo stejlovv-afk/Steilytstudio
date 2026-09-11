@@ -3,11 +3,14 @@
 // Admin: @Steilyt (ID: 1786199451)
 
 export const TELEGRAM_NOTIFICATIONS_CONFIG = {
-  BOT_TOKEN: '8924169064:AAF7svvdT7_01RiHYl7kZt1K5qHkN_23JiQ',
-  CHAT_ID: '1786199451',
+  // ВНИМАНИЕ: Никогда не храните BOT_TOKEN в клиентском коде (React) на GitHub!
+  // Для безопасности оставлен только Google Apps Script, который работает как защищенный бэкенд.
+  BOT_TOKEN: '', 
+  CHAT_ID: '',
   ADMIN_USERNAME: '@Steilyt',
   BOT_USERNAME: '@SteilytST_bot',
   // Надежный Google Apps Script шлюз (работает у 100% пользователей в РФ БЕЗ VPN и без блокировок)
+  // Внутри этого скрипта на стороне Google должен быть ваш новый токен и chat_id.
   GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxjpjOy20U9c8QK4XO9FfsaZjz_wHx42UfDMaTD_DYcxvkVy8EHWh2j7rNBEk7eOT-dLw/exec',
 };
 
