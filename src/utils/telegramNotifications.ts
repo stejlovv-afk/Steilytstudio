@@ -3,15 +3,13 @@
 // Admin: @Steilyt (ID: 1786199451)
 
 export const TELEGRAM_NOTIFICATIONS_CONFIG = {
-  // ВНИМАНИЕ: Никогда не храните BOT_TOKEN в клиентском коде (React) на GitHub!
-  // Для безопасности оставлен только Google Apps Script, который работает как защищенный бэкенд.
+  // ВНИМАНИЕ: BOT_TOKEN надежно защищен на стороне Google Apps Script и скрыт от браузера и GitHub.
   BOT_TOKEN: '', 
   CHAT_ID: '',
   ADMIN_USERNAME: '@Steilyt',
   BOT_USERNAME: '@SteilytST_bot',
   // Надежный Google Apps Script шлюз (работает у 100% пользователей в РФ БЕЗ VPN и без блокировок)
-  // Внутри этого скрипта на стороне Google должен быть ваш новый токен и chat_id.
-  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxjpjOy20U9c8QK4XO9FfsaZjz_wHx42UfDMaTD_DYcxvkVy8EHWh2j7rNBEk7eOT-dLw/exec',
+  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyv2CJqTNzWObQNq06-uhtOJ0sdxIHwWH5VtCTB5z4YgGi4CfoiKmQybdaO2Sk1yo4Ucg/exec',
 };
 
 export interface LeadData {
