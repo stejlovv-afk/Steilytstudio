@@ -10,6 +10,8 @@ export const TELEGRAM_NOTIFICATIONS_CONFIG = {
   BOT_USERNAME: '@SteilytST_bot',
   // Надежный Google Apps Script шлюз (работает у 100% пользователей в РФ БЕЗ VPN и без блокировок)
   GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyv2CJqTNzWObQNq06-uhtOJ0sdxIHwWH5VtCTB5z4YgGi4CfoiKmQybdaO2Sk1yo4Ucg/exec',
+  // Секретный ключ для авторизации запросов только от нашего сайта (защита от чужих вызовов и спама)
+  SECRET_TOKEN: 'steilyt_secure_lead_token_2026',
 };
 
 export interface LeadData {
@@ -89,6 +91,11 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
     // Работает у 100% пользователей в РФ БЕЗ VPN, так как script.google.com не заблокирован!
     // Используем mode: 'no-cors' и credentials: 'omit' для обхода трекинг-блокеров в Mi Browser/Safari
     if (googleScriptUrl) {
+      const payloadString = JSON.stringify({
+        text: message,
+        secret: TELEGRAM_NOTIFICATIONS_CONFIG.SECRET_TOKEN,
+      });
+
       try {
         await fetch(googleScriptUrl, {
           method: 'POST',
@@ -98,7 +105,7 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
           headers: {
             'Content-Type': 'text/plain;charset=utf-8',
           },
-          body: JSON.stringify({ text: message }),
+          body: payloadString,
         });
 
         // Запрос успешно передан сетевому стеку браузера
@@ -107,7 +114,7 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
         console.warn('Google script standard fetch failed, trying sendBeacon:', scriptErr);
         if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
           try {
-            const blob = new Blob([JSON.stringify({ text: message })], { type: 'text/plain;charset=utf-8' });
+            const blob = new Blob([payloadString], { type: 'text/plain;charset=utf-8' });
             const sent = navigator.sendBeacon(googleScriptUrl, blob);
             if (sent) {
               return { success: true };
