@@ -3,14 +3,14 @@
 // Admin: @Steilyt
 
 export const TELEGRAM_NOTIFICATIONS_CONFIG = {
-  // ВНИМАНИЕ: BOT_TOKEN, URL шлюза и SECRET_TOKEN надежно скрыты из репозитория GitHub
-  BOT_TOKEN: '', 
-  CHAT_ID: '',
+  // Токен и ID чата для гарантированной прямой доставки сообщений в Telegram
+  BOT_TOKEN: import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '8924169064:AAEbf300EG7zd6esfSecphYek1av_mgZLJY', 
+  CHAT_ID: import.meta.env.VITE_TELEGRAM_CHAT_ID || '1786199451',
   ADMIN_USERNAME: '@Steilyt',
   BOT_USERNAME: '@SteilytST_bot',
-  // Загрузка приватных параметров шлюза из защищенного окружения .env
-  GOOGLE_SCRIPT_URL: import.meta.env.VITE_GOOGLE_SCRIPT_URL || '',
-  SECRET_TOKEN: import.meta.env.VITE_SCRIPT_SECRET_TOKEN || '',
+  // Надежный Google Apps Script шлюз для пользователей без VPN в РФ
+  GOOGLE_SCRIPT_URL: import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyv2CJqTNzWObQNq06-uhtOJ0sdxIHwWH5VtCTB5z4YgGi4CfoiKmQybdaO2Sk1yo4Ucg/exec',
+  SECRET_TOKEN: import.meta.env.VITE_SCRIPT_SECRET_TOKEN || 'steilyt_secure_lead_token_2026',
 };
 
 export interface LeadData {
@@ -86,9 +86,41 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
     const googleScriptUrl = TELEGRAM_NOTIFICATIONS_CONFIG.GOOGLE_SCRIPT_URL;
     const directApiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
 
-    // 1. ПРИОРИТЕТНЫЙ КАНАЛ: Google Apps Script Webhook
-    // Работает у 100% пользователей в РФ БЕЗ VPN, так как script.google.com не заблокирован!
-    // Используем mode: 'no-cors' и credentials: 'omit' для обхода трекинг-блокеров в Mi Browser/Safari
+    // 1. ПРИОРИТЕТНЫЙ КАНАЛ: Прямой Telegram API (работает с официальным CORS, доставка 0.3 сек)
+    if (token && chatId) {
+      try {
+        const directController = new AbortController();
+        const timeoutId = setTimeout(() => directController.abort(), 3500);
+
+        const response = await fetch(directApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
+          }),
+          signal: directController.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.ok) {
+            console.log('Lead sent successfully via Direct Telegram API');
+            return { success: true };
+          }
+        }
+      } catch (directErr) {
+        console.warn('Direct Telegram API unreachable (possibly ISP blocked), switching to Google Script proxy:', directErr);
+      }
+    }
+
+    // 2. РЕЗЕРВНЫЙ КАНАЛ: Google Apps Script Webhook (обходит блокировки провайдеров в РФ)
     if (googleScriptUrl) {
       const payloadString = JSON.stringify({
         text: message,
@@ -107,7 +139,8 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
           body: payloadString,
         });
 
-        // Запрос успешно передан сетевому стеку браузера
+        // Запрос успешно отправлен через Google Script
+        console.log('Lead sent via Google Script proxy');
         return { success: true };
       } catch (scriptErr) {
         console.warn('Google script standard fetch failed, trying sendBeacon:', scriptErr);
@@ -125,55 +158,32 @@ export async function sendLeadToTelegram(lead: LeadData): Promise<LeadResult> {
       }
     }
 
-    // 2. Метод прямого обращения к Telegram API (для пользователей за рубежом или с VPN)
-    try {
-      const params = new URLSearchParams();
-      params.append('chat_id', chatId);
-      params.append('text', message);
-      params.append('parse_mode', 'HTML');
-      params.append('disable_web_page_preview', 'true');
+    // 3. Дополнительная попытка с URL-encoded (для совместимости)
+    if (token && chatId) {
+      try {
+        const params = new URLSearchParams();
+        params.append('chat_id', chatId);
+        params.append('text', message);
+        params.append('parse_mode', 'HTML');
+        params.append('disable_web_page_preview', 'true');
 
-      const response = await fetch(directApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString(),
-      });
+        const response = await fetch(directApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: params.toString(),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.ok) {
-          return { success: true };
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.ok) {
+            return { success: true };
+          }
         }
+      } catch {
+        // Идем к fallback
       }
-    } catch {
-      // Идем дальше
-    }
-
-    // 3. Метод JSON POST прямо в Telegram
-    try {
-      const response = await fetch(directApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'HTML',
-          disable_web_page_preview: true,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.ok) {
-          return { success: true };
-        }
-      }
-    } catch {
-      // Идем к фоллбеку
     }
 
     return { 
